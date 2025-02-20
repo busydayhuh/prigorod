@@ -1,6 +1,6 @@
 import React from "react";
 import TableRow from "./TableRow";
-import useFetch from "@/hooks/useFetch";
+import useFetch from "@/lib/api";
 
 function ResultsTable() {
   return (

@@ -1,5 +1,6 @@
 import useSWR from "swr";
-import fetcher from "./fetcher";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function useApi(reqRoute, params = null) {
   const searchParams = params ? new URLSearchParams(params) : "";
@@ -8,8 +9,6 @@ export default function useApi(reqRoute, params = null) {
     : `http://localhost:5000/api/${reqRoute}`;
 
   const { data, error, isLoading } = useSWR(url, fetcher);
-
-  if (reqRoute === "stations_list") console.log("🤡 Запрос списка станций");
 
   return { data, isLoading, isError: error };
 }

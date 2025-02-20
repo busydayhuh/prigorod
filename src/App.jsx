@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Outlet } from "react-router";
 import Header from "./components/Header";
-import SearchSection from "./components/SearchSection";
+import SearchSection from "./components/Search";
 import Footer from "./components/Footer";
 
 function App() {
