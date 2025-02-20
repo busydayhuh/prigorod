@@ -36,6 +36,14 @@ function Search() {
     console.log(values);
   }
 
+  function handleSwap() {
+    setLabels((prev) => ({ from: prev.to, to: prev.from }));
+
+    const currents = form.getValues();
+    form.setValue("from", currents.to);
+    form.setValue("to", currents.from);
+  }
+
   return (
     <>
       <Form {...form}>
@@ -47,6 +55,8 @@ function Search() {
               <FormItem>
                 <FormControl>
                   <AutoComplete
+                    labels={labels}
+                    setLabels={setLabels}
                     field={field}
                     setValue={form.setValue}
                     fieldName="from"
@@ -59,6 +69,9 @@ function Search() {
               </FormItem>
             )}
           />
+          <Button type="button" onClick={handleSwap}>
+            <ArrowLeftRight />
+          </Button>
           <FormField
             control={form.control}
             name="to"
@@ -66,6 +79,8 @@ function Search() {
               <FormItem>
                 <FormControl>
                   <AutoComplete
+                    labels={labels}
+                    setLabels={setLabels}
                     field={field}
                     setValue={form.setValue}
                     stations={stations}
@@ -82,10 +97,6 @@ function Search() {
           </Button>
         </form>
       </Form>
-
-      <Button>
-        <ArrowLeftRight />
-      </Button>
     </>
   );
 }

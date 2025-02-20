@@ -21,13 +21,14 @@ export function AutoComplete({
   placeholder = "Поиск...",
   field,
   setValue,
+  labels,
+  setLabels,
 }) {
   const [open, setOpen] = useState(false);
-  const [inputText, setInputText] = useState("");
-  const [selectedItem, setSelectedItem] = useState({ code: "", title: "" });
+  const [selectedLabel, setSelectedLabel] = useState("");
 
   const reset = () => {
-    setInputText("");
+    setLabels((prev) => ({ ...prev, [field.name]: "" }));
   };
 
   const filter = (value, search) => {
@@ -42,87 +43,86 @@ export function AutoComplete({
   const onInputBlur = (e) => {
     if (
       !e.relatedTarget?.hasAttribute("cmdk-list") &&
-      inputText !== selectedItem.title
+      labels[field.name] !== selectedLabel
     ) {
       reset();
     }
   };
 
   const onSelectItem = (code, title) => {
-    setInputText(title);
-    setSelectedItem({ code: code, title: title });
+    setLabels((prev) => ({ ...prev, [field.name]: title }));
+
+    setSelectedLabel(title);
     setValue(field.name, code);
     setOpen(false);
   };
 
   return (
-    <>
-      <div>{`inputText: ${inputText}`}</div>
-
-      <Popover open={open} onOpenChange={setOpen}>
-        <Command filter={filter}>
-          <PopoverTrigger asChild>
-            <CommandPrimitive.Input
-              asChild
-              value={inputText}
-              onValueChange={(value) => setInputText(value)}
-              onKeyDown={(e) => setOpen(e.key !== "Escape")}
-              onBlur={onInputBlur}
-            >
-              <Input placeholder={placeholder} />
-            </CommandPrimitive.Input>
-          </PopoverTrigger>
-          {!open && <CommandList aria-hidden="true" className="hidden" />}
-          <PopoverContent
+    <Popover open={open} onOpenChange={setOpen}>
+      <Command filter={filter}>
+        <PopoverTrigger asChild>
+          <CommandPrimitive.Input
             asChild
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            onInteractOutside={(e) => {
-              if (
-                e.target instanceof Element &&
-                e.target.hasAttribute("cmdk-input")
-              ) {
-                e.preventDefault();
-              }
-            }}
-            className="w-[var(--radix-popover-trigger-width)] p-0"
+            value={labels[field.name]}
+            onValueChange={(value) =>
+              setLabels((prev) => ({ ...prev, [field.name]: value }))
+            }
+            onKeyDown={(e) => setOpen(e.key !== "Escape")}
+            onBlur={onInputBlur}
           >
-            <CommandList>
-              {isLoading && (
-                <CommandPrimitive.Loading>
-                  <div className="p-1 ">
-                    <Skeleton className="bg-accent w-full px-2 py-1.5 text-sm ">
-                      Загрузка...
-                    </Skeleton>
-                  </div>
-                </CommandPrimitive.Loading>
-              )}
-              {!isLoading && stations.length > 0 ? (
-                <CommandGroup>
-                  {stations.map((option) => (
-                    <CommandItem
-                      key={option.code}
-                      value={option.title}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onSelect={() => {
-                        onSelectItem(option.code, option.title);
-                      }}
-                      className={cn(
-                        "px-4 py-2",
-                        selectedItem.title === option.title ? "bg-accent" : null
-                      )}
-                    >
-                      {option.title}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              ) : null}
-              {!isLoading ? (
-                <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
-              ) : null}
-            </CommandList>
-          </PopoverContent>
-        </Command>
-      </Popover>
-    </>
+            <Input placeholder={placeholder} />
+          </CommandPrimitive.Input>
+        </PopoverTrigger>
+        {!open && <CommandList aria-hidden="true" className="hidden" />}
+        <PopoverContent
+          asChild
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onInteractOutside={(e) => {
+            if (
+              e.target instanceof Element &&
+              e.target.hasAttribute("cmdk-input")
+            ) {
+              e.preventDefault();
+            }
+          }}
+          className="w-[var(--radix-popover-trigger-width)] p-0"
+        >
+          <CommandList>
+            {isLoading && (
+              <CommandPrimitive.Loading>
+                <div className="p-1 ">
+                  <Skeleton className="bg-accent w-full px-2 py-1.5 text-sm ">
+                    Загрузка...
+                  </Skeleton>
+                </div>
+              </CommandPrimitive.Loading>
+            )}
+            {!isLoading && stations.length > 0 ? (
+              <CommandGroup>
+                {stations.map((option) => (
+                  <CommandItem
+                    key={option.code}
+                    value={option.title}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onSelect={() => {
+                      onSelectItem(option.code, option.title);
+                    }}
+                    className={cn(
+                      "px-4 py-2",
+                      selectedLabel === option.title ? "bg-accent" : null
+                    )}
+                  >
+                    {option.title}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            ) : null}
+            {!isLoading ? (
+              <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
+            ) : null}
+          </CommandList>
+        </PopoverContent>
+      </Command>
+    </Popover>
   );
 }
