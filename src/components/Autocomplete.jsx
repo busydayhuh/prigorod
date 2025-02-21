@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
+import { Loader2 } from "lucide-react";
 
 import {
   Command,
@@ -90,10 +91,8 @@ export function AutoComplete({
           <CommandList>
             {isLoading && (
               <CommandPrimitive.Loading>
-                <div className="p-1 ">
-                  <Skeleton className="bg-accent w-full px-2 py-1.5 text-sm ">
-                    Загрузка...
-                  </Skeleton>
+                <div className="py-2.5 flex justify-center text-accent">
+                  <Loader2 className="animate-spin" />
                 </div>
               </CommandPrimitive.Loading>
             )}

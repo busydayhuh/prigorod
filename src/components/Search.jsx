@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
+import { parse, format } from "date-fns";
 import { useNavigate } from "react-router";
 import useApi from "@/lib/api";
 import { AutoComplete } from "./Autocomplete";
@@ -10,30 +11,32 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/shadcn/form";
+import { DatePickerWithPresets } from "./DatePicker";
 
 function Search() {
+  const { data: stations, isLoading, isError } = useApi("stations_list");
+  const [labels, setLabels] = useState({ from: "", to: "" });
+
   const form = useForm({
     resolver: zodResolver(searchSchema),
     defaultValues: {
       from: "",
       to: "",
-      // date: "",
+      date: "",
     },
   });
-  const navigate = useNavigate();
 
-  const { data: stations, isLoading, isError } = useApi("stations_list");
-  const [labels, setLabels] = useState({ from: "", to: "" });
+  const navigate = useNavigate();
 
   function onSubmit(values) {
     console.log("submitted");
     console.log(values);
+
+    const date = parse(new Date(values.date), "yyyy-MM-dd");
   }
 
   function handleSwap() {
@@ -86,6 +89,21 @@ function Search() {
                     stations={stations}
                     isLoading={isLoading}
                     placeholder="Куда"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <DatePickerWithPresets
+                    field={field}
+                    setValue={form.setValue}
                   />
                 </FormControl>
                 <FormMessage />
