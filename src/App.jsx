@@ -11,7 +11,7 @@ function App() {
       <Header />
       <SearchSection />
       <Outlet />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

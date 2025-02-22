@@ -13,7 +13,6 @@ import {
 } from "./shadcn/command";
 import { Input } from "./shadcn/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
-import { Skeleton } from "./shadcn/skeleton";
 
 export function AutoComplete({
   stations,

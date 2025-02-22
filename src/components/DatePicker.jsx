@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useState } from "react";
 import { addDays, format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
@@ -10,22 +11,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/shadcn/select";
 
 export function DatePickerWithPresets({ field, setValue }) {
+  const [selectedDayName, setSelectedDayName] = useState(null);
+
+  const handleClick = (e, dayName) => {
+    const diffInDays = +e.target.dataset.value;
+
+    setValue("date", addDays(new Date(), diffInDays));
+    setSelectedDayName(dayName);
+  };
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-[240px] justify-start text-left font-normal",
+            "min-w-[180px] justify-start text-left font-normal shadow-none",
             !field.value && "text-muted-foreground"
           )}
         >
@@ -43,20 +45,29 @@ export function DatePickerWithPresets({ field, setValue }) {
         align="start"
         className="flex w-auto flex-col space-y-2 p-2"
       >
-        <Select
-          onValueChange={(value) =>
-            setValue("date", addDays(new Date(), parseInt(value)))
-          }
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="День" />
-          </SelectTrigger>
-          <SelectContent position="popper">
-            <SelectItem value="0">Сегодня</SelectItem>
-            <SelectItem value="1">Завтра</SelectItem>
-            <SelectItem value="7">Через неделю</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex w-auto gap-1.5">
+          <Button
+            className="shadow-none"
+            type="button"
+            size="sm"
+            variant={selectedDayName === "today" ? "default" : "outline"}
+            onClick={(e) => handleClick(e, "today")}
+            data-value="0"
+          >
+            сегодня
+          </Button>
+          <Button
+            className="shadow-none"
+            type="button"
+            size="sm"
+            variant={selectedDayName === "tomorrow" ? "default" : "outline"}
+            onClick={(e) => handleClick(e, "tomorrow")}
+            data-value="1"
+          >
+            завтра
+          </Button>
+        </div>
+
         <div className="rounded-md border">
           <Calendar
             locale={ru}
