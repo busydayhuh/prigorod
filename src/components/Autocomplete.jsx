@@ -23,6 +23,8 @@ export function AutoComplete({
   setValue,
   labels,
   setLabels,
+  errors,
+  isApiError,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -70,7 +72,10 @@ export function AutoComplete({
             onKeyDown={(e) => setOpen(e.key !== "Escape")}
             onBlur={onInputBlur}
           >
-            <Input placeholder={placeholder} />
+            <Input
+              placeholder={placeholder}
+              className={cn(errors && "border-red-500")}
+            />
           </CommandPrimitive.Input>
         </PopoverTrigger>
         {!open && <CommandList aria-hidden="true" className="hidden" />}
@@ -92,6 +97,14 @@ export function AutoComplete({
               <CommandPrimitive.Loading>
                 <div className="py-2.5 flex justify-center text-accent">
                   <Loader2 className="animate-spin" />
+                </div>
+              </CommandPrimitive.Loading>
+            )}
+            {isApiError && (
+              <CommandPrimitive.Loading>
+                <div className="py-2.5 flex justify-center text-red-500">
+                  Невозможно загрузить список. Обновите страницу или попробуйте
+                  позже
                 </div>
               </CommandPrimitive.Loading>
             )}

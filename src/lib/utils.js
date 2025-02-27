@@ -16,3 +16,23 @@ export function getCodesMap(stations) {
 export function getStationTitle(stations, value) {
   return stations.find(({ code }) => code === value).title;
 }
+
+export function getFormattedTime(date) {
+  const fullDate = new Date(date);
+
+  return fullDate.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+export function getHoursAndMinutes(seconds) {
+  const totalSeconds = Number(seconds);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+
+  const minutesStr = `${minutes} мин.`;
+  const hoursStr = `${hours} ч.`;
+
+  return hours ? `${hoursStr} ${minutesStr}` : minutesStr;
+}

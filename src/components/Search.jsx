@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
-import { parse } from "date-fns";
-import { useNavigate } from "react-router";
+import { format } from "date-fns";
+import { useNavigate, useSearchParams } from "react-router";
 import useApi from "@/lib/api";
 import { AutoComplete } from "./Autocomplete";
 import { Button } from "@/components/shadcn/button";
@@ -26,24 +26,36 @@ import {
 
 function Search() {
   const { data: stations, isLoading, isError } = useApi("stations_list");
-  const [labels, setLabels] = useState({ from: "", to: "" });
+  const [initialParams] = useSearchParams();
+  const initialDate = initialParams ? new Date(initialParams.get("date")) : "";
+
+  const [labels, setLabels] = useState({
+    from: initialParams?.get("fromLabel") || "",
+    to: initialParams?.get("toLabel") || "",
+  });
 
   const form = useForm({
     resolver: zodResolver(searchSchema),
     defaultValues: {
-      from: "",
-      to: "",
-      date: "",
+      from: initialParams?.get("from") || "",
+      to: initialParams?.get("to") || "",
+      date: initialDate || null,
     },
   });
 
   const navigate = useNavigate();
 
   function onSubmit(values) {
-    console.log("submitted");
     console.log(values);
+    const dateFormatted = format(new Date(values.date), "yyyy-MM-dd");
 
-    const date = parse(new Date(values.date), "yyyy-MM-dd");
+    const params = new URLSearchParams({
+      ...values,
+      date: dateFormatted,
+      fromLabel: labels.from,
+      toLabel: labels.to,
+    });
+    navigate(`/results?${params}`);
   }
 
   function handleSwap() {
@@ -65,30 +77,34 @@ function Search() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-row justify-center flex-wrap gap-1.5 align-top"
+            className="flex flex-row justify-center flex-wrap gap-1.5 items-start"
           >
             <FormField
               control={form.control}
               name="from"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <AutoComplete
-                      labels={labels}
-                      setLabels={setLabels}
-                      field={field}
-                      setValue={form.setValue}
-                      fieldName="from"
-                      stations={stations}
-                      isLoading={isLoading}
-                      placeholder="Откуда"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div>
+                    <FormControl>
+                      <AutoComplete
+                        labels={labels}
+                        setLabels={setLabels}
+                        field={field}
+                        setValue={form.setValue}
+                        fieldName="from"
+                        stations={stations}
+                        isLoading={isLoading}
+                        isError={isError}
+                        placeholder="Откуда"
+                        errors={form.formState.errors.from}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
-            <Button type="button" onClick={handleSwap}>
+            <Button type="button" onClick={handleSwap} size="sm">
               <ArrowLeftRight />
             </Button>
             <FormField
@@ -96,18 +112,22 @@ function Search() {
               name="to"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <AutoComplete
-                      labels={labels}
-                      setLabels={setLabels}
-                      field={field}
-                      setValue={form.setValue}
-                      stations={stations}
-                      isLoading={isLoading}
-                      placeholder="Куда"
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div>
+                    <FormControl>
+                      <AutoComplete
+                        labels={labels}
+                        setLabels={setLabels}
+                        field={field}
+                        setValue={form.setValue}
+                        stations={stations}
+                        isLoading={isLoading}
+                        isApiError={isError}
+                        placeholder="Куда"
+                        errors={form.formState.errors.to}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -116,13 +136,16 @@ function Search() {
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <DatePickerWithPresets
-                      field={field}
-                      setValue={form.setValue}
-                    />
-                  </FormControl>
-                  <FormMessage />
+                  <div>
+                    <FormControl>
+                      <DatePickerWithPresets
+                        field={field}
+                        setValue={form.setValue}
+                        errors={form.formState.errors.date}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />

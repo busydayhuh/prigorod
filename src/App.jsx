@@ -9,8 +9,10 @@ function App() {
   return (
     <>
       <Header />
-      <SearchSection />
-      <Outlet />
+      <main className="flex flex-col justify-center gap-10">
+        <SearchSection />
+        <Outlet />
+      </main>
       {/* <Footer /> */}
     </>
   );

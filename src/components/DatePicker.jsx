@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/shadcn/popover";
 
-export function DatePickerWithPresets({ field, setValue }) {
+export function DatePickerWithPresets({ field, setValue, errors }) {
   const [selectedDayName, setSelectedDayName] = useState(null);
 
   const handleClick = (e, dayName) => {
@@ -28,7 +28,8 @@ export function DatePickerWithPresets({ field, setValue }) {
           variant={"outline"}
           className={cn(
             "min-w-[180px] justify-start text-left font-normal shadow-none",
-            !field.value && "text-muted-foreground"
+            !field.value && "text-muted-foreground",
+            errors && "border-red-500"
           )}
         >
           <CalendarIcon />
