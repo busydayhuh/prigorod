@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import Row from "./Row";
-import { Button } from "@/components/shadcn/button";
+import { Toggle } from "@/components/shadcn/toggle";
+import ResultsRow from "./Row";
 import { useSearchParams } from "react-router";
 import useApi from "@/lib/api";
+import { Eye, Rabbit } from "lucide-react";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -34,62 +34,57 @@ function ResultsTable() {
   return isLoading ? (
     <p>Loading...</p>
   ) : (
-    <>
-      <div className="w-[min(56rem,96%)] mx-auto rounded-md border shadow-sm">
-        <Button
-          className="max-w-[150px]"
-          onClick={() => setExpressOnly((prev) => !prev)}
-        >
-          Только экспрессы
-        </Button>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Отправление</TableHead>
-              <TableHead>Время в пути</TableHead>
-              <TableHead>Прибытие</TableHead>
-              <TableHead>Поезд</TableHead>
-              <TableHead>Цена</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {isDepartedOpen ? (
-              filterResults(data.departed).map((segment) => {
-                return (
-                  <Row
-                    key={`${segment.departure}${segment.thread.number}`}
-                    departed={true}
-                    {...segment}
-                  />
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell className="w-[100px]">
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      setIsDepartedOpen(true);
-                    }}
-                  >
-                    Показать
-                  </Button>
-                </TableCell>
-              </TableRow>
-            )}
+    <div className="w-[min(56rem,96%)] mx-auto">
+      <Toggle
+        className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
+        variant="outline"
+        onClick={() => setExpressOnly((prev) => !prev)}
+      >
+        <Rabbit />
+        Только экспрессы
+      </Toggle>
+      <Toggle
+        className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
+        variant="outline"
+        onClick={() => setIsDepartedOpen((prev) => !prev)}
+      >
+        <Eye />
+        Ушедшие
+      </Toggle>
 
-            {filterResults(data.future).map((segment) => {
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Отправление</TableHead>
+            <TableHead>Время в пути</TableHead>
+            <TableHead>Прибытие</TableHead>
+            <TableHead>Поезд</TableHead>
+            <TableHead>Цена</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {isDepartedOpen &&
+            filterResults(data.departed).map((segment) => {
               return (
-                <Row
+                <ResultsRow
                   key={`${segment.departure}${segment.thread.number}`}
+                  departed={true}
                   {...segment}
                 />
               );
             })}
-          </TableBody>
-        </Table>
-      </div>
-    </>
+
+          {filterResults(data.future).map((segment) => {
+            return (
+              <ResultsRow
+                key={`${segment.departure}${segment.thread.number}`}
+                {...segment}
+              />
+            );
+          })}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
 

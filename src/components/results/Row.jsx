@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { TableCell, TableRow } from "@/components/shadcn/table";
-import TravelTime from "./TravelTime";
-import Stop from "./Stop";
 import { Badge } from "../shadcn/badge";
 import { getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
 
-function Row(props) {
+function ResultsRow(props) {
   const { number, title, short_title, express_type, uid, carrier } =
     props.thread;
   const price = props.tickets_info?.places[0].price.whole;
@@ -44,4 +42,22 @@ function Row(props) {
     </TableRow>
   );
 }
-export default Row;
+
+function Stop({ time, stop, platform }) {
+  return (
+    <div className="flex flex-col align-top gap-1">
+      <div className="text-3xl font-medium">{time}</div>
+      <div className="text-sm text-muted-foreground">{stop}</div>
+      {!!platform && <Badge variant="secondary">{platform}</Badge>}
+    </div>
+  );
+}
+
+function TravelTime({ travelTime }) {
+  return (
+    <div className="text-sm text-muted-foreground py-1 border-b-1 border-solid border-accent min-w-[75px] text-center">
+      {travelTime}
+    </div>
+  );
+}
+export default ResultsRow;
