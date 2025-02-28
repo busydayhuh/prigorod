@@ -7,10 +7,11 @@ import {
   TableRow,
 } from "@/components/shadcn/table";
 import { Toggle } from "@/components/shadcn/toggle";
-import ResultsRow from "./Row";
+import ResultsRow from "./ResultsRow";
 import { useSearchParams } from "react-router";
 import useApi from "@/lib/api";
 import { Eye, Rabbit } from "lucide-react";
+import { filterExpress } from "@/lib/filters";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -18,18 +19,6 @@ function ResultsTable() {
 
   const [isDepartedOpen, setIsDepartedOpen] = useState(false);
   const [expressOnly, setExpressOnly] = useState(false);
-
-  const filterResults = (results) => {
-    if (expressOnly) {
-      const expressOnlyResults = results.filter((result) => {
-        return result.thread.express_type;
-      });
-
-      return expressOnlyResults;
-    }
-
-    return results;
-  };
 
   return isLoading ? (
     <p>Loading...</p>
@@ -41,7 +30,7 @@ function ResultsTable() {
         onClick={() => setExpressOnly((prev) => !prev)}
       >
         <Rabbit />
-        Только экспрессы
+        Только экспресс
       </Toggle>
       <Toggle
         className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
@@ -64,7 +53,7 @@ function ResultsTable() {
         </TableHeader>
         <TableBody>
           {isDepartedOpen &&
-            filterResults(data.departed).map((segment) => {
+            filterExpress(data.departed, expressOnly).map((segment) => {
               return (
                 <ResultsRow
                   key={`${segment.departure}${segment.thread.number}`}
@@ -74,7 +63,7 @@ function ResultsTable() {
               );
             })}
 
-          {filterResults(data.future).map((segment) => {
+          {filterExpress(data.future, expressOnly).map((segment) => {
             return (
               <ResultsRow
                 key={`${segment.departure}${segment.thread.number}`}

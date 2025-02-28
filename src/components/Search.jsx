@@ -27,7 +27,9 @@ import {
 function Search() {
   const { data: stations, isLoading, isError } = useApi("stations_list");
   const [initialParams] = useSearchParams();
-  const initialDate = initialParams ? new Date(initialParams.get("date")) : "";
+  const initialDate = initialParams.get("date")
+    ? new Date(initialParams.get("date"))
+    : "";
 
   const [labels, setLabels] = useState({
     from: initialParams?.get("fromLabel") || "",
@@ -39,7 +41,7 @@ function Search() {
     defaultValues: {
       from: initialParams?.get("from") || "",
       to: initialParams?.get("to") || "",
-      date: initialDate || null,
+      date: initialDate || "",
     },
   });
 

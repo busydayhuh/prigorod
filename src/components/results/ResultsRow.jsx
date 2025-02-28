@@ -3,6 +3,7 @@ import React from "react";
 import { TableCell, TableRow } from "@/components/shadcn/table";
 import { Badge } from "../shadcn/badge";
 import { getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
+import { Link } from "react-router";
 
 function ResultsRow(props) {
   const { number, title, short_title, express_type, uid, carrier } =
@@ -16,6 +17,7 @@ function ResultsRow(props) {
           time={getFormattedTime(props.departure)}
           stop={props.from.title}
           platform={props.departure_platform}
+          stationCode={props.from.code}
         />
       </TableCell>
       <TableCell className="">
@@ -26,6 +28,7 @@ function ResultsRow(props) {
           time={getFormattedTime(props.arrival)}
           stop={props.to.title}
           platform={props.arrival_platform}
+          stationCode={props.to.code}
         />
       </TableCell>
       <TableCell>
@@ -43,11 +46,16 @@ function ResultsRow(props) {
   );
 }
 
-function Stop({ time, stop, platform }) {
+function Stop({ time, stop, platform, stationCode }) {
   return (
     <div className="flex flex-col align-top gap-1">
       <div className="text-3xl font-medium">{time}</div>
-      <div className="text-sm text-muted-foreground">{stop}</div>
+      <Link
+        to={`/schedule?station=${stationCode}`}
+        className="text-sm text-muted-foreground"
+      >
+        {stop}
+      </Link>
       {!!platform && <Badge variant="secondary">{platform}</Badge>}
     </div>
   );
