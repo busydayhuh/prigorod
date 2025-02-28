@@ -32,8 +32,7 @@ function SheduleTable() {
   });
 
   // TODO
-  // Фильтр по направлениям
-  // Стейт в объект
+
   // Выбор даты
 
   return isLoading ? (
