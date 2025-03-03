@@ -9,7 +9,7 @@ import {
 import { Toggle } from "@/components/shadcn/toggle";
 import { useSearchParams } from "react-router";
 import useApi from "@/lib/api";
-import { Eye, Rabbit } from "lucide-react";
+import { Eye, Rabbit, EyeClosed } from "lucide-react";
 import ScheduleRow from "./ScheduleRow";
 import { filterExpress } from "@/lib/filters";
 import {
@@ -20,15 +20,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
+import { DatePickerShedule } from "../DatePicker";
+import { formatDateForParams } from "@/lib/utils";
 
 function SheduleTable() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data, isLoading, isError } = useApi("schedule", searchParams);
 
   const [tableFilters, setTableFilters] = useState({
     isDepartedOpen: false,
     isExpressOnly: false,
-    direction: "all",
+  });
+
+  const [date, setDate] = useState({
+    value: searchParams.get("date") || "",
+    setValue(newValue) {
+      setDate((prev) => ({
+        ...prev,
+        value: formatDateForParams(newValue),
+      }));
+      searchParams.set("date", formatDateForParams(newValue));
+      setSearchParams(searchParams);
+    },
   });
 
   // TODO
@@ -62,10 +75,11 @@ function SheduleTable() {
           }))
         }
       >
-        <Eye />
+        {tableFilters.isDepartedOpen ? <Eye /> : <EyeClosed />}
         Ушедшие
       </Toggle>
       <SelectDirection />
+      <DatePickerShedule date={date} />
       <Table>
         <TableHeader>
           <TableRow>
@@ -77,6 +91,7 @@ function SheduleTable() {
             </TableHead>
             <TableHead>Дни следования</TableHead>
             <TableHead>Остановки</TableHead>
+            <TableHead>Платформа</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -89,6 +104,7 @@ function SheduleTable() {
                 <ScheduleRow
                   key={`${segment.departure}${segment.thread.number}`}
                   departed={true}
+                  date={searchParams.get("date")}
                   {...segment}
                 />
               );
@@ -99,6 +115,7 @@ function SheduleTable() {
               return (
                 <ScheduleRow
                   key={`${segment.departure}${segment.thread.number}`}
+                  date={searchParams.get("date")}
                   {...segment}
                 />
               );

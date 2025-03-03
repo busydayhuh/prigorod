@@ -82,3 +82,85 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
     </Popover>
   );
 }
+
+export function DatePickerShedule({ date }) {
+  const [selectedDayName, setSelectedDayName] = useState(null);
+
+  const handleClick = (e, dayName) => {
+    if (!e.target.dataset.value) {
+      date.setValue("");
+      return;
+    }
+
+    const diffInDays = +e.target.dataset.value;
+
+    date.setValue(addDays(new Date(), diffInDays));
+    setSelectedDayName(dayName);
+  };
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className="min-w-[180px] justify-start text-left font-normal shadow-none"
+        >
+          <CalendarIcon />
+          {date.value ? (
+            format(date.value, "PPP", {
+              locale: ru,
+            })
+          ) : (
+            <span>все дни</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent
+        align="start"
+        className="flex w-auto flex-col space-y-2 p-2"
+      >
+        <div className="flex w-auto gap-1.5">
+          <Button
+            className="shadow-none"
+            type="button"
+            size="sm"
+            variant={selectedDayName === "today" ? "default" : "outline"}
+            onClick={(e) => handleClick(e, "today")}
+            data-value="0"
+          >
+            сегодня
+          </Button>
+          <Button
+            className="shadow-none"
+            type="button"
+            size="sm"
+            variant={selectedDayName === "tomorrow" ? "default" : "outline"}
+            onClick={(e) => handleClick(e, "tomorrow")}
+            data-value="1"
+          >
+            завтра
+          </Button>
+          <Button
+            className="shadow-none"
+            type="button"
+            size="sm"
+            variant={selectedDayName === "all" ? "default" : "outline"}
+            onClick={(e) => handleClick(e, "all")}
+            data-value={null}
+          >
+            все дни
+          </Button>
+        </div>
+
+        <div className="rounded-md border">
+          <Calendar
+            locale={ru}
+            mode="single"
+            selected={date.value}
+            onSelect={date.setValue}
+            disabled={(date) => date < addDays(new Date(), -1)}
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}

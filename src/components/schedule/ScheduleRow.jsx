@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { TableCell, TableRow } from "@/components/shadcn/table";
 import { Badge } from "../shadcn/badge";
+import { getFormattedTime } from "@/lib/utils";
 
 function ScheduleRow(props) {
   const { number, title, short_title, express_type, uid, carrier } =
@@ -16,18 +17,22 @@ function ScheduleRow(props) {
         {props.arrival && props.departure ? (
           <>
             <span className="text-xl text-muted-foreground">
-              {props.arrival}
+              {props.date ? getFormattedTime(props.arrival) : props.arrival}
             </span>
             <br />
-            <span className="text-3xl font-medium">{props.departure}</span>
+            <span className="text-3xl font-medium">
+              {props.date ? getFormattedTime(props.departure) : props.departure}
+            </span>
           </>
         ) : (
           <span className="text-3xl font-medium">{`${
-            props.arrival || props.departure
+            props.date
+              ? getFormattedTime(props.arrival) ||
+                getFormattedTime(props.departure)
+              : props.arrival || props.departure
           }`}</span>
         )}
       </TableCell>
-      {!!props.platform && <TableCell>{props.platform}</TableCell>}
       <TableCell>
         {props.except_days
           ? `${props.days}, кроме ${props.except_days}`
@@ -36,6 +41,7 @@ function ScheduleRow(props) {
       <TableCell>
         {props.stops === "везде" ? "со всеми остановками" : props.stops}
       </TableCell>
+      {!!props.platform && <TableCell>{props.platform}</TableCell>}
     </TableRow>
   );
 }

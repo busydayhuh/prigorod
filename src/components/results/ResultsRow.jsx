@@ -18,9 +18,10 @@ function ResultsRow(props) {
           stop={props.from.title}
           platform={props.departure_platform}
           stationCode={props.from.code}
+          startDate={props.start_date}
         />
       </TableCell>
-      <TableCell className="">
+      <TableCell>
         <TravelTime travelTime={getHoursAndMinutes(props.duration)} />
       </TableCell>
       <TableCell>
@@ -29,6 +30,7 @@ function ResultsRow(props) {
           stop={props.to.title}
           platform={props.arrival_platform}
           stationCode={props.to.code}
+          startDate={props.start_date}
         />
       </TableCell>
       <TableCell>
@@ -46,12 +48,12 @@ function ResultsRow(props) {
   );
 }
 
-function Stop({ time, stop, platform, stationCode }) {
+function Stop({ time, stop, platform, stationCode, startDate }) {
   return (
     <div className="flex flex-col align-top gap-1">
       <div className="text-3xl font-medium">{time}</div>
       <Link
-        to={`/schedule?station=${stationCode}`}
+        to={`/schedule?station=${stationCode}&date=${startDate}`}
         className="text-sm text-muted-foreground"
       >
         {stop}
