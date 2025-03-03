@@ -25,7 +25,7 @@ import {
 } from "@/components/shadcn/card";
 
 function Search() {
-  const { data: stations, isLoading, isError } = useApi("stations_list");
+  const { data: stations, isLoading, isError } = useApi("stations_search");
   const [initialParams] = useSearchParams();
   const initialDate = initialParams.get("date")
     ? new Date(initialParams.get("date"))

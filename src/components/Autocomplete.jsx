@@ -13,10 +13,9 @@ import {
 } from "./shadcn/command";
 import { Input } from "./shadcn/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
+import useApi from "@/lib/api";
 
 export function AutoComplete({
-  stations,
-  isLoading,
   emptyMessage = "Нет станций с таким именем.",
   placeholder = "Поиск...",
   field,
@@ -24,22 +23,19 @@ export function AutoComplete({
   labels,
   setLabels,
   errors,
-  isApiError,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
+  const [query, setQuery] = useState("");
+
+  const {
+    data: stations,
+    isLoading,
+    isError: isApiError,
+  } = useApi("stations_search", new URLSearchParams({ q: query }));
 
   const reset = () => {
     setLabels((prev) => ({ ...prev, [field.name]: "" }));
-  };
-
-  const filter = (value, search) => {
-    if (
-      search &&
-      value.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-    )
-      return 1;
-    return 0;
   };
 
   const onInputBlur = (e) => {
@@ -61,14 +57,16 @@ export function AutoComplete({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <Command filter={filter}>
+      <Command shouldFilter={false}>
         <PopoverTrigger asChild>
           <CommandPrimitive.Input
             asChild
             value={labels[field.name]}
-            onValueChange={(value) =>
-              setLabels((prev) => ({ ...prev, [field.name]: value }))
-            }
+            onValueChange={(value) => {
+              setQuery(value.trim().toLowerCase());
+              console.log("query :>> ", query);
+              setLabels((prev) => ({ ...prev, [field.name]: value }));
+            }}
             onKeyDown={(e) => setOpen(e.key !== "Escape")}
             onBlur={onInputBlur}
           >
