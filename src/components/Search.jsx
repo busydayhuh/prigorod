@@ -25,7 +25,6 @@ import {
 } from "@/components/shadcn/card";
 
 function Search() {
-  const { data: stations, isLoading, isError } = useApi("stations_search");
   const [initialParams] = useSearchParams();
   const initialDate = initialParams.get("date")
     ? new Date(initialParams.get("date"))
@@ -34,6 +33,13 @@ function Search() {
   const [labels, setLabels] = useState({
     from: initialParams?.get("fromLabel") || "",
     to: initialParams?.get("toLabel") || "",
+  });
+
+  const [settlements, setSettlements] = useState({
+    fromSettlement: "",
+    fromDirection: "",
+    toDirection: "",
+    toSettlement: "",
   });
 
   const form = useForm({
@@ -93,12 +99,10 @@ function Search() {
                         setLabels={setLabels}
                         field={field}
                         setValue={form.setValue}
-                        fieldName="from"
-                        stations={stations}
-                        isLoading={isLoading}
-                        isError={isError}
                         placeholder="Откуда"
                         errors={form.formState.errors.from}
+                        settlements={settlements}
+                        setSettlements={setSettlements}
                       />
                     </FormControl>
                     <FormMessage />
@@ -121,11 +125,10 @@ function Search() {
                         setLabels={setLabels}
                         field={field}
                         setValue={form.setValue}
-                        stations={stations}
-                        isLoading={isLoading}
-                        isApiError={isError}
                         placeholder="Куда"
                         errors={form.formState.errors.to}
+                        settlements={settlements}
+                        setSettlements={setSettlements}
                       />
                     </FormControl>
                     <FormMessage />

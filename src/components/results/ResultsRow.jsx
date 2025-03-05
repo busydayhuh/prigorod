@@ -34,8 +34,10 @@ function ResultsRow(props) {
         />
       </TableCell>
       <TableCell>
-        <Badge variant="secondary">{`№ ${number}`}</Badge>
-        {title}
+        <Link to={`/thread?uid=${uid}&date=${props.start_date || ""}`}>
+          <Badge variant="secondary">{`№ ${number}`}</Badge>
+          {short_title}
+        </Link>
       </TableCell>
       {!!price && (
         <TableCell>

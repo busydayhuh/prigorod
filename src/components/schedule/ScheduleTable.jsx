@@ -5,6 +5,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  TableCell,
 } from "@/components/shadcn/table";
 import { Toggle } from "@/components/shadcn/toggle";
 import { useSearchParams } from "react-router";
@@ -22,10 +23,11 @@ import {
 } from "@/components/shadcn/select";
 import { DatePickerShedule } from "../DatePicker";
 import { formatDateForParams } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
 
 function SheduleTable() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading, isError } = useApi("schedule", searchParams);
+  const { data, isLoading, error } = useApi("schedule", searchParams);
 
   const [tableFilters, setTableFilters] = useState({
     isDepartedOpen: false,
@@ -44,13 +46,7 @@ function SheduleTable() {
     },
   });
 
-  // TODO
-
-  // Выбор даты
-
-  return isLoading ? (
-    <p>Loading...</p>
-  ) : (
+  return (
     <div className="w-[min(56rem,96%)] mx-auto">
       <Toggle
         className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
@@ -94,34 +90,49 @@ function SheduleTable() {
             <TableHead>Платформа</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
-          {tableFilters.isDepartedOpen &&
-            filterExpress(
-              data.schedule.departed,
+        {isLoading ? (
+          <TableBody>
+            <TableRow>
+              <TableCell>Loading...</TableCell>
+            </TableRow>
+          </TableBody>
+        ) : error ? (
+          <TableBody>
+            <TableRow>
+              <TableCell>Server Error</TableCell>
+            </TableRow>
+          </TableBody>
+        ) : (
+          <TableBody>
+            {tableFilters.isDepartedOpen &&
+              filterExpress(
+                data.schedule.departed,
+                tableFilters.isExpressOnly
+              ).map((segment) => {
+                return (
+                  <ScheduleRow
+                    key={uuidv4()}
+                    departed={true}
+                    date={searchParams.get("date")}
+                    {...segment}
+                  />
+                );
+              })}
+
+            {filterExpress(
+              data.schedule.future,
               tableFilters.isExpressOnly
             ).map((segment) => {
               return (
                 <ScheduleRow
-                  key={`${segment.departure}${segment.thread.number}`}
-                  departed={true}
+                  key={uuidv4()}
                   date={searchParams.get("date")}
                   {...segment}
                 />
               );
             })}
-
-          {filterExpress(data.schedule.future, tableFilters.isExpressOnly).map(
-            (segment) => {
-              return (
-                <ScheduleRow
-                  key={`${segment.departure}${segment.thread.number}`}
-                  date={searchParams.get("date")}
-                  {...segment}
-                />
-              );
-            }
-          )}
-        </TableBody>
+          </TableBody>
+        )}
       </Table>
     </div>
   );
@@ -129,22 +140,25 @@ function SheduleTable() {
 
 function SelectDirection() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading, isError } = useApi("schedule", searchParams);
+  const { data, isLoading, error } = useApi("schedule", searchParams);
+  const currentDirection = searchParams.get("direction") || "all";
+
+  const directions = isLoading || error ? [] : data.directions;
 
   return (
     <Select
-      value={searchParams.get("direction") || "all"}
+      defaultValue={currentDirection}
       onValueChange={(value) => {
         searchParams.set("direction", value);
         setSearchParams(searchParams);
       }}
     >
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] focus-visible:ring-0">
         <SelectValue placeholder="Выберите направление" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {data.directions.map((dir) => (
+          {directions.map((dir) => (
             <SelectItem value={dir.code} key={dir.code}>
               {dir.title}
             </SelectItem>

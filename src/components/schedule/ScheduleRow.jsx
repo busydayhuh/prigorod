@@ -2,6 +2,7 @@
 import { TableCell, TableRow } from "@/components/shadcn/table";
 import { Badge } from "../shadcn/badge";
 import { getFormattedTime } from "@/lib/utils";
+import { Link } from "react-router";
 
 function ScheduleRow(props) {
   const { number, title, short_title, express_type, uid, carrier } =
@@ -10,8 +11,10 @@ function ScheduleRow(props) {
   return (
     <TableRow className={props.departed ? "opacity-50" : ""}>
       <TableCell>
-        <Badge variant="secondary">{`№ ${number}`}</Badge>
-        {title}
+        <Link to={`/thread?uid=${uid}&date=${props.date || ""}`}>
+          <Badge variant="secondary">{`№ ${number}`}</Badge>
+          {short_title}
+        </Link>
       </TableCell>
       <TableCell>
         {props.arrival && props.departure ? (

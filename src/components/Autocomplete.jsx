@@ -14,6 +14,7 @@ import {
 import { Input } from "./shadcn/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
 import useApi from "@/lib/api";
+import { v4 as uuidv4 } from "uuid";
 
 export function AutoComplete({
   emptyMessage = "Нет станций с таким именем.",
@@ -23,6 +24,8 @@ export function AutoComplete({
   labels,
   setLabels,
   errors,
+  settlements,
+  setSettlements,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -49,7 +52,6 @@ export function AutoComplete({
 
   const onSelectItem = (code, title) => {
     setLabels((prev) => ({ ...prev, [field.name]: title }));
-
     setSelectedLabel(title);
     setValue(field.name, code);
     setOpen(false);
@@ -64,7 +66,6 @@ export function AutoComplete({
             value={labels[field.name]}
             onValueChange={(value) => {
               setQuery(value.trim().toLowerCase());
-              console.log("query :>> ", query);
               setLabels((prev) => ({ ...prev, [field.name]: value }));
             }}
             onKeyDown={(e) => setOpen(e.key !== "Escape")}
@@ -102,7 +103,7 @@ export function AutoComplete({
               <CommandPrimitive.Loading>
                 <div className="py-2.5 flex justify-center text-red-500">
                   Невозможно загрузить список. Обновите страницу или попробуйте
-                  позже
+                  позже.
                 </div>
               </CommandPrimitive.Loading>
             )}
@@ -110,7 +111,7 @@ export function AutoComplete({
               <CommandGroup>
                 {stations.map((option) => (
                   <CommandItem
-                    key={option.code}
+                    key={uuidv4()}
                     value={option.title}
                     onMouseDown={(e) => e.preventDefault()}
                     onSelect={() => {
@@ -121,7 +122,11 @@ export function AutoComplete({
                       selectedLabel === option.title ? "bg-accent" : null
                     )}
                   >
-                    {option.title}
+                    <div>
+                      {option.title}
+                      <br />
+                      <OptionDescription {...option} />
+                    </div>
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -133,5 +138,15 @@ export function AutoComplete({
         </PopoverContent>
       </Command>
     </Popover>
+  );
+}
+
+function OptionDescription({ settlement, direction }) {
+  return (
+    <span className="text-neutral-600 text-xs">
+      {!!settlement && `${settlement}`}
+      {settlement && direction ? ", " : null}
+      {!!direction && `${direction} напр.`}
+    </span>
   );
 }

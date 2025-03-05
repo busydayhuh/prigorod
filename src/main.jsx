@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router";
 import ResultsTable from "./components/results/ResultsTable";
 import ScheduleTable from "./components/schedule/ScheduleTable";
-import Direction from "./components/Direction";
+import ThreadTable from "./components/Thread";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />}>
           <Route path="/results" element={<ResultsTable />} />
           <Route path="/schedule" element={<ScheduleTable />} />
-          <Route path="/direction" element={<Direction />} />
+          <Route path="/thread" element={<ThreadTable />} />
         </Route>
       </Routes>
     </BrowserRouter>
