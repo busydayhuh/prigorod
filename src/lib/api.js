@@ -1,15 +1,20 @@
 import useSWR from "swr";
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+export const fetcher = async (url) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`HTTP error! status: ${res.status}`);
+  }
+  return await res.json();
+};
 
 export default function useApi(reqRoute, params = null) {
   const url = params
-    ? `http://localhost:5000/api/${reqRoute}/?${params}`
-    : `http://localhost:5000/api/${reqRoute}`;
+    ? `http://localhost:5050/api/${reqRoute}/?${params}`
+    : `http://localhost:5050/api/${reqRoute}`;
 
   const { data, error, isLoading } = useSWR(url, fetcher);
-
-  return { data, isLoading, isError: error };
+  return { data, error, isLoading };
 }
 
 //https://octagonal-brindle-archeology.glitch.me/api?${params} - ACTUAL URL
