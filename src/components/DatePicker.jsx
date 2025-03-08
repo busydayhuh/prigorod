@@ -24,44 +24,47 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
+        <div
           className={cn(
-            "min-w-[180px] justify-start text-left font-normal shadow-none",
-            !field.value && "text-muted-foreground",
+            "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
             errors && "border-red-500"
           )}
         >
-          <CalendarIcon />
+          <CalendarIcon className="size-4" />
           {field.value ? (
             format(field.value, "PPP", {
               locale: ru,
             })
           ) : (
-            <span>Дата</span>
+            <span>дата</span>
           )}
-        </Button>
+        </div>
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex w-auto flex-col space-y-2 p-2"
+        className="flex flex-col space-y-2 p-6 popover-borders w-auto"
+        sideOffset={0}
       >
-        <div className="flex w-auto gap-1.5">
+        <div className="flex w-auto gap-1.5 mb-3">
           <Button
-            className="shadow-none"
+            className={cn(
+              "oval-btn-icon bg-background hover:bg-accent",
+              selectedDayName === "today" && "bg-accent"
+            )}
             type="button"
             size="sm"
-            variant={selectedDayName === "today" ? "default" : "outline"}
             onClick={(e) => handleClick(e, "today")}
             data-value="0"
           >
             сегодня
           </Button>
           <Button
-            className="shadow-none"
+            className={cn(
+              "oval-btn-icon bg-background hover:bg-accent",
+              selectedDayName === "tomorrow" && "bg-accent"
+            )}
             type="button"
             size="sm"
-            variant={selectedDayName === "tomorrow" ? "default" : "outline"}
             onClick={(e) => handleClick(e, "tomorrow")}
             data-value="1"
           >
@@ -69,15 +72,13 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
           </Button>
         </div>
 
-        <div className="rounded-md border">
-          <Calendar
-            locale={ru}
-            mode="single"
-            selected={field.value}
-            onSelect={field.onChange}
-            disabled={(date) => date < addDays(new Date(), -1)}
-          />
-        </div>
+        <Calendar
+          locale={ru}
+          mode="single"
+          selected={field.value}
+          onSelect={field.onChange}
+          disabled={(date) => date < addDays(new Date(), -1)}
+        />
       </PopoverContent>
     </Popover>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { Loader2 } from "lucide-react";
@@ -24,8 +24,6 @@ export function AutoComplete({
   labels,
   setLabels,
   errors,
-  settlements,
-  setSettlements,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
@@ -68,12 +66,17 @@ export function AutoComplete({
               setQuery(value.trim().toLowerCase());
               setLabels((prev) => ({ ...prev, [field.name]: value }));
             }}
-            onKeyDown={(e) => setOpen(e.key !== "Escape")}
             onBlur={onInputBlur}
+            onKeyDown={(e) => setOpen(e.key !== "Escape")}
           >
             <Input
+              data-name={field.name}
               placeholder={placeholder}
-              className={cn(errors && "border-red-500")}
+              className={cn(
+                "md:border-r-3 md:border-b-0 border-b-3 pl-5 py-4",
+                errors && "bg-red-400",
+                field.name === "to" && "md:pl-8"
+              )}
             />
           </CommandPrimitive.Input>
         </PopoverTrigger>
@@ -84,14 +87,14 @@ export function AutoComplete({
           onInteractOutside={(e) => {
             if (
               e.target instanceof Element &&
-              e.target.hasAttribute("cmdk-input")
+              e.target.dataset.name === field.name
             ) {
               e.preventDefault();
             }
           }}
           className="w-[var(--radix-popover-trigger-width)] p-0"
         >
-          <CommandList>
+          <CommandList className="popover-borders">
             {isLoading && (
               <CommandPrimitive.Loading>
                 <div className="py-2.5 flex justify-center text-accent">
@@ -118,7 +121,7 @@ export function AutoComplete({
                       onSelectItem(option.code, option.title);
                     }}
                     className={cn(
-                      "px-4 py-2",
+                      "px-4 py-2 rounded-xl",
                       selectedLabel === option.title ? "bg-accent" : null
                     )}
                   >
