@@ -92,7 +92,11 @@
   }
 
   .oval-btn-icon {
-    @apply border-2 border-primary rounded-3xl text-sm text-foreground;
+    @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground;
+  }
+
+  .table-toggle {
+    @apply data-[state=on]:bg-accent bg-background hover:bg-muted;
   }
 
   .sm-badge {

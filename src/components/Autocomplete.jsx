@@ -71,10 +71,10 @@ export function AutoComplete({
           >
             <Input
               data-name={field.name}
-              placeholder={placeholder}
+              placeholder={errors ? errors.message : placeholder}
               className={cn(
                 "md:border-r-3 md:border-b-0 border-b-3 pl-5 py-4",
-                errors && "bg-red-400",
+                errors && "placeholder:text-red-500",
                 field.name === "to" && "md:pl-8"
               )}
             />
@@ -125,7 +125,7 @@ export function AutoComplete({
                       selectedLabel === option.title ? "bg-accent" : null
                     )}
                   >
-                    <div>
+                    <div className="text-base">
                       {option.title}
                       <br />
                       <OptionDescription {...option} />

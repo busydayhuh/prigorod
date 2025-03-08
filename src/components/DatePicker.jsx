@@ -21,13 +21,14 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
     setValue("date", addDays(new Date(), diffInDays));
     setSelectedDayName(dayName);
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <div
           className={cn(
             "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
-            errors && "border-red-500"
+            errors && "text-red-500"
           )}
         >
           <CalendarIcon className="size-4" />
@@ -36,7 +37,7 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
               locale: ru,
             })
           ) : (
-            <span>дата</span>
+            <span>{errors ? errors.message : "дата"}</span>
           )}
         </div>
       </PopoverTrigger>

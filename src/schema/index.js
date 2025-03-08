@@ -2,16 +2,16 @@ import { z } from "zod";
 
 const searchSchema = z.object({
   from: z.string().min(1, {
-    required_error: "Выберите станцию отправления",
-    message: "Выберите станцию отправления",
+    required_error: "выберите станцию",
+    message: "выберите станцию",
   }),
   to: z.string().min(1, {
-    required_error: "Выберите станцию прибытия",
-    message: "Выберите станцию прибытия",
+    required_error: "выберите станцию ",
+    message: "выберите станцию",
   }),
   date: z.date({
-    required_error: "Выберите дату",
-    message: "Выберите дату",
+    required_error: "выберите дату",
+    message: "выберите дату",
   }),
 });
 

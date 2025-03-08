@@ -8,11 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import { Toggle } from "@/components/shadcn/toggle";
+import { Toggles } from "../table-ui/TableFilters";
+
 import ResultsRow from "./ResultsRow";
 import { useSearchParams } from "react-router";
 import useApi from "@/lib/api";
-import { Eye, Rabbit } from "lucide-react";
+
 import { filterExpress } from "@/lib/filters";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../shadcn/button";
@@ -21,28 +22,25 @@ function ResultsTable() {
   const [searchParams] = useSearchParams();
   const { isLoading, error } = useApi("search", searchParams);
 
-  const [isDepartedOpen, setIsDepartedOpen] = useState(false);
-  const [expressOnly, setExpressOnly] = useState(false);
+  const [tableFilters, setTableFilters] = useState({
+    isDepartedOpen: false,
+    expressOnly: false,
+  });
 
   return (
-    <div className="w-[min(56rem,96%)] mx-auto">
-      <Toggle
-        className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
-        variant="outline"
-        onClick={() => setExpressOnly((prev) => !prev)}
-      >
-        <Rabbit />
-        Только экспресс
-      </Toggle>
-      <Toggle
-        className="data-[state=on]:bg-foreground data-[state=on]:text-background hover:bg-foreground hover:text-background"
-        variant="outline"
-        onClick={() => setIsDepartedOpen((prev) => !prev)}
-      >
-        <Eye />
-        Ушедшие
-      </Toggle>
-
+    <div className="w-[min(56rem,96%)] mx-auto mt-20">
+      <div className="flex gap-2">
+        <Toggles
+          name="expressOnly"
+          tableFilters={tableFilters}
+          setTableFilters={setTableFilters}
+        />
+        <Toggles
+          name="isDepartedOpen"
+          tableFilters={tableFilters}
+          setTableFilters={setTableFilters}
+        />
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -66,9 +64,8 @@ function ResultsTable() {
             </TableRow>
           ) : (
             <SearchResults
-              isDepartedOpen={isDepartedOpen}
-              expressOnly={expressOnly}
-              searchParams={searchParams}
+              isDepartedOpen={tableFilters.isDepartedOpen}
+              expressOnly={tableFilters.expressOnly}
             />
           )}
         </TableBody>

@@ -87,7 +87,6 @@ function Searchbar() {
                       forRef={inputRef1}
                     />
                   </FormControl>
-                  <FormMessage />
                 </div>
               </FormItem>
             )}
@@ -119,7 +118,6 @@ function Searchbar() {
                       forRef={inputRef2}
                     />
                   </FormControl>
-                  <FormMessage />
                 </div>
               </FormItem>
             )}
@@ -137,7 +135,6 @@ function Searchbar() {
                       errors={form.formState.errors.date}
                     />
                   </FormControl>
-                  <FormMessage />
                 </div>
               </FormItem>
             )}
