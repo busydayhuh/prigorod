@@ -45,7 +45,7 @@ function LogoSm() {
   return (
     <img
       src="/logo_sm.svg"
-      className="w-[98%] max-w-2xl"
+      className="w-[98%] max-w-xs"
       alt="Пригород — расписание электричек"
     />
   );

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { Loader2 } from "lucide-react";

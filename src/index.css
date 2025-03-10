@@ -92,7 +92,7 @@
   }
 
   .oval-btn-icon {
-    @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground;
+    @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
   }
 
   .table-toggle {

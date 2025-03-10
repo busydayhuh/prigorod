@@ -43,8 +43,8 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex flex-col space-y-2 p-6 popover-borders w-auto"
-        sideOffset={0}
+        className="flex flex-col gap-6 p-6 pt-3 popover-borders w-auto"
+        sideOffset={0.5}
       >
         <div className="flex w-auto gap-1.5 mb-3">
           <Button
@@ -102,11 +102,8 @@ export function DatePickerShedule({ date }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="min-w-[180px] justify-start text-left font-normal shadow-none"
-        >
-          <CalendarIcon />
+        <Button variant="outline" className="oval-btn-icon hover:bg-muted">
+          <CalendarIcon className="size-4" />
           {date.value ? (
             format(date.value, "PPP", {
               locale: ru,
@@ -118,11 +115,15 @@ export function DatePickerShedule({ date }) {
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex w-auto flex-col space-y-2 p-2"
+        className="flex flex-col gap-6 p-3 pb-6 w-auto border-2 rounded-2xl"
+        sideOffset={3}
       >
         <div className="flex w-auto gap-1.5">
           <Button
-            className="shadow-none"
+            className={cn(
+              "oval-btn-icon bg-background hover:bg-accent",
+              selectedDayName === "today" && "bg-accent"
+            )}
             type="button"
             size="sm"
             variant={selectedDayName === "today" ? "default" : "outline"}
@@ -132,7 +133,10 @@ export function DatePickerShedule({ date }) {
             сегодня
           </Button>
           <Button
-            className="shadow-none"
+            className={cn(
+              "oval-btn-icon bg-background hover:bg-accent",
+              selectedDayName === "today" && "bg-accent"
+            )}
             type="button"
             size="sm"
             variant={selectedDayName === "tomorrow" ? "default" : "outline"}
@@ -142,7 +146,10 @@ export function DatePickerShedule({ date }) {
             завтра
           </Button>
           <Button
-            className="shadow-none"
+            className={cn(
+              "oval-btn-icon bg-background hover:bg-accent",
+              selectedDayName === "today" && "bg-accent"
+            )}
             type="button"
             size="sm"
             variant={selectedDayName === "all" ? "default" : "outline"}
@@ -153,15 +160,13 @@ export function DatePickerShedule({ date }) {
           </Button>
         </div>
 
-        <div className="rounded-md border">
-          <Calendar
-            locale={ru}
-            mode="single"
-            selected={date.value}
-            onSelect={date.setValue}
-            disabled={(date) => date < addDays(new Date(), -1)}
-          />
-        </div>
+        <Calendar
+          locale={ru}
+          mode="single"
+          selected={date.value}
+          onSelect={date.setValue}
+          disabled={(date) => date < addDays(new Date(), -1)}
+        />
       </PopoverContent>
     </Popover>
   );
