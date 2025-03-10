@@ -121,13 +121,12 @@ export function AutoComplete({
                       onSelectItem(option.code, option.title);
                     }}
                     className={cn(
-                      "px-4 py-2 rounded-xl",
+                      "px-2 py-1.5 pb-2 rounded-[0.8rem] transition cursor-pointer",
                       selectedLabel === option.title ? "bg-accent" : null
                     )}
                   >
-                    <div className="text-base">
+                    <div className="text-base pb-0 m-0">
                       {option.title}
-                      <br />
                       <OptionDescription {...option} />
                     </div>
                   </CommandItem>
@@ -146,7 +145,7 @@ export function AutoComplete({
 
 function OptionDescription({ settlement, direction }) {
   return (
-    <span className="text-neutral-600 text-xs">
+    <span className="text-neutral-600 text-xs block">
       {!!settlement && `${settlement}`}
       {settlement && direction ? ", " : null}
       {!!direction && `${direction} напр.`}

@@ -43,7 +43,7 @@ function SheduleTable() {
   });
 
   return (
-    <div className="w-[min(56rem,96%)] mx-auto mt-20">
+    <div className="w-main mt-20">
       <Toggles
         name="expressOnly"
         tableFilters={tableFilters}

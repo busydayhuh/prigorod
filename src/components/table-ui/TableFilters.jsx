@@ -69,7 +69,7 @@ export function SelectDirection() {
           {!isLoading ? (
             directions.map((dir) => (
               <SelectItem
-                className="rounded-xl cursor-pointer"
+                className="rounded-[0.8rem] transition cursor-pointer"
                 value={dir.code.toString()}
                 key={dir.code}
               >

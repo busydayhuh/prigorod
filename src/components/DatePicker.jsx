@@ -43,7 +43,7 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex flex-col gap-6 p-6 pt-3 popover-borders w-auto"
+        className="flex flex-col gap-4 p-6 pt-3 popover-borders w-auto"
         sideOffset={0.5}
       >
         <div className="flex w-auto gap-1.5 mb-3">

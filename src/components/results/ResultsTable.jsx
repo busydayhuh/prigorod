@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn/table";
-import { Toggles } from "../table-ui/TableFilters";
+import { Toggles, FiltersGroup } from "../table-ui/TableFilters";
 
 import ResultsRow from "./ResultsRow";
 import { useSearchParams } from "react-router";
@@ -29,7 +29,7 @@ function ResultsTable() {
 
   return (
     <div className="w-[min(56rem,96%)] mx-auto mt-20">
-      <div className="flex gap-2">
+      <FiltersGroup>
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}
@@ -40,7 +40,7 @@ function ResultsTable() {
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
         />
-      </div>
+      </FiltersGroup>
       <Table>
         <TableHeader>
           <TableRow>
