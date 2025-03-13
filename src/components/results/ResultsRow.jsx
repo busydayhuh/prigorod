@@ -1,74 +1,60 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { TableCell, TableRow } from "@/components/shadcn/table";
-import { Badge } from "../shadcn/badge";
-import { getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
-import { Link } from "react-router";
+import { cn } from "@/lib/utils";
+import {
+  StationElem,
+  ThreadElem,
+  TravelTimeElem,
+} from "../table-ui/TableElements";
 
 function ResultsRow(props) {
-  const { number, title, short_title, express_type, uid, carrier } =
+  const { number, title, express_type, carrier, uid, transport_subtype } =
     props.thread;
-  const price = props.tickets_info?.places[0].price.whole;
+  const price = props.tickets_info?.places[0]?.price?.whole;
 
   return (
-    <TableRow className={props.departed ? "opacity-50" : ""}>
-      <TableCell className="w-[100px]">
-        <Stop
-          time={getFormattedTime(props.departure)}
-          stop={props.from.title}
-          platform={props.departure_platform}
-          stationCode={props.from.code}
-          startDate={props.start_date}
-        />
-      </TableCell>
-      <TableCell>
-        <TravelTime travelTime={getHoursAndMinutes(props.duration)} />
-      </TableCell>
-      <TableCell>
-        <Stop
-          time={getFormattedTime(props.arrival)}
-          stop={props.to.title}
-          platform={props.arrival_platform}
-          stationCode={props.to.code}
-          startDate={props.start_date}
-        />
-      </TableCell>
-      <TableCell>
-        <Link to={`/thread?uid=${uid}&date=${props.start_date || ""}`}>
-          <Badge variant="secondary">{`№ ${number}`}</Badge>
-          {short_title}
-        </Link>
-      </TableCell>
-      {!!price && (
-        <TableCell>
-          <Badge variant="default" className="text-2xl">
-            {`${price} ₽`}
-          </Badge>
-        </TableCell>
+    <div
+      className={cn(
+        "table-row-base results-grid shadow-(--row-shadow) md:items-center",
+        props.departed && "opacity-50"
       )}
-    </TableRow>
-  );
-}
-
-function Stop({ time, stop, platform, stationCode, startDate }) {
-  return (
-    <div className="flex flex-col align-top gap-1">
-      <div className="text-3xl font-medium">{time}</div>
-      <Link
-        to={`/schedule?station=${stationCode}&date=${startDate}`}
-        className="text-sm text-muted-foreground"
-      >
-        {stop}
-      </Link>
-      {!!platform && <Badge variant="secondary">{platform}</Badge>}
-    </div>
-  );
-}
-
-function TravelTime({ travelTime }) {
-  return (
-    <div className="text-sm text-muted-foreground py-1 border-b-1 border-solid border-accent min-w-[75px] text-center">
-      {travelTime}
+    >
+      <StationElem
+        scheduleUrl={`/schedule?station=${props.from.code}&date=${props.start_date}`}
+        stationName={props.from.short_title || props.from.title}
+        platform={props.departure_platform}
+        variant="base_station"
+        time={props.departure}
+        date={props.start_date}
+        className="max-w-[3rem] break-words "
+      />
+      <TravelTimeElem travelTime={props.duration} isExpress={!!express_type} />
+      <StationElem
+        scheduleUrl={`/schedule?station=${props.to.code}&date=${props.start_date}`}
+        stationName={props.to.short_title || props.to.title}
+        platform={props.arrival_platform}
+        variant="base_station"
+        time={props.arrival}
+        date={props.start_date}
+        className="pr-2"
+      />
+      <ThreadElem
+        number={number}
+        threadName={title}
+        threadUrl={`/thread?uid=${uid}&date=${props.start_date || ""}`}
+        variant="base_thread"
+        carrier={carrier.title}
+        expressName={express_type ? transport_subtype.title : null}
+        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 border-b-2 md:border-b-0 pb-3 md:pb-0"
+      />
+      {!!price && (
+        <div
+          className={cn(
+            "md:text-2xl text-xl flex items-center md:justify-center justify-end font-medium pt-3 md:pt-0 col-span-3 md:col-span-1",
+            !!express_type && "text-accent"
+          )}
+        >{`${price} ₽`}</div>
+      )}
     </div>
   );
 }

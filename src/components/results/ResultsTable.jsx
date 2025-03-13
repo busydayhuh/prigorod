@@ -1,13 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/shadcn/table";
 import { Toggles, FiltersGroup } from "../table-ui/TableFilters";
 
 import ResultsRow from "./ResultsRow";
@@ -17,6 +9,7 @@ import useApi from "@/lib/api";
 import { filterExpress } from "@/lib/filters";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../shadcn/button";
+import { DatePickerShedule } from "../DatePicker";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -28,12 +21,14 @@ function ResultsTable() {
   });
 
   return (
-    <div className="w-[min(56rem,96%)] mx-auto mt-20">
+    <div className="w-main mt-20">
       <FiltersGroup>
+        <DatePickerShedule />
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
+          className="ms-auto"
         />
         <Toggles
           name="isDepartedOpen"
@@ -41,41 +36,20 @@ function ResultsTable() {
           setTableFilters={setTableFilters}
         />
       </FiltersGroup>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Отправление</TableHead>
-            <TableHead>Время в пути</TableHead>
-            <TableHead>Прибытие</TableHead>
-            <TableHead>Поезд</TableHead>
-            <TableHead>Цена</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            <TableRow>
-              <TableCell>
-                <Loader />
-              </TableCell>
-            </TableRow>
-          ) : error ? (
-            <TableRow>
-              <TableCell>Server Error</TableCell>
-            </TableRow>
-          ) : (
-            <SearchResults
-              isDepartedOpen={tableFilters.isDepartedOpen}
-              expressOnly={tableFilters.expressOnly}
-            />
-          )}
-        </TableBody>
-      </Table>
+      <div className="flex flex-col gap-4 mt-6">
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Server Error</div>
+        ) : (
+          <SearchResults
+            isDepartedOpen={tableFilters.isDepartedOpen}
+            expressOnly={tableFilters.expressOnly}
+          />
+        )}
+      </div>
     </div>
   );
-}
-
-function Loader() {
-  return <div>Loading...</div>;
 }
 
 function SearchResults({ isDepartedOpen, expressOnly }) {
@@ -85,42 +59,34 @@ function SearchResults({ isDepartedOpen, expressOnly }) {
   // Нет доступных прямых рейсов, но есть предложения
   if (data.suggestions && data.suggestions.length > 0) {
     return (
-      <TableRow>
-        <TableCell colSpan={5}>
-          {`Не найдено прямых рейсов по запросу ${searchParams.get(
-            "fromLabel"
-          )} —
+      <div>
+        {`Не найдено прямых рейсов по запросу ${searchParams.get("fromLabel")} —
             ${searchParams.get("toLabel")}. Возможно, вы искали `}
-          <Button
-            variant="link"
-            className="p-0"
-            onClick={() => {
-              searchParams.set("to", data.suggestions[0].code);
-              searchParams.set("toLabel", data.suggestions[0].title);
+        <Button
+          variant="link"
+          className="p-0"
+          onClick={() => {
+            searchParams.set("to", data.suggestions[0].code);
+            searchParams.set("toLabel", data.suggestions[0].title);
 
-              setSearchParams(searchParams);
-            }}
-          >
-            {`${searchParams.get("fromLabel")} — ${data.suggestions[0].title}`}
-          </Button>
-        </TableCell>
-      </TableRow>
+            setSearchParams(searchParams);
+          }}
+        >
+          {`${searchParams.get("fromLabel")} — ${data.suggestions[0].title}`}
+        </Button>
+      </div>
     );
   }
 
   // Нет доступных прямых рейсов и нет предложений
   if (data.suggestions && data.suggestions.length === 0) {
     return (
-      <TableRow>
-        <TableCell colSpan={5}>
-          {`Не найдено прямых рейсов по запросу ${searchParams.get(
-            "fromLabel"
-          )} —
+      <div>
+        {`Не найдено прямых рейсов по запросу ${searchParams.get("fromLabel")} —
             ${searchParams.get(
               "toLabel"
             )}. Убедитесь, что станции выбраны верно.`}
-        </TableCell>
-      </TableRow>
+      </div>
     );
   }
 
@@ -134,9 +100,7 @@ function SearchResults({ isDepartedOpen, expressOnly }) {
 
       {/* Если нет будущих рейсов, выводим сообщение */}
       {data.future.length === 0 ? (
-        <TableRow colSpan={5}>
-          <TableCell>На выбранную дату рейсов больше нет.</TableCell>
-        </TableRow>
+        <div>На выбранную дату рейсов больше нет.</div>
       ) : (
         filterExpress(data.future, expressOnly).map((segment) => {
           return <ResultsRow key={uuidv4()} {...segment} />;

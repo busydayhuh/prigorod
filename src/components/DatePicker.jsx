@@ -11,6 +11,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/popover";
+import { useSearchParams } from "react-router";
+import { formatDateForParams } from "@/lib/utils";
 
 export function DatePickerWithPresets({ field, setValue, errors }) {
   const [selectedDayName, setSelectedDayName] = useState(null);
@@ -85,20 +87,35 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
   );
 }
 
-export function DatePickerShedule({ date }) {
+export function DatePickerShedule() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDayName, setSelectedDayName] = useState(null);
 
+  const [date, setDate] = useState({
+    value: searchParams.get("date") || "",
+    setValue(newValue) {
+      setDate((prev) => ({
+        ...prev,
+        value: newValue,
+      }));
+      searchParams.set("date", formatDateForParams(newValue));
+      setSearchParams(searchParams);
+    },
+  });
+
   const handleClick = (e, dayName) => {
+    setSelectedDayName(dayName);
+
     if (!e.target.dataset.value) {
       date.setValue("");
       return;
     }
 
     const diffInDays = +e.target.dataset.value;
-
     date.setValue(addDays(new Date(), diffInDays));
-    setSelectedDayName(dayName);
   };
+
+  console.log("selectedDayName :>> ", selectedDayName);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -126,7 +143,6 @@ export function DatePickerShedule({ date }) {
             )}
             type="button"
             size="sm"
-            variant={selectedDayName === "today" ? "default" : "outline"}
             onClick={(e) => handleClick(e, "today")}
             data-value="0"
           >
@@ -135,11 +151,10 @@ export function DatePickerShedule({ date }) {
           <Button
             className={cn(
               "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "today" && "bg-accent"
+              selectedDayName === "tomorrow" && "bg-accent"
             )}
             type="button"
             size="sm"
-            variant={selectedDayName === "tomorrow" ? "default" : "outline"}
             onClick={(e) => handleClick(e, "tomorrow")}
             data-value="1"
           >
@@ -148,11 +163,10 @@ export function DatePickerShedule({ date }) {
           <Button
             className={cn(
               "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "today" && "bg-accent"
+              selectedDayName === "all" && "bg-accent"
             )}
             type="button"
             size="sm"
-            variant={selectedDayName === "all" ? "default" : "outline"}
             onClick={(e) => handleClick(e, "all")}
             data-value={null}
           >

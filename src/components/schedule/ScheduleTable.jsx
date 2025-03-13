@@ -18,11 +18,10 @@ import ScheduleRow from "./ScheduleRow";
 import { filterExpress } from "@/lib/filters";
 
 import { DatePickerShedule } from "../DatePicker";
-import { formatDateForParams } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 function SheduleTable() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const { data, isLoading, error } = useApi("schedule", searchParams);
 
   const [tableFilters, setTableFilters] = useState({
@@ -30,32 +29,23 @@ function SheduleTable() {
     expressOnly: false,
   });
 
-  const [date, setDate] = useState({
-    value: searchParams.get("date") || "",
-    setValue(newValue) {
-      setDate((prev) => ({
-        ...prev,
-        value: formatDateForParams(newValue),
-      }));
-      searchParams.set("date", formatDateForParams(newValue));
-      setSearchParams(searchParams);
-    },
-  });
-
   return (
     <div className="w-main mt-20">
-      <Toggles
-        name="expressOnly"
-        tableFilters={tableFilters}
-        setTableFilters={setTableFilters}
-      />
-      <Toggles
-        name="isDepartedOpen"
-        tableFilters={tableFilters}
-        setTableFilters={setTableFilters}
-      />
-      <SelectDirection />
-      <DatePickerShedule date={date} />
+      <FiltersGroup>
+        <SelectDirection />
+        <DatePickerShedule />
+        <Toggles
+          name="expressOnly"
+          tableFilters={tableFilters}
+          setTableFilters={setTableFilters}
+          className="ms-auto"
+        />
+        <Toggles
+          name="isDepartedOpen"
+          tableFilters={tableFilters}
+          setTableFilters={setTableFilters}
+        />
+      </FiltersGroup>
       <Table>
         <TableHeader>
           <TableRow>

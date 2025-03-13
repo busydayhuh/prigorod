@@ -16,10 +16,10 @@ export function FiltersGroup({ children }) {
   return <div className="flex items-center gap-2">{children}</div>;
 }
 
-export function Toggles({ name, tableFilters, setTableFilters }) {
+export function Toggles({ name, tableFilters, setTableFilters, className }) {
   return (
     <Toggle
-      className="table-toggle oval-btn-icon"
+      className={`table-toggle oval-btn-icon ${className}`}
       onClick={() =>
         setTableFilters((prev) => ({
           ...prev,

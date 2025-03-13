@@ -30,7 +30,8 @@
   --input: hsl(240 5.9% 90%);
   --ring: hsl(240 5.9% 10%);
   --radius: 0rem;
-  --sb-shadow: 0px 4px 0px 1px hsl(240 10% 3.9%);
+  --sb-shadow: 2px 4px 0px 1px hsl(240 10% 3.9%);
+  --row-shadow: 2px 2px 0px 1px hsl(240 10% 3.9%);
 }
 
 @theme inline {
@@ -96,12 +97,12 @@
     @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
   }
 
-  .table-toggle {
-    @apply data-[state=on]:bg-accent bg-background hover:bg-muted;
+  .badge {
+    @apply rounded-3xl;
   }
 
-  .sm-badge {
-    /*  */
+  .table-toggle {
+    @apply data-[state=on]:bg-accent bg-background hover:bg-muted;
   }
 
   .sb-flex-horizontal {
@@ -114,5 +115,13 @@
 
   .h-transition {
     transition: max-height 0.4s linear, min-height 0.4s linear;
+  }
+
+  .table-row-base {
+    @apply border-3 rounded-3xl py-5 px-6;
+  }
+
+  .results-grid {
+    @apply md:grid md:grid-cols-[minmax(0,_1.5fr)_200px_2fr_3fr_1fr] grid grid-cols-3;
   }
 }
