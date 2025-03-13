@@ -126,11 +126,11 @@
   }
 
   .shedule-grid {
-    @apply grid md:grid-cols-[minmax(0,_2fr)_1fr_1fr__1fr_1.5fr_1fr] grid-cols-3 gap-y-3 md:gap-y-0;
+    @apply grid md:grid-cols-[minmax(0,_2.5fr)_1fr_1fr__1fr_1.5fr_1fr] grid-cols-3 gap-y-3 md:gap-y-0;
   }
 
   .thread-grid {
-    @apply grid md:grid-cols-[minmax(0,_3fr)_1fr_1fr_1fr];
+    @apply grid md:grid-cols-[minmax(0,_3fr)_1fr_1fr_1fr] grid-cols-3 items-center justify-center;
   }
 
   .table-body {

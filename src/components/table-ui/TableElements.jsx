@@ -4,12 +4,6 @@ import { cn, getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
 import { Link } from "react-router";
 import { Badge } from "../shadcn/badge";
 import { ArrowUpRight, Rabbit } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../shadcn/tooltip";
 
 export function TimeElem({ time, date = null, className = "" }) {
   return (
@@ -85,7 +79,7 @@ export function StationElem({
   className = "",
 }) {
   const stationVariants = {
-    lg_station: "text-base md:text-lg",
+    lg_station: "text-base font-medium md:text-lg md:font-normal",
     base_station: "text-sm md:text-base",
   };
 

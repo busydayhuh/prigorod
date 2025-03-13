@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getFormattedTime } from "@/lib/utils";
 import { Badge } from "@/components/shadcn/badge";
 import { FiltersGroup } from "./table-ui/TableFilters";
+import { StationElem, TimeElem } from "./table-ui/TableElements";
 
 function ThreadTable() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -39,69 +40,58 @@ function ThreadTable() {
       <FiltersGroup>
         <DatePickerShedule />
       </FiltersGroup>
-      <div className="thread-grid justify-center">
-        <div>станция</div>
+      <div className="thread-grid text-base text-foreground/40">
+        <div className="pl-10">станция</div>
         <div>прибытие</div>
         <div>отправление</div>
-        <div>стоянка</div>
+        <div className="hidden md:block">стоянка</div>
       </div>
-      <Table>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>Server Error</div>
-        ) : (
-          <div className="thread-grid">
-            {data.stops.map((segment) => {
-              return (
-                <ThreadRow
-                  key={uuidv4()}
-                  date={searchParams.get("date")}
-                  {...segment}
-                />
-              );
-            })}
-          </div>
-        )}
-      </Table>
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Server Error</div>
+      ) : (
+        <div className="table-body">
+          {data.stops.map((segment) => {
+            return (
+              <ThreadRow
+                key={uuidv4()}
+                date={searchParams.get("date")}
+                {...segment}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
 
 function ThreadRow(props) {
   return (
-    <TableRow>
-      <TableCell>
-        <Link to={`/shedule?station=${props.station.code}&date=${props.date}`}>
-          {props.station.title}
-        </Link>
-        <br />
-        {!!props.platform && (
-          <Badge variant="secondary">{props.platform}</Badge>
-        )}
-      </TableCell>
-      <TableCell>
-        {props.arrival && props.departure ? (
-          <>
-            <span className="text-xl text-muted-foreground">
-              {getFormattedTime(props.arrival)}
-            </span>
-            <br />
-            <span className="text-3xl font-medium">
-              {getFormattedTime(props.departure)}
-            </span>
-          </>
-        ) : (
-          <span className="text-3xl font-medium">{`${
-            getFormattedTime(props.arrival) || getFormattedTime(props.departure)
-          }`}</span>
-        )}
-      </TableCell>
+    <div className="thread-grid table-row-base">
+      <StationElem
+        scheduleUrl={`/schedule?station=${props.station.code}&date=${props.date}`}
+        stationName={props.station.title}
+        platform={props.platform}
+        variant="lg_station"
+      />
+      <TimeElem
+        time={props.arrival}
+        date={props.date || Date.now()}
+        className="text-foreground/40 text-center"
+      />
+      <TimeElem
+        time={props.departure}
+        date={props.date || Date.now()}
+        className="text-center"
+      />
 
-      <TableCell>
+      <div className="hidden md:block text-center">
         {props.stop_time ? getHoursAndMinutes(props.stop_time) : ""}
-      </TableCell>
-    </TableRow>
+      </div>
+    </div>
   );
 }
 

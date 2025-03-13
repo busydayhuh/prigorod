@@ -14,13 +14,13 @@ function ScheduleRow(props) {
     <div
       className={cn(
         "shedule-grid table-row-base",
-        !!props.departed && "opacity-60"
+        props.departed && "opacity-60"
       )}
     >
       <ThreadElem
         number={number}
         threadName={short_title}
-        threadUrl={`/thread?uid=${uid}&date=${props.start_date || ""}`}
+        threadUrl={`/thread?uid=${uid}&date=${props.date || ""}`}
         variant="lg_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}

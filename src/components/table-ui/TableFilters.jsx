@@ -13,7 +13,11 @@ import { useSearchParams } from "react-router";
 import { useDirections } from "@/lib/api";
 
 export function FiltersGroup({ children }) {
-  return <div className="flex items-center gap-2">{children}</div>;
+  return (
+    <div className="flex w-full items-center gap-2 sticky top-0 bg-background z-10">
+      {children}
+    </div>
+  );
 }
 
 export function Toggles({ name, tableFilters, setTableFilters, className }) {
