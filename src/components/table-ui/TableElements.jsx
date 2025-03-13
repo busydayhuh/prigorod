@@ -1,22 +1,28 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 import { cn, getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
 import { Link } from "react-router";
 import { Badge } from "../shadcn/badge";
 import { ArrowUpRight, Rabbit } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../shadcn/tooltip";
 
-export function TimeElem({ time, date = null }) {
+export function TimeElem({ time, date = null, className = "" }) {
   return (
-    <span className="md:text-4xl text-3xl font-medium">
-      {date ? getFormattedTime(time) : time}
-    </span>
+    <div className={`md:text-4xl text-3xl font-medium  ${className}`}>
+      {!time ? "—" : date ? getFormattedTime(time) : time}
+    </div>
   );
 }
 
-export function LinkElem({ url, children, className }) {
+export function LinkElem({ url, children, className = "" }) {
   return (
     <Link to={url}>
-      <div className={`justify-start inline p-0 gap-0.5 has-[>svg]:px-0`}>
+      <div className="justify-start inline p-0 gap-0.5 has-[>svg]:px-0">
         <span
           className={`break-word hover:underline hover:underline-offset-4 ${className}`}
         >
@@ -35,11 +41,11 @@ export function ThreadElem({
   expressName = null,
   variant,
   carrier = null,
-  className,
+  className = "",
 }) {
   const threadVariants = {
-    lg_thread: "text-lg md:text-xl",
-    base_thread: "text-base md:text-lg",
+    lg_thread: "text-m/1 font-medium md:text-xl/1 ",
+    base_thread: "text-base/1 md:text-lg/1",
   };
 
   return (
@@ -54,7 +60,7 @@ export function ThreadElem({
           №{number}
         </Badge>
         {!!expressName && (
-          <span className="text-sm text-accent">{expressName}</span>
+          <span className="md:text-sm text-xs text-accent">{expressName}</span>
         )}
       </div>
       <LinkElem url={threadUrl} className={threadVariants[variant]}>
@@ -107,6 +113,26 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
     >
       {isExpress && <Rabbit className="size-4" />}
       {getHoursAndMinutes(travelTime)}
+    </div>
+  );
+}
+
+export function ClippedTextElem({ text }) {
+  const [open, setOpen] = useState(false);
+
+  if (text.length < 30) return <div>{text}</div>;
+
+  return (
+    <div>
+      <div className={(cn("transition-h"), !open && "line-clamp-1")}>
+        {text}
+      </div>
+      <div
+        onClick={() => setOpen((prev) => !prev)}
+        className="text-sm text-accent cursor-pointer"
+      >
+        {open ? "- скрыть" : "+ посмотреть"}
+      </div>
     </div>
   );
 }

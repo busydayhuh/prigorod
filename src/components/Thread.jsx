@@ -17,26 +17,15 @@ import { formatDateForParams, getHoursAndMinutes } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import { getFormattedTime } from "@/lib/utils";
 import { Badge } from "@/components/shadcn/badge";
+import { FiltersGroup } from "./table-ui/TableFilters";
 
 function ThreadTable() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading, isError } = useApi("thread", searchParams);
-
-  const [date, setDate] = useState({
-    value: searchParams.get("date") || "",
-    setValue(newValue) {
-      setDate((prev) => ({
-        ...prev,
-        value: formatDateForParams(newValue),
-      }));
-      searchParams.set("date", formatDateForParams(newValue));
-      setSearchParams(searchParams);
-    },
-  });
+  const { data, isLoading, error } = useApi("thread", searchParams);
 
   return (
-    <div className="w-[min(56rem,96%)] mx-auto">
-      {!isLoading && (
+    <div className="w-main">
+      {/* {!isLoading && (
         <>
           <Badge variant="secondary">{`№ ${data.number}`}</Badge>
           {!!data.express_type && <span>{data.transport_subtype.title}</span>}
@@ -46,29 +35,23 @@ function ThreadTable() {
           <span>{data.days}</span>
           {!!data.except_days && <span>Исключения: {data.except_days}</span>}
         </>
-      )}
-      <DatePickerShedule date={date} />
+      )} */}
+      <FiltersGroup>
+        <DatePickerShedule />
+      </FiltersGroup>
+      <div className="thread-grid justify-center">
+        <div>станция</div>
+        <div>прибытие</div>
+        <div>отправление</div>
+        <div>стоянка</div>
+      </div>
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Станция</TableHead>
-            <TableHead>
-              Прибытие
-              <br />
-              Отправление
-            </TableHead>
-
-            <TableHead>Стоянка</TableHead>
-          </TableRow>
-        </TableHeader>
         {isLoading ? (
-          <TableBody>
-            <TableRow>
-              <TableCell>Loading...</TableCell>
-            </TableRow>
-          </TableBody>
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Server Error</div>
         ) : (
-          <TableBody>
+          <div className="thread-grid">
             {data.stops.map((segment) => {
               return (
                 <ThreadRow
@@ -78,7 +61,7 @@ function ThreadTable() {
                 />
               );
             })}
-          </TableBody>
+          </div>
         )}
       </Table>
     </div>

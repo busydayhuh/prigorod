@@ -8,14 +8,14 @@ import {
 } from "../table-ui/TableElements";
 
 function ResultsRow(props) {
-  const { number, title, express_type, carrier, uid, transport_subtype } =
+  const { number, short_title, express_type, carrier, uid, transport_subtype } =
     props.thread;
   const price = props.tickets_info?.places[0]?.price?.whole;
 
   return (
     <div
       className={cn(
-        "table-row-base results-grid shadow-(--row-shadow) md:items-center",
+        "table-row-base results-grid ",
         props.departed && "opacity-50"
       )}
     >
@@ -40,7 +40,7 @@ function ResultsRow(props) {
       />
       <ThreadElem
         number={number}
-        threadName={title}
+        threadName={short_title}
         threadUrl={`/thread?uid=${uid}&date=${props.start_date || ""}`}
         variant="base_thread"
         carrier={carrier.title}

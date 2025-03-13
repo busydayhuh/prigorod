@@ -1,51 +1,57 @@
 /* eslint-disable react/prop-types */
-import { TableCell, TableRow } from "@/components/shadcn/table";
-import { Badge } from "../shadcn/badge";
-import { getFormattedTime } from "@/lib/utils";
-import { Link } from "react-router";
+import {
+  ThreadElem,
+  TimeElem,
+  ClippedTextElem,
+} from "../table-ui/TableElements";
+import { cn } from "@/lib/utils";
 
 function ScheduleRow(props) {
-  const { number, title, short_title, express_type, uid, carrier } =
+  const { number, short_title, express_type, uid, carrier, transport_subtype } =
     props.thread;
 
   return (
-    <TableRow className={props.departed ? "opacity-50" : ""}>
-      <TableCell>
-        <Link to={`/thread?uid=${uid}&date=${props.date || ""}`}>
-          <Badge variant="secondary">{`№ ${number}`}</Badge>
-          {short_title}
-        </Link>
-      </TableCell>
-      <TableCell>
-        {props.arrival && props.departure ? (
-          <>
-            <span className="text-xl text-muted-foreground">
-              {props.date ? getFormattedTime(props.arrival) : props.arrival}
-            </span>
-            <br />
-            <span className="text-3xl font-medium">
-              {props.date ? getFormattedTime(props.departure) : props.departure}
-            </span>
-          </>
-        ) : (
-          <span className="text-3xl font-medium">{`${
-            props.date
-              ? getFormattedTime(props.arrival) ||
-                getFormattedTime(props.departure)
-              : props.arrival || props.departure
-          }`}</span>
-        )}
-      </TableCell>
-      <TableCell>
+    <div
+      className={cn(
+        "shedule-grid table-row-base",
+        !!props.departed && "opacity-60"
+      )}
+    >
+      <ThreadElem
+        number={number}
+        threadName={short_title}
+        threadUrl={`/thread?uid=${uid}&date=${props.start_date || ""}`}
+        variant="lg_thread"
+        carrier={carrier.title}
+        expressName={express_type ? transport_subtype.title : null}
+      />
+      <TimeElem
+        time={props.arrival}
+        date={props.date}
+        className="text-foreground/40 text-center md:self-center self-end"
+      />
+      <TimeElem
+        time={props.departure}
+        date={props.date}
+        className="text-center md:self-center self-end"
+      />
+
+      <div className="table-base-text md:col-span-1 col-span-2">
         {props.except_days
           ? `${props.days}, кроме ${props.except_days}`
           : props.days}
-      </TableCell>
-      <TableCell>
-        {props.stops === "везде" ? "со всеми остановками" : props.stops}
-      </TableCell>
-      {!!props.platform && <TableCell>{props.platform}</TableCell>}
-    </TableRow>
+      </div>
+      <div className="table-base-text hidden md:block pl-3">
+        {props.stops === "везде" ? (
+          "со всеми остановками"
+        ) : (
+          <ClippedTextElem text={props.stops} />
+        )}
+      </div>
+      <div className="table-base-text text-center ">
+        {!!props.platform && <>{props.platform}</>}
+      </div>
+    </div>
   );
 }
 

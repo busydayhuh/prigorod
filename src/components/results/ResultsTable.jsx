@@ -36,18 +36,19 @@ function ResultsTable() {
           setTableFilters={setTableFilters}
         />
       </FiltersGroup>
-      <div className="flex flex-col gap-4 mt-6">
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>Server Error</div>
-        ) : (
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Server Error</div>
+      ) : (
+        <div className="table-body">
           <SearchResults
             isDepartedOpen={tableFilters.isDepartedOpen}
             expressOnly={tableFilters.expressOnly}
           />
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -46,39 +46,16 @@ function SheduleTable() {
           setTableFilters={setTableFilters}
         />
       </FiltersGroup>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Поезд</TableHead>
-            <TableHead>
-              Прибытие
-              <br />
-              Отправление
-            </TableHead>
-            <TableHead>Дни следования</TableHead>
-            <TableHead>Остановки</TableHead>
-            <TableHead>Платформа</TableHead>
-          </TableRow>
-        </TableHeader>
-        {isLoading ? (
-          <TableBody>
-            <TableRow>
-              <TableCell>Loading...</TableCell>
-            </TableRow>
-          </TableBody>
-        ) : error ? (
-          <TableBody>
-            <TableRow>
-              <TableCell>Server Error</TableCell>
-            </TableRow>
-          </TableBody>
-        ) : (
-          <TableBody>
-            {tableFilters.isDepartedOpen &&
-              filterExpress(
-                data.schedule.departed,
-                tableFilters.expressOnly
-              ).map((segment) => {
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Server Error</div>
+      ) : (
+        <div className="table-body">
+          {tableFilters.isDepartedOpen &&
+            filterExpress(data.schedule.departed, tableFilters.expressOnly).map(
+              (segment) => {
                 return (
                   <ScheduleRow
                     key={uuidv4()}
@@ -87,22 +64,22 @@ function SheduleTable() {
                     {...segment}
                   />
                 );
-              })}
-
-            {filterExpress(data.schedule.future, tableFilters.expressOnly).map(
-              (segment) => {
-                return (
-                  <ScheduleRow
-                    key={uuidv4()}
-                    date={searchParams.get("date")}
-                    {...segment}
-                  />
-                );
               }
             )}
-          </TableBody>
-        )}
-      </Table>
+
+          {filterExpress(data.schedule.future, tableFilters.expressOnly).map(
+            (segment) => {
+              return (
+                <ScheduleRow
+                  key={uuidv4()}
+                  date={searchParams.get("date")}
+                  {...segment}
+                />
+              );
+            }
+          )}
+        </div>
+      )}
     </div>
   );
 }
