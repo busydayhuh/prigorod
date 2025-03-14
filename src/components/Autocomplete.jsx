@@ -111,7 +111,7 @@ export function AutoComplete({
               </CommandPrimitive.Loading>
             )}
             {!isLoading && stations.length > 0 ? (
-              <CommandGroup>
+              <CommandGroup className="p-0">
                 {stations.map((option) => (
                   <CommandItem
                     key={uuidv4()}
@@ -121,7 +121,7 @@ export function AutoComplete({
                       onSelectItem(option.code, option.title);
                     }}
                     className={cn(
-                      "px-2 py-1.5 pb-2 rounded-[0.8rem] transition cursor-pointer",
+                      "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 transition cursor-pointer",
                       selectedLabel === option.title ? "bg-accent" : null
                     )}
                   >

@@ -14,7 +14,9 @@ import { useDirections } from "@/lib/api";
 
 export function FiltersGroup({ children }) {
   return (
-    <div className="flex w-full items-center gap-2 flex-wrap">{children}</div>
+    <div className="flex w-full items-center gap-2 flex-wrap mb-4">
+      {children}
+    </div>
   );
 }
 
@@ -66,12 +68,12 @@ export function SelectDirection() {
       <SelectTrigger className="w-[180px] focus-visible:ring-0 oval-btn-icon">
         <SelectValue placeholder="выберите направление" />
       </SelectTrigger>
-      <SelectContent className="border-2 rounded-2xl">
+      <SelectContent className="border-2 rounded-2xl py-0 px-0">
         <SelectGroup>
           {!isLoading ? (
             directions.map((dir) => (
               <SelectItem
-                className="rounded-[0.8rem] transition cursor-pointer"
+                className="transition cursor-pointer first:rounded-t-2xl last:rounded-b-2xl"
                 value={dir.code.toString()}
                 key={dir.code}
               >
