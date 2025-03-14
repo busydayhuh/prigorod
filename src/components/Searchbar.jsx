@@ -64,7 +64,7 @@ function Searchbar() {
   }
 
   return (
-    <div className="absolute bottom-0 transform translate-y-[50%] bordered shadow-(--sb-shadow) max-w-5xl w-[90%] mx-auto md:pl-5 md:pr-2.5">
+    <div className="absolute bottom-0 transform translate-y-[50%] bordered shadow-(--sb-shadow) max-w-5xl w-[98%] mx-auto md:pl-5 md:pr-2.5">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

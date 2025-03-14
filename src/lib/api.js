@@ -1,9 +1,23 @@
 import useSWR from "swr";
 
-export const fetcher = async (url) => {
+class YandexError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.name = "YandexError";
+    this.status_code = status;
+  }
+}
+
+const fetcher = async (url) => {
   const res = await fetch(url);
+
   if (!res.ok) {
-    throw new Error(`HTTP error! status: ${res.status}`);
+    const error = new YandexError(
+      `HTTP error! Status: ${res.status}`,
+      res.status
+    );
+    console.log("error :>> ", error.status_code);
+    throw error;
   }
   return await res.json();
 };

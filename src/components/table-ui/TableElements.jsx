@@ -118,9 +118,7 @@ export function ClippedTextElem({ text }) {
 
   return (
     <div>
-      <div className={(cn("transition-h"), !open && "line-clamp-1")}>
-        {text}
-      </div>
+      <div className={open ? null : "line-clamp-1"}>{text}</div>
       <div
         onClick={() => setOpen((prev) => !prev)}
         className="text-sm text-accent cursor-pointer"

@@ -12,6 +12,7 @@ import { filterExpress } from "@/lib/filters";
 
 import { DatePickerShedule } from "../DatePicker";
 import { v4 as uuidv4 } from "uuid";
+import PageHead from "../table-ui/PageHead";
 
 function SheduleTable() {
   const [searchParams] = useSearchParams();
@@ -23,7 +24,8 @@ function SheduleTable() {
   });
 
   return (
-    <div className="w-main mt-20">
+    <div className="w-main">
+      <PageHead title={searchParams.get("name")} />
       <FiltersGroup>
         <SelectDirection />
         <DatePickerShedule />
@@ -31,7 +33,7 @@ function SheduleTable() {
           name="expressOnly"
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
-          className="ms-auto"
+          className="md:ms-auto"
         />
         <Toggles
           name="isDepartedOpen"

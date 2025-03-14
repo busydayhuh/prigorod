@@ -8,8 +8,15 @@ import {
 } from "../table-ui/TableElements";
 
 function ResultsRow(props) {
-  const { number, short_title, express_type, carrier, uid, transport_subtype } =
-    props.thread;
+  const {
+    number,
+    short_title,
+    title,
+    express_type,
+    carrier,
+    uid,
+    transport_subtype,
+  } = props.thread;
   const price = props.tickets_info?.places[0]?.price?.whole;
 
   return (
@@ -20,7 +27,7 @@ function ResultsRow(props) {
       )}
     >
       <StationElem
-        scheduleUrl={`/schedule?station=${props.from.code}&date=${props.start_date}`}
+        scheduleUrl={`/schedule?station=${props.from.code}&date=${props.start_date}&name=${props.from.title}`}
         stationName={props.from.short_title || props.from.title}
         platform={props.departure_platform}
         variant="base_station"
@@ -30,7 +37,7 @@ function ResultsRow(props) {
       />
       <TravelTimeElem travelTime={props.duration} isExpress={!!express_type} />
       <StationElem
-        scheduleUrl={`/schedule?station=${props.to.code}&date=${props.start_date}`}
+        scheduleUrl={`/schedule?station=${props.to.code}&date=${props.start_date}&name=${props.to.title}`}
         stationName={props.to.short_title || props.to.title}
         platform={props.arrival_platform}
         variant="base_station"
@@ -41,11 +48,13 @@ function ResultsRow(props) {
       <ThreadElem
         number={number}
         threadName={short_title}
-        threadUrl={`/thread?uid=${uid}&date=${props.start_date || ""}`}
+        threadUrl={`/thread?uid=${uid}&date=${
+          props.start_date || ""
+        }&name=${title}&number=${number}`}
         variant="base_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}
-        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 border-b-2 md:border-b-0 pb-3 md:pb-0"
+        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 font-medium md:font-normal pb-2 md:pb-0"
       />
       {!!price && (
         <div

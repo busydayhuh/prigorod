@@ -14,9 +14,7 @@ import { useDirections } from "@/lib/api";
 
 export function FiltersGroup({ children }) {
   return (
-    <div className="flex w-full items-center gap-2 sticky top-0 bg-background z-10">
-      {children}
-    </div>
+    <div className="flex w-full items-center gap-2 flex-wrap">{children}</div>
   );
 }
 

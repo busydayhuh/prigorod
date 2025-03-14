@@ -7,8 +7,15 @@ import {
 import { cn } from "@/lib/utils";
 
 function ScheduleRow(props) {
-  const { number, short_title, express_type, uid, carrier, transport_subtype } =
-    props.thread;
+  const {
+    number,
+    short_title,
+    title,
+    express_type,
+    uid,
+    carrier,
+    transport_subtype,
+  } = props.thread;
 
   return (
     <div
@@ -20,7 +27,9 @@ function ScheduleRow(props) {
       <ThreadElem
         number={number}
         threadName={short_title}
-        threadUrl={`/thread?uid=${uid}&date=${props.date || ""}`}
+        threadUrl={`/thread?uid=${uid}&date=${
+          props.date || ""
+        }&name=${title}&number=${number}`}
         variant="lg_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}

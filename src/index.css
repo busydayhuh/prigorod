@@ -76,8 +76,21 @@
 }
 
 @layer utilities {
+  .page-flex {
+    @apply flex flex-col md:gap-20 gap-35 justify-center;
+  }
+
+  .page-header {
+    @apply flex flex-wrap gap-2 items-baseline md:mb-10 mb-5 mt-30 md:mt-20;
+  }
+
   .w-main {
     width: min(98%, 80rem);
+    margin-inline: auto;
+  }
+
+  .w-narrow {
+    width: min(98%, 68rem);
     margin-inline: auto;
   }
 
@@ -134,10 +147,18 @@
   }
 
   .table-body {
-    @apply flex flex-col gap-4 mt-6;
+    @apply flex flex-col gap-4 mt-2;
   }
 
   .table-base-text {
     @apply md:text-base text-sm;
+  }
+
+  .table-headers {
+    @apply md:text-base text-sm text-center font-medium;
+  }
+
+  .page-head-container {
+    @apply flex gap-3 items-start md:mb-8 mb-5 mt-30 md:mt-20;
   }
 }

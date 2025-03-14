@@ -10,6 +10,7 @@ import { filterExpress } from "@/lib/filters";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "../shadcn/button";
 import { DatePickerShedule } from "../DatePicker";
+import PageHead from "../table-ui/PageHead";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -21,14 +22,21 @@ function ResultsTable() {
   });
 
   return (
-    <div className="w-main mt-20">
+    <div className="w-main">
+      {!isLoading && (
+        <PageHead
+          title={`${searchParams.get("fromLabel")} — ${searchParams.get(
+            "toLabel"
+          )}`}
+        />
+      )}
       <FiltersGroup>
         <DatePickerShedule />
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
-          className="ms-auto"
+          className="md:ms-auto"
         />
         <Toggles
           name="isDepartedOpen"
