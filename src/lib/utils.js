@@ -6,13 +6,17 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export function getFormattedTime(date) {
-  const fullDate = new Date(date);
-
+export function getFormattedTime(timestamp) {
+  const fullDate = new Date(timestamp);
   return fullDate.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+export function validateTime(timestamp) {
+  const splitTime = timestamp.split(":");
+  return `${splitTime[0]}:${splitTime[1]}`;
 }
 
 export function getHoursAndMinutes(seconds) {

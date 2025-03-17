@@ -6,6 +6,7 @@ import {
   ThreadElem,
   TravelTimeElem,
 } from "../table-ui/TableElements";
+import { useSearchParams } from "react-router";
 
 function ResultsRow(props) {
   const {
@@ -18,6 +19,8 @@ function ResultsRow(props) {
     transport_subtype,
   } = props.thread;
   const price = props.tickets_info?.places[0]?.price?.whole;
+  const [searchParams] = useSearchParams();
+  const date = searchParams.get("date") || "";
 
   return (
     <div
@@ -27,30 +30,28 @@ function ResultsRow(props) {
       )}
     >
       <StationElem
-        scheduleUrl={`/schedule?station=${props.from.code}&date=${props.start_date}&name=${props.from.title}`}
+        scheduleUrl={`/schedule?station=${props.from.code}&date=${date}&name=${props.from.title}`}
         stationName={props.from.short_title || props.from.title}
         platform={props.departure_platform}
         variant="base_station"
         time={props.departure}
-        date={props.start_date}
+        date={date}
         className="max-w-[3rem] break-words "
       />
       <TravelTimeElem travelTime={props.duration} isExpress={!!express_type} />
       <StationElem
-        scheduleUrl={`/schedule?station=${props.to.code}&date=${props.start_date}&name=${props.to.title}`}
+        scheduleUrl={`/schedule?station=${props.to.code}&date=${date}&name=${props.to.title}`}
         stationName={props.to.short_title || props.to.title}
         platform={props.arrival_platform}
         variant="base_station"
         time={props.arrival}
-        date={props.start_date}
+        date={date}
         className="pr-2"
       />
       <ThreadElem
         number={number}
         threadName={short_title}
-        threadUrl={`/thread?uid=${uid}&date=${
-          props.start_date || ""
-        }&name=${title}&number=${number}`}
+        threadUrl={`/thread?uid=${uid}&date=${date}&name=${title}&number=${number}`}
         variant="base_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}

@@ -9,7 +9,6 @@ import { v4 as uuidv4 } from "uuid";
 import { FiltersGroup } from "./table-ui/TableFilters";
 import { StationElem, TimeElem } from "./table-ui/TableElements";
 import PageHead from "./table-ui/PageHead";
-import { number } from "zod";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
@@ -64,7 +63,7 @@ function ThreadRow(props) {
         variant="lg_station"
       />
       <TimeElem
-        time={props.arrival}
+        timestamp={props.arrival}
         date={props.date || ""}
         className={cn(
           "text-foreground/40 md:text-center text-center",
@@ -72,7 +71,7 @@ function ThreadRow(props) {
         )}
       />
       <TimeElem
-        time={props.departure}
+        timestamp={props.departure}
         date={props.date || ""}
         className={cn(
           "md:text-center text-center",

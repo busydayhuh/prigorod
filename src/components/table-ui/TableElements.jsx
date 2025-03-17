@@ -1,14 +1,24 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { cn, getFormattedTime, getHoursAndMinutes } from "@/lib/utils";
+import {
+  cn,
+  getFormattedTime,
+  getHoursAndMinutes,
+  validateTime,
+} from "@/lib/utils";
 import { Link } from "react-router";
 import { Badge } from "../shadcn/badge";
 import { ArrowUpRight, Rabbit } from "lucide-react";
 
-export function TimeElem({ time, date = null, className = "" }) {
+export function TimeElem({ timestamp, date = null, className = "" }) {
+  console.log("timestamp :>> ", timestamp);
   return (
     <div className={`md:text-4xl text-3xl font-medium  ${className}`}>
-      {!time ? "—" : date ? getFormattedTime(time) : time}
+      {!timestamp
+        ? "—"
+        : date
+        ? getFormattedTime(timestamp)
+        : validateTime(timestamp)}
     </div>
   );
 }
@@ -85,7 +95,7 @@ export function StationElem({
 
   return (
     <div className="flex flex-col items-start md:gap-2 gap-1 pt-3 md:pt-0">
-      {!!time && <TimeElem time={time} date={date}></TimeElem>}
+      {!!time && <TimeElem timestamp={time} date={date}></TimeElem>}
       <LinkElem
         url={scheduleUrl}
         className={`${className} ${stationVariants[variant]}`}

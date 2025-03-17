@@ -35,12 +35,12 @@ function ScheduleRow(props) {
         expressName={express_type ? transport_subtype.title : null}
       />
       <TimeElem
-        time={props.arrival}
+        timestamp={props.arrival}
         date={props.date}
         className="text-foreground/40 text-center md:self-center self-end"
       />
       <TimeElem
-        time={props.departure}
+        timestamp={props.departure}
         date={props.date}
         className="text-center md:self-center self-end"
       />
