@@ -25,7 +25,10 @@ function SheduleTable() {
 
   return (
     <div className="w-main">
-      <PageHead title={searchParams.get("name")} />
+      <PageHead
+        title={searchParams.get("name")}
+        date={searchParams.get("date")}
+      />
       <FiltersGroup>
         <SelectDirection />
         <DatePickerShedule />

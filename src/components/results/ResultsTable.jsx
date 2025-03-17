@@ -29,6 +29,7 @@ function ResultsTable() {
         title={`${searchParams.get("fromLabel")} — ${searchParams.get(
           "toLabel"
         )}`}
+        date={searchParams.get("date")}
       />
 
       <FiltersGroup>

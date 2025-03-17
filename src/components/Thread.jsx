@@ -22,6 +22,7 @@ function ThreadTable() {
         isExpress={data?.transport_subtype?.title}
         days={data?.days}
         exception={data?.except_days}
+        date={searchParams.get("date")}
       />
 
       <FiltersGroup>

@@ -7,6 +7,8 @@ import {
   Navigation,
   NavigationOff,
 } from "lucide-react";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 
 import { useLocation } from "react-router";
 
@@ -15,8 +17,15 @@ export default function PageHead({
   title,
   days = "",
   exception = "",
+  date = "",
 }) {
   const location = useLocation().pathname;
+  const formatDate = date
+    ? format(date, "do MMMM", {
+        locale: ru,
+      })
+    : "все дни";
+
   const variants = {
     "/thread": {
       icon: <Route />,
@@ -25,7 +34,8 @@ export default function PageHead({
           маршрут поезда{" "}
           <span className="text-accent">
             №{number} {title}
-          </span>
+          </span>{" "}
+          на <span className="text-accent">{formatDate}</span>
         </>
       ),
       text: days && (
@@ -40,7 +50,8 @@ export default function PageHead({
       icon: <School />,
       header: (
         <>
-          расписание станции <span className="text-accent">{title}</span>
+          расписание станции <span className="text-accent">{title}</span> на{" "}
+          <span className="text-accent">{formatDate}</span>
         </>
       ),
       text: <>отправление и прибытие по московскому времени</>,
@@ -51,7 +62,8 @@ export default function PageHead({
       header: (
         <>
           расписание электричек по маршруту{" "}
-          <span className="text-accent">{title}</span>
+          <span className="text-accent">{title}</span> на{" "}
+          <span className="text-accent">{formatDate}</span>
         </>
       ),
       text: <>отправление и прибытие по московскому времени</>,
