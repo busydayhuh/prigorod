@@ -16,7 +16,7 @@ const fetcher = async (url) => {
       `HTTP error! Status: ${res.status}`,
       res.status
     );
-    console.log("error :>> ", error.status_code);
+
     throw error;
   }
   return await res.json();

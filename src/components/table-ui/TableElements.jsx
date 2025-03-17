@@ -11,7 +11,6 @@ import { Badge } from "../shadcn/badge";
 import { ArrowUpRight, Rabbit } from "lucide-react";
 
 export function TimeElem({ timestamp, date = null, className = "" }) {
-  console.log("timestamp :>> ", timestamp);
   return (
     <div className={`md:text-4xl text-3xl font-medium  ${className}`}>
       {!timestamp

@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { FiltersGroup } from "./table-ui/TableFilters";
 import { StationElem, TimeElem } from "./table-ui/TableElements";
 import PageHead from "./table-ui/PageHead";
+import Loader from "./table-ui/Loader";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
@@ -29,26 +30,35 @@ function ThreadTable() {
         <DatePickerShedule />
       </FiltersGroup>
 
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
+      {error ? (
         <div>Server Error</div>
       ) : (
-        <>
+        <div className="relative">
+          {isLoading && <Loader />}
           <div className="thread-grid table-headers">
             <div></div>
             <div>прибытие</div>
             <div>отправление</div>
             <div className="md:block hidden">стоянка</div>
           </div>
-          <div className="table-body w-narrow">
-            {data.stops.map((segment) => {
-              return (
-                <ThreadRow key={uuidv4()} date={data.start_date} {...segment} />
-              );
-            })}
+          <div
+            className={cn(
+              "table-body transition-opacity w-narrow",
+              isLoading && "opacity-20"
+            )}
+          >
+            {data &&
+              data.stops.map((segment) => {
+                return (
+                  <ThreadRow
+                    key={uuidv4()}
+                    date={data.start_date}
+                    {...segment}
+                  />
+                );
+              })}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

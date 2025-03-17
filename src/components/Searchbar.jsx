@@ -25,8 +25,6 @@ function Searchbar() {
     [initialParams]
   );
 
-  console.log("initialDate :>> ", initialDate);
-
   const [labels, setLabels] = useState({
     from: initialParams?.get("fromLabel") || "",
     to: initialParams?.get("toLabel") || "",

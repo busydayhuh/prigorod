@@ -13,6 +13,8 @@ import { filterExpress } from "@/lib/filters";
 import { DatePickerShedule } from "../DatePicker";
 import { v4 as uuidv4 } from "uuid";
 import PageHead from "../table-ui/PageHead";
+import Loader from "../table-ui/Loader";
+import { cn } from "@/lib/utils";
 
 function SheduleTable() {
   const [searchParams] = useSearchParams();
@@ -45,15 +47,23 @@ function SheduleTable() {
         />
       </FiltersGroup>
 
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
+      {error ? (
         <div>Server Error</div>
       ) : (
-        <div className="table-body">
-          {tableFilters.isDepartedOpen &&
-            filterExpress(data.schedule.departed, tableFilters.expressOnly).map(
-              (segment) => {
+        <div className="relative">
+          {isLoading && <Loader />}
+          <div
+            className={cn(
+              "table-body transition-opacity",
+              isLoading && "opacity-20"
+            )}
+          >
+            {data &&
+              tableFilters.isDepartedOpen &&
+              filterExpress(
+                data.schedule.departed,
+                tableFilters.expressOnly
+              ).map((segment) => {
                 return (
                   <ScheduleRow
                     key={uuidv4()}
@@ -62,20 +72,21 @@ function SheduleTable() {
                     {...segment}
                   />
                 );
-              }
-            )}
+              })}
 
-          {filterExpress(data.schedule.future, tableFilters.expressOnly).map(
-            (segment) => {
-              return (
-                <ScheduleRow
-                  key={uuidv4()}
-                  date={searchParams.get("date")}
-                  {...segment}
-                />
-              );
-            }
-          )}
+            {data &&
+              filterExpress(data.schedule.future, tableFilters.expressOnly).map(
+                (segment) => {
+                  return (
+                    <ScheduleRow
+                      key={uuidv4()}
+                      date={searchParams.get("date")}
+                      {...segment}
+                    />
+                  );
+                }
+              )}
+          </div>
         </div>
       )}
     </div>
