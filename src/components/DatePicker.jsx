@@ -91,28 +91,23 @@ export function DatePickerShedule() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDayName, setSelectedDayName] = useState(null);
 
-  const [date, setDate] = useState({
-    value: searchParams.get("date") || "",
-    setValue(newValue) {
-      setDate((prev) => ({
-        ...prev,
-        value: newValue,
-      }));
-      searchParams.set("date", formatDateForParams(newValue));
-      setSearchParams(searchParams);
-    },
-  });
+  const initialDate = searchParams.get("date");
+
+  const setNewDate = (newDate) => {
+    searchParams.set("date", formatDateForParams(newDate));
+    setSearchParams(searchParams);
+  };
 
   const handleClick = (e, dayName) => {
     setSelectedDayName(dayName);
 
     if (!e.target.dataset.value) {
-      date.setValue("");
+      setNewDate("");
       return;
     }
 
     const diffInDays = +e.target.dataset.value;
-    date.setValue(addDays(new Date(), diffInDays));
+    setNewDate(addDays(new Date(), diffInDays));
   };
 
   return (
@@ -120,8 +115,8 @@ export function DatePickerShedule() {
       <PopoverTrigger asChild>
         <Button variant="outline" className="oval-btn-icon hover:bg-muted">
           <CalendarIcon className="size-4" />
-          {date.value ? (
-            format(date.value, "PPP", {
+          {initialDate ? (
+            format(initialDate, "PPP", {
               locale: ru,
             })
           ) : (
@@ -176,8 +171,8 @@ export function DatePickerShedule() {
         <Calendar
           locale={ru}
           mode="single"
-          selected={date.value}
-          onSelect={date.setValue}
+          selected={new Date(initialDate)}
+          onSelect={setNewDate}
           disabled={(date) => date < addDays(new Date(), -1)}
         />
       </PopoverContent>

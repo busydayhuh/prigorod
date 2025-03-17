@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate, useSearchParams } from "react-router";
@@ -12,38 +12,42 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/shadcn/form";
 import { DatePickerWithPresets } from "./DatePicker";
 import { Search } from "lucide-react";
 
 function Searchbar() {
   const [initialParams] = useSearchParams();
-  const initialDate = initialParams.get("date")
-    ? new Date(initialParams.get("date"))
-    : "";
+
+  const initialDate = useMemo(
+    () =>
+      initialParams.get("date") ? new Date(initialParams.get("date")) : null,
+    [initialParams]
+  );
+
+  console.log("initialDate :>> ", initialDate);
 
   const [labels, setLabels] = useState({
     from: initialParams?.get("fromLabel") || "",
     to: initialParams?.get("toLabel") || "",
   });
 
-  const inputRef1 = useRef(null);
-  const inputRef2 = useRef(null);
-
   const form = useForm({
     resolver: zodResolver(searchSchema),
     defaultValues: {
       from: initialParams?.get("from") || "",
       to: initialParams?.get("to") || "",
-      date: initialDate || "",
+      date: initialDate,
     },
   });
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (initialDate) form.setValue("date", initialDate);
+  }, [initialDate, form]);
+
   function onSubmit(values) {
-    console.log(values);
     const dateFormatted = format(new Date(values.date), "yyyy-MM-dd");
 
     const params = new URLSearchParams({
@@ -84,7 +88,6 @@ function Searchbar() {
                       setValue={form.setValue}
                       placeholder="откуда"
                       errors={form.formState.errors.from}
-                      forRef={inputRef1}
                     />
                   </FormControl>
                 </div>
@@ -115,7 +118,6 @@ function Searchbar() {
                       setValue={form.setValue}
                       placeholder="куда"
                       errors={form.formState.errors.to}
-                      forRef={inputRef2}
                     />
                   </FormControl>
                 </div>

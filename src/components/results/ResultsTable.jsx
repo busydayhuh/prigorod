@@ -11,6 +11,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Button } from "../shadcn/button";
 import { DatePickerShedule } from "../DatePicker";
 import PageHead from "../table-ui/PageHead";
+import Loader from "../table-ui/Loader";
+import { cn } from "@/lib/utils";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -23,13 +25,12 @@ function ResultsTable() {
 
   return (
     <div className="w-main">
-      {!isLoading && (
-        <PageHead
-          title={`${searchParams.get("fromLabel")} — ${searchParams.get(
-            "toLabel"
-          )}`}
-        />
-      )}
+      <PageHead
+        title={`${searchParams.get("fromLabel")} — ${searchParams.get(
+          "toLabel"
+        )}`}
+      />
+
       <FiltersGroup>
         <DatePickerShedule />
         <Toggles
@@ -45,16 +46,22 @@ function ResultsTable() {
         />
       </FiltersGroup>
 
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : error ? (
+      {error ? (
         <div>Server Error</div>
       ) : (
-        <div className="table-body">
-          <SearchResults
-            isDepartedOpen={tableFilters.isDepartedOpen}
-            expressOnly={tableFilters.expressOnly}
-          />
+        <div className="relative">
+          {isLoading && <Loader />}
+          <div
+            className={cn(
+              "table-body transition-opacity",
+              isLoading && "opacity-20"
+            )}
+          >
+            <SearchResults
+              isDepartedOpen={tableFilters.isDepartedOpen}
+              expressOnly={tableFilters.expressOnly}
+            />
+          </div>
         </div>
       )}
     </div>
@@ -64,6 +71,10 @@ function ResultsTable() {
 function SearchResults({ isDepartedOpen, expressOnly }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data } = useApi("search", searchParams);
+
+  if (!data) {
+    return <div></div>;
+  }
 
   // Нет доступных прямых рейсов, но есть предложения
   if (data.suggestions && data.suggestions.length > 0) {
