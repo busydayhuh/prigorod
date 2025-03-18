@@ -3,7 +3,7 @@ import {
   ThreadElem,
   TimeElem,
   ClippedTextElem,
-} from "../table-ui/TableElements";
+} from "@/components/table-ui/TableElements";
 import { cn } from "@/lib/utils";
 
 function ScheduleRow(props) {

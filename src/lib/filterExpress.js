@@ -9,9 +9,3 @@ export const filterExpress = (results, expressOnly) => {
 
   return results;
 };
-
-export const filterDirecton = (results, dir) => {
-  return results.filter((result) => {
-    return result.direction === dir;
-  });
-};

@@ -10,10 +10,14 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from "./shadcn/command";
-import { Input } from "./shadcn/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./shadcn/popover";
-import useApi from "@/lib/api";
+} from "@/components/shadcn/command";
+import { Input } from "@/components/shadcn/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/shadcn/popover";
+import { useApi } from "@/services";
 import { v4 as uuidv4 } from "uuid";
 
 export function AutoComplete({

@@ -1,12 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./main.css";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router";
-import ResultsTable from "./components/results/ResultsTable";
-import ScheduleTable from "./components/schedule/ScheduleTable";
-import ThreadTable from "./components/Thread";
-import Home from "./components/Home";
+import Home from "./pages/Home/Home.jsx";
+import Schedule from "./pages/Schedule/Schedule.jsx";
+import Results from "./pages/Search/Results.jsx";
+import Thread from "./pages/Thread/Thread.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -14,9 +14,9 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="/" element={<Home />} />
-          <Route path="/results" element={<ResultsTable />} />
-          <Route path="/schedule" element={<ScheduleTable />} />
-          <Route path="/thread" element={<ThreadTable />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/thread" element={<Thread />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,15 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useSearchParams } from "react-router";
-import useApi from "@/lib/api";
+import { useApi } from "@/services";
 
-import { DatePickerShedule } from "./DatePicker";
-import { cn, getHoursAndMinutes } from "@/lib/utils";
+import { DatePickerShedule } from "@/components/DatePicker";
+import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
-import { FiltersGroup } from "./table-ui/TableFilters";
-import { StationElem, TimeElem } from "./table-ui/TableElements";
-import PageHead from "./table-ui/PageHead";
-import Loader from "./table-ui/Loader";
+import { FiltersGroup } from "@/components/table-ui/TableFilters";
+import ThreadRow from "./ThreadRow";
+
+import { PageHead, Loader, ErrorMessage } from "@/components/table-ui";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
@@ -60,39 +60,6 @@ function ThreadTable() {
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function ThreadRow(props) {
-  return (
-    <div className="thread-grid table-row-base">
-      <StationElem
-        scheduleUrl={`/schedule?station=${props.station.code}&date=${props.date}&name=${props.station.title}`}
-        stationName={props.station.title}
-        platform={props.platform}
-        variant="lg_station"
-      />
-      <TimeElem
-        timestamp={props.arrival}
-        date={props.date || ""}
-        className={cn(
-          "text-foreground/40 md:text-center text-center",
-          props.arrival && "text-right"
-        )}
-      />
-      <TimeElem
-        timestamp={props.departure}
-        date={props.date || ""}
-        className={cn(
-          "md:text-center text-center",
-          props.departure && "text-right"
-        )}
-      />
-
-      <div className="hidden md:block text-center">
-        {props.stop_time ? getHoursAndMinutes(props.stop_time) : ""}
-      </div>
     </div>
   );
 }

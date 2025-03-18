@@ -1,20 +1,21 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router";
+import { useApi } from "@/services";
 
+import { filterExpress } from "@/lib/filterExpress";
+import { cn } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
+
+import ScheduleRow from "@/pages/Schedule/ScheduleRow";
+import { DatePickerShedule } from "@/components/DatePicker";
 import {
+  PageHead,
+  Loader,
+  ErrorMessage,
   Toggles,
   SelectDirection,
   FiltersGroup,
-} from "../table-ui/TableFilters";
-import { useSearchParams } from "react-router";
-import useApi from "@/lib/api";
-import ScheduleRow from "./ScheduleRow";
-import { filterExpress } from "@/lib/filters";
-
-import { DatePickerShedule } from "../DatePicker";
-import { v4 as uuidv4 } from "uuid";
-import PageHead from "../table-ui/PageHead";
-import Loader from "../table-ui/Loader";
-import { cn } from "@/lib/utils";
+} from "@/components/table-ui";
 
 function SheduleTable() {
   const [searchParams] = useSearchParams();
@@ -24,6 +25,27 @@ function SheduleTable() {
     isDepartedOpen: false,
     expressOnly: false,
   });
+
+  const futureResults = (trains, expressOnly) => {
+    if (trains.length === 0) return <ErrorMessage variant="noFutureResults" />;
+
+    const filteredResults = expressOnly
+      ? filterExpress(trains, expressOnly)
+      : trains;
+
+    if (filteredResults.length === 0)
+      return <ErrorMessage variant="noExpress" />;
+
+    return filteredResults.map((segment) => {
+      return (
+        <ScheduleRow
+          key={uuidv4()}
+          date={searchParams.get("date")}
+          {...segment}
+        />
+      );
+    });
+  };
 
   return (
     <div className="w-main">
@@ -48,7 +70,7 @@ function SheduleTable() {
       </FiltersGroup>
 
       {error ? (
-        <div>Server Error</div>
+        <ErrorMessage variant="general" />
       ) : (
         <div className="relative">
           {isLoading && <Loader />}
@@ -75,17 +97,7 @@ function SheduleTable() {
               })}
 
             {data &&
-              filterExpress(data.schedule.future, tableFilters.expressOnly).map(
-                (segment) => {
-                  return (
-                    <ScheduleRow
-                      key={uuidv4()}
-                      date={searchParams.get("date")}
-                      {...segment}
-                    />
-                  );
-                }
-              )}
+              futureResults(data.schedule.future, tableFilters.expressOnly)}
           </div>
         </div>
       )}

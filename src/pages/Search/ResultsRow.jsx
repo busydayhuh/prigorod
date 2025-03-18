@@ -5,7 +5,7 @@ import {
   StationElem,
   ThreadElem,
   TravelTimeElem,
-} from "../table-ui/TableElements";
+} from "@/components/table-ui/TableElements";
 import { useSearchParams } from "react-router";
 
 function ResultsRow(props) {
@@ -25,7 +25,7 @@ function ResultsRow(props) {
   return (
     <div
       className={cn(
-        "table-row-base results-grid ",
+        "table-row-base results-grid",
         props.departed && "opacity-50"
       )}
     >

@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/shadcn/select";
 import { useSearchParams } from "react-router";
-import { useDirections } from "@/lib/api";
+import { useDirections } from "@/services";
 
 export function FiltersGroup({ children }) {
   return (

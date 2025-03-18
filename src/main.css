@@ -155,11 +155,15 @@
   }
 
   .table-headers {
-    @apply md:text-base text-sm text-center font-medium;
+    @apply md:text-base text-sm text-center;
   }
 
   .page-head-container {
     @apply flex gap-3 items-start md:mb-8 mb-5 mt-30 md:mt-20;
+  }
+
+  .error-icon {
+    @apply md:size-20 size-10 text-foreground mb-1 stroke-1;
   }
 
   /* HTML: <div class="loader"></div> */

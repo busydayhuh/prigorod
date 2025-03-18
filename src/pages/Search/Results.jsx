@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Toggles, FiltersGroup } from "../table-ui/TableFilters";
+import { Toggles, FiltersGroup } from "@/components/table-ui/TableFilters";
 
 import ResultsRow from "./ResultsRow";
 import { useSearchParams } from "react-router";
-import useApi from "@/lib/api";
+import { useApi } from "@/services";
 
-import { filterExpress } from "@/lib/filters";
+import { filterExpress } from "@/lib/filterExpress";
 import { v4 as uuidv4 } from "uuid";
-import { Button } from "../shadcn/button";
-import { DatePickerShedule } from "../DatePicker";
-import PageHead from "../table-ui/PageHead";
-import Loader from "../table-ui/Loader";
+import { Button } from "@/components/shadcn/button";
+import { DatePickerShedule } from "@/components/DatePicker";
+import { PageHead, Loader, ErrorMessage } from "@/components/table-ui";
 import { cn } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -48,7 +48,11 @@ function ResultsTable() {
       </FiltersGroup>
 
       {error ? (
-        <div>Server Error</div>
+        error.status_code ? (
+          <ErrorMessage variant="noStation" />
+        ) : (
+          <ErrorMessage variant="general" />
+        )
       ) : (
         <div className="relative">
           {isLoading && <Loader />}
@@ -80,12 +84,12 @@ function SearchResults({ isDepartedOpen, expressOnly }) {
   // Нет доступных прямых рейсов, но есть предложения
   if (data.suggestions && data.suggestions.length > 0) {
     return (
-      <div>
+      <ErrorMessage variant="noResults">
         {`Не найдено прямых рейсов по запросу ${searchParams.get("fromLabel")} —
             ${searchParams.get("toLabel")}. Возможно, вы искали `}
         <Button
           variant="link"
-          className="p-0"
+          className="p-0 inline has-[>svg]:px-0"
           onClick={() => {
             searchParams.set("to", data.suggestions[0].code);
             searchParams.set("toLabel", data.suggestions[0].title);
@@ -94,24 +98,29 @@ function SearchResults({ isDepartedOpen, expressOnly }) {
           }}
         >
           {`${searchParams.get("fromLabel")} — ${data.suggestions[0].title}`}
+          <ArrowUpRight className="md:size-4 size-3 inline" />
         </Button>
-      </div>
+      </ErrorMessage>
     );
   }
 
   // Нет доступных прямых рейсов и нет предложений
   if (data.suggestions && data.suggestions.length === 0) {
     return (
-      <div>
+      <ErrorMessage variant="noResults">
         {`Не найдено прямых рейсов по запросу ${searchParams.get("fromLabel")} —
             ${searchParams.get(
               "toLabel"
             )}. Убедитесь, что станции выбраны верно.`}
-      </div>
+      </ErrorMessage>
     );
   }
 
   // Есть прямые рейсы (основной кейс)
+  const filteredFutureResults = expressOnly
+    ? filterExpress(data.future, expressOnly)
+    : data.future;
+
   return (
     <>
       {isDepartedOpen &&
@@ -121,9 +130,11 @@ function SearchResults({ isDepartedOpen, expressOnly }) {
 
       {/* Если нет будущих рейсов, выводим сообщение */}
       {data.future.length === 0 ? (
-        <div>На выбранную дату рейсов больше нет.</div>
+        <ErrorMessage variant="noFutureResults" />
+      ) : filteredFutureResults.length === 0 ? (
+        <ErrorMessage variant="noExpress" />
       ) : (
-        filterExpress(data.future, expressOnly).map((segment) => {
+        filteredFutureResults.map((segment) => {
           return <ResultsRow key={uuidv4()} {...segment} />;
         })
       )}
