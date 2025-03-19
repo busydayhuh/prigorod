@@ -70,7 +70,7 @@ export function SelectDirection() {
       </SelectTrigger>
       <SelectContent className="border-2 rounded-2xl py-0 px-0">
         <SelectGroup>
-          {!isLoading ? (
+          {!isLoading && !error ? (
             directions.map((dir) => (
               <SelectItem
                 className="transition cursor-pointer first:rounded-t-2xl last:rounded-b-2xl"
@@ -80,8 +80,10 @@ export function SelectDirection() {
                 {dir.title}
               </SelectItem>
             ))
-          ) : (
+          ) : !error ? (
             <SelectItem disabled>загрузка...</SelectItem>
+          ) : (
+            <SelectItem disabled>ошибка загрузки</SelectItem>
           )}
         </SelectGroup>
       </SelectContent>

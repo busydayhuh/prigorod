@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 import ScheduleRow from "@/pages/Schedule/ScheduleRow";
+import ResultsBody from "@/components/ResultsBody";
 import { DatePickerSchedule } from "@/components/DatePicker";
 import {
   PageHead,
@@ -70,35 +71,32 @@ function ScheduleTable() {
       </FiltersGroup>
 
       {error ? (
-        <ErrorMessage variant="general" />
+        error.status_code === 404 ? (
+          <ErrorMessage variant="noStation" />
+        ) : (
+          <ErrorMessage variant="general" />
+        )
       ) : (
         <div className="relative">
           {isLoading && <Loader />}
-          <div
-            className={cn(
-              "table-body transition-opacity",
-              isLoading && "opacity-20"
-            )}
-          >
-            {data &&
-              tableFilters.isDepartedOpen &&
-              filterExpress(
-                data.schedule.departed,
-                tableFilters.expressOnly
-              ).map((segment) => {
+
+          {data && (
+            <ResultsBody
+              route="schedule"
+              isDepartedOpen={tableFilters.isDepartedOpen}
+              expressOnly={tableFilters.expressOnly}
+              renderRow={(segment, props) => {
                 return (
                   <ScheduleRow
                     key={uuidv4()}
-                    departed={true}
                     date={searchParams.get("date")}
                     {...segment}
+                    {...props}
                   />
                 );
-              })}
-
-            {data &&
-              futureResults(data.schedule.future, tableFilters.expressOnly)}
-          </div>
+              }}
+            />
+          )}
         </div>
       )}
     </div>

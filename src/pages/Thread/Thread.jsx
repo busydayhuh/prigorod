@@ -31,7 +31,15 @@ function ThreadTable() {
       </FiltersGroup>
 
       {error ? (
-        <div>Server Error</div>
+        error.status_code === 404 ? (
+          <ErrorMessage
+            variant="exceptionDay"
+            days={data?.days}
+            exception={data?.except_days}
+          />
+        ) : (
+          <ErrorMessage variant="general" />
+        )
       ) : (
         <div className="relative">
           {isLoading && <Loader />}
