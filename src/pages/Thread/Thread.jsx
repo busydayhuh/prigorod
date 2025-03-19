@@ -2,14 +2,14 @@
 import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
 
-import { DatePickerShedule } from "@/components/DatePicker";
+import { DatePickerSchedule } from "@/components/DatePicker";
 import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
-import { FiltersGroup } from "@/components/table-ui/TableFilters";
+import { FiltersGroup } from "@/components/ui/TableFilters";
 import ThreadRow from "./ThreadRow";
 
-import { PageHead, Loader, ErrorMessage } from "@/components/table-ui";
+import { PageHead, Loader, ErrorMessage } from "@/components/ui";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
@@ -27,7 +27,7 @@ function ThreadTable() {
       />
 
       <FiltersGroup>
-        <DatePickerShedule />
+        <DatePickerSchedule />
       </FiltersGroup>
 
       {error ? (

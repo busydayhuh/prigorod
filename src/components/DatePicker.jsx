@@ -87,7 +87,7 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
   );
 }
 
-export function DatePickerShedule() {
+export function DatePickerSchedule() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDayName, setSelectedDayName] = useState(null);
 

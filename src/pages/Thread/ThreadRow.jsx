@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { getHoursAndMinutes, cn } from "@/lib/utils";
-import { StationElem, TimeElem } from "@/components/table-ui/TableElements";
+import { StationElem, TimeElem } from "@/components/ui/TableElements";
 
 export default function ThreadRow(props) {
   return (

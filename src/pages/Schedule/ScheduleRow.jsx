@@ -3,7 +3,7 @@ import {
   ThreadElem,
   TimeElem,
   ClippedTextElem,
-} from "@/components/table-ui/TableElements";
+} from "@/components/ui/TableElements";
 import { cn } from "@/lib/utils";
 
 function ScheduleRow(props) {
@@ -20,7 +20,7 @@ function ScheduleRow(props) {
   return (
     <div
       className={cn(
-        "shedule-grid table-row-base",
+        "schedule-grid table-row-base",
         props.departed && "opacity-60"
       )}
     >
@@ -58,7 +58,7 @@ function ScheduleRow(props) {
         )}
       </div>
       <div className="table-base-text text-center ">
-        {!!props.platform && <>{props.platform}</>}
+        {props.platform && <>{props.platform}</>}
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
@@ -98,14 +97,6 @@
     @apply border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-background;
   }
 
-  .circle-chip-icon {
-    /* @apply; */
-  }
-
-  .h2 {
-    /* @apply; */
-  }
-
   .oval-btn-icon {
     @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
   }
@@ -138,7 +129,7 @@
     @apply md:grid md:grid-cols-[minmax(0,_1.5fr)_200px_2fr_3fr_1fr] grid grid-cols-3;
   }
 
-  .shedule-grid {
+  .schedule-grid {
     @apply grid md:grid-cols-[minmax(0,_2.5fr)_1fr_1fr__1fr_1.5fr_1fr] grid-cols-3 gap-y-3 md:gap-y-0;
   }
 

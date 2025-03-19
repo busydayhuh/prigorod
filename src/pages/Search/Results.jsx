@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Toggles, FiltersGroup } from "@/components/table-ui/TableFilters";
+import { Toggles, FiltersGroup } from "@/components/ui/TableFilters";
 
 import ResultsRow from "./ResultsRow";
 import { useSearchParams } from "react-router";
@@ -9,8 +9,8 @@ import { useApi } from "@/services";
 import { filterExpress } from "@/lib/filterExpress";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/shadcn/button";
-import { DatePickerShedule } from "@/components/DatePicker";
-import { PageHead, Loader, ErrorMessage } from "@/components/table-ui";
+import { DatePickerSchedule } from "@/components/DatePicker";
+import { PageHead, Loader, ErrorMessage } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 
@@ -33,7 +33,7 @@ function ResultsTable() {
       />
 
       <FiltersGroup>
-        <DatePickerShedule />
+        <DatePickerSchedule />
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}

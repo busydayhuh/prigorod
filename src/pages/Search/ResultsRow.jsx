@@ -5,7 +5,7 @@ import {
   StationElem,
   ThreadElem,
   TravelTimeElem,
-} from "@/components/table-ui/TableElements";
+} from "@/components/ui/TableElements";
 import { useSearchParams } from "react-router";
 
 function ResultsRow(props) {

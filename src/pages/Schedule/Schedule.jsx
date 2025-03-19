@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 import ScheduleRow from "@/pages/Schedule/ScheduleRow";
-import { DatePickerShedule } from "@/components/DatePicker";
+import { DatePickerSchedule } from "@/components/DatePicker";
 import {
   PageHead,
   Loader,
@@ -15,9 +15,9 @@ import {
   Toggles,
   SelectDirection,
   FiltersGroup,
-} from "@/components/table-ui";
+} from "@/components/ui";
 
-function SheduleTable() {
+function ScheduleTable() {
   const [searchParams] = useSearchParams();
   const { data, isLoading, error } = useApi("schedule", searchParams);
 
@@ -55,7 +55,7 @@ function SheduleTable() {
       />
       <FiltersGroup>
         <SelectDirection />
-        <DatePickerShedule />
+        <DatePickerSchedule />
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}
@@ -105,4 +105,4 @@ function SheduleTable() {
   );
 }
 
-export default SheduleTable;
+export default ScheduleTable;
