@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
 
@@ -31,7 +30,15 @@ function ThreadTable() {
       </FiltersGroup>
 
       {error ? (
-        <div>Server Error</div>
+        error.status_code === 404 ? (
+          <ErrorMessage
+            variant="exceptionDay"
+            days={data?.days}
+            exception={data?.except_days}
+          />
+        ) : (
+          <ErrorMessage variant="general" />
+        )
       ) : (
         <div className="relative">
           {isLoading && <Loader />}

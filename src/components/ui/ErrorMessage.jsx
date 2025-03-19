@@ -44,8 +44,10 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
           Нет движения по маршруту на выбранную дату.{" "}
           {props.days && (
             <>
-              Расписание действительно {props.days},{" "}
-              <span className="text-accent">кроме {props.except_days}</span>
+              Расписание действительно {props.days}
+              {props.exception && (
+                <span className="text-accent">, кроме {props.exception}</span>
+              )}
             </>
           )}
         </>
