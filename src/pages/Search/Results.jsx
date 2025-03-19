@@ -1,9 +1,11 @@
 import { useState } from "react";
+
 import ResultsRow from "@/pages/Search/ResultsRow";
 import SearchSuggestions from "@/pages/Search/SearchSuggestions";
 import ResultsBody from "@/components/ResultsBody";
 import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
+
 import { v4 as uuidv4 } from "uuid";
 import { DatePickerSchedule } from "@/components/DatePicker";
 import {
