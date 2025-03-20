@@ -77,7 +77,7 @@ export function AutoComplete({
               data-name={field.name}
               placeholder={errors ? errors.message : placeholder}
               className={cn(
-                "md:border-r-3 md:border-b-0 border-b-3 pl-5 py-4",
+                "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground",
                 errors && "placeholder:text-red-500",
                 field.name === "to" && "md:pl-8"
               )}
@@ -149,7 +149,7 @@ export function AutoComplete({
 
 function OptionDescription({ settlement, direction }) {
   return (
-    <span className="text-neutral-600 text-xs block">
+    <span className="text-foreground/70 text-xs block">
       {!!settlement && `${settlement}`}
       {settlement && direction ? ", " : null}
       {!!direction && `${direction} напр.`}

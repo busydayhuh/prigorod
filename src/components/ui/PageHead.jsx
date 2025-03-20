@@ -18,6 +18,7 @@ export default function PageHead({
   days = "",
   exception = "",
   date = "",
+  geoAllowed = false,
 }) {
   const location = useLocation().pathname;
   const formatDate = date
@@ -68,6 +69,30 @@ export default function PageHead({
       ),
       text: <>отправление и прибытие по московскому времени</>,
     },
+
+    "/": {
+      icon: geoAllowed ? (
+        <Navigation className="pt-1" />
+      ) : (
+        <NavigationOff className="pt-1" />
+      ),
+      header: (
+        <>
+          {title ? (
+            <>
+              <span className="text-accent">{title}</span> — ближайшие станции
+            </>
+          ) : (
+            "определяем локацию..."
+          )}
+        </>
+      ),
+      text: !geoAllowed && (
+        <span className="text-foreground/70">
+          доступ к местоположению запрещён, показана локация по умолчанию
+        </span>
+      ),
+    },
   };
 
   return (
@@ -85,7 +110,7 @@ export default function PageHead({
 
 function Icon({ children }) {
   return (
-    <div className="h-9 w-9 bg-foreground rounded-full hidden md:flex items-center shrink-0 justify-center text-background px-2">
+    <div className="h-9 w-9 bg-foreground rounded-full hidden md:flex items-center shrink-0 justify-center text-primary-foreground px-2">
       {children}
     </div>
   );

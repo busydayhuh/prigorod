@@ -11,26 +11,26 @@
 */
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(240 10% 3.9%);
+  --background: hsla(205, 95%, 92%, 0.497);
+  --foreground: hsl(205, 84%, 22%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(240 10% 3.9%);
-  --accent: hsl(286, 98%, 74%);
+  --accent: hsl(349, 84%, 60%);
   --accent-foreground: hsl(240 10% 3.9%);
-  --secondary: hsl(212, 93%, 47%);
-  --secondary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(212, 69%, 65%);
+  --secondary-foreground: hsl(60, 100%, 100%);
   --muted: hsl(240 4.8% 95.9%);
   --muted-foreground: hsl(240, 2%, 66%);
-  --primary-foreground: hsl(240, 5%, 96%);
+  --primary-foreground: hsl(60, 100%, 100%);
   --primary: hsl(240 5.9% 10%);
   --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(240 5.9% 10%);
+  --border: var(--foreground);
   --input: hsl(240 5.9% 90%);
   --ring: hsl(240 5.9% 10%);
   --radius: 0rem;
-  --sb-shadow: 2px 4px 0px 1px hsl(240 10% 3.9%);
-  --row-shadow: 2px 2px 0px 1px hsl(240 10% 3.9%);
+  --sb-shadow: 2px 4px 0px 1px var(--foreground);
+  --row-shadow: 2px 2px 0px 1px var(--foreground);
 }
 
 @theme inline {
@@ -66,7 +66,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base;
+    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-foreground;
   }
 
   button {
@@ -84,21 +84,21 @@
   }
 
   .w-main {
-    width: min(98%, 80rem);
+    width: min(96%, 80rem);
     margin-inline: auto;
   }
 
   .w-narrow {
-    width: min(98%, 68rem);
+    width: min(96%, 68rem);
     margin-inline: auto;
   }
 
   .bordered {
-    @apply border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-background;
+    @apply border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-primary-foreground;
   }
 
   .oval-btn-icon {
-    @apply border-2 border-primary rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
+    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
   }
 
   .badge {
@@ -114,7 +114,7 @@
   }
 
   .popover-borders {
-    @apply border-3 rounded-2xl;
+    @apply border-3 rounded-2xl border-foreground;
   }
 
   .h-transition {
@@ -122,7 +122,7 @@
   }
 
   .table-row-base {
-    @apply border-3 rounded-3xl py-5 px-6 shadow-(--row-shadow) md:items-center;
+    @apply border-3 rounded-[20px] py-5 px-6 shadow-(--row-shadow) md:items-center;
   }
 
   .results-grid {
@@ -155,6 +155,10 @@
 
   .error-icon {
     @apply md:size-20 size-10 text-foreground mb-1 stroke-1;
+  }
+
+  .home-grid {
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   }
 
   /* HTML: <div class="loader"></div> */

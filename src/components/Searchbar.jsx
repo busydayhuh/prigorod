@@ -97,7 +97,7 @@ function Searchbar() {
               type="button"
               onClick={handleSwap}
               size="lg"
-              className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-primary rotate-90 md:rotate-0"
+              className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground rotate-90 md:rotate-0"
             >
               <ArrowLeftRight />
             </Button>
@@ -140,7 +140,7 @@ function Searchbar() {
             )}
           />
           <Button
-            className="md:ms-auto md:rounded-[50%] h-14 md:h-12 md:w-12 bg-accent text-primary hover:bg-accent/80"
+            className="md:ms-auto md:rounded-[50%] h-14 md:h-12 md:w-12 bg-accent text-foreground hover:bg-accent/80"
             type="submit"
           >
             <Search className="size-5" />

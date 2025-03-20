@@ -35,3 +35,8 @@ export function formatDateForParams(date) {
 
   return format(new Date(date), "yyyy-MM-dd");
 }
+
+export function formatDistance(distance) {
+  if (Number(distance) > 1) return `${Number(distance).toFixed(1)} км`;
+  return `${(Number(distance) * 1000).toFixed(0)} м`;
+}
