@@ -66,7 +66,7 @@ function Searchbar() {
   }
 
   return (
-    <div className="absolute bottom-0 transform translate-y-[50%] bordered shadow-(--sb-shadow) max-w-5xl w-[98%] mx-auto md:pl-5 md:pr-2.5">
+    <div className="absolute bottom-0 transform md:translate-y-[50%] translate-y-[70%] bordered shadow-(--sb-shadow) max-w-5xl w-[98%] mx-auto md:pl-5 md:pr-2.5">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -97,7 +97,7 @@ function Searchbar() {
               type="button"
               onClick={handleSwap}
               size="lg"
-              className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground rotate-90 md:rotate-0"
+              className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground text-primary-foreground rotate-90 md:rotate-0"
             >
               <ArrowLeftRight />
             </Button>

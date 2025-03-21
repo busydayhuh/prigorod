@@ -55,14 +55,11 @@ export function ThreadElem({
     <div className={`flex flex-col gap-1.5 ${className}`}>
       <div className="flex gap-1.5">
         <Badge
-          className={cn(
-            "badge md:text-sm text-xs",
-            !!expressName && "bg-accent text-foreground"
-          )}
+          className={cn("badge md:text-sm text-xs", expressName && "bg-accent")}
         >
           №{number}
         </Badge>
-        {!!expressName && (
+        {expressName && (
           <span className="md:text-sm text-xs text-accent">{expressName}</span>
         )}
       </div>

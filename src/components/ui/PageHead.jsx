@@ -88,7 +88,7 @@ export default function PageHead({
         </>
       ),
       text: !geoAllowed && (
-        <span className="text-foreground/70">
+        <span className="text-muted-foreground">
           доступ к местоположению запрещён, показана локация по умолчанию
         </span>
       ),

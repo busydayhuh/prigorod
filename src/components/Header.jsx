@@ -11,15 +11,15 @@ function Header() {
   return (
     <header
       className={cn(
-        "flex flex-col justify-center items-center pt-5 bg-secondary w-screen relative h-transition",
+        "flex flex-col justify-center items-center pt-5 bg-secondary border-b-4 border-b-foreground w-screen relative h-transition",
         isHome
-          ? "pb-25 gap-10 max-h-[32rem] min-h-[12rem] md:min-h-[32rem]"
+          ? "pb-25 gap-2 max-h-[32rem] min-h-[12rem] md:min-h-[32rem]"
           : "pb-15 gap-0 max-h-[12rem] min-h-0"
       )}
     >
       <div className="flex justify-end w-main">
         <Link to={"https://github.com/"}>
-          <Button className="oval-btn-icon bg-background hover:bg-accent">
+          <Button className="oval-btn-icon bg-primary-foreground hover:bg-accent shadow-(--row-shadow)">
             <GithubLogo />
             Github
           </Button>
@@ -34,8 +34,8 @@ function Header() {
 function LogoLg() {
   return (
     <img
-      src="/logo_lg.svg"
-      className="w-[98%] max-w-4xl"
+      src="/src/assets/hero_homepage.png"
+      className="w-[min(1120px,95%)] aspect-auto mx-auto"
       alt="Пригород — расписание электричек"
     />
   );
@@ -44,8 +44,8 @@ function LogoLg() {
 function LogoSm() {
   return (
     <img
-      src="/logo_sm.svg"
-      className="w-[98%] max-w-xs"
+      src="/src/assets/logo.png"
+      className="md:w-sm md:block hidden"
       alt="Пригород — расписание электричек"
     />
   );

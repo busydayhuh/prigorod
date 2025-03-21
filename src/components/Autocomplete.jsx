@@ -49,6 +49,7 @@ export function AutoComplete({
       labels[field.name] !== selectedLabel
     ) {
       reset();
+      setValue(field.name, "");
     }
   };
 
@@ -78,7 +79,7 @@ export function AutoComplete({
               placeholder={errors ? errors.message : placeholder}
               className={cn(
                 "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground",
-                errors && "placeholder:text-red-500",
+                errors && "placeholder:text-accent",
                 field.name === "to" && "md:pl-8"
               )}
             />
@@ -108,7 +109,7 @@ export function AutoComplete({
             )}
             {isApiError && (
               <CommandPrimitive.Loading>
-                <div className="py-2.5 flex justify-center text-red-500">
+                <div className="py-2.5 flex justify-center text-accent">
                   Невозможно загрузить список. Обновите страницу или попробуйте
                   позже.
                 </div>
@@ -149,7 +150,7 @@ export function AutoComplete({
 
 function OptionDescription({ settlement, direction }) {
   return (
-    <span className="text-foreground/70 text-xs block">
+    <span className="text-muted-foreground text-xs block">
       {!!settlement && `${settlement}`}
       {settlement && direction ? ", " : null}
       {!!direction && `${direction} напр.`}

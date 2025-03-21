@@ -20,7 +20,7 @@
   --secondary: hsl(212, 69%, 65%);
   --secondary-foreground: hsl(60, 100%, 100%);
   --muted: hsl(240 4.8% 95.9%);
-  --muted-foreground: hsl(240, 2%, 66%);
+  --muted-foreground: hsla(205, 84%, 22%, 0.523);
   --primary-foreground: hsl(60, 100%, 100%);
   --primary: hsl(240 5.9% 10%);
   --destructive: hsl(0 84.2% 60.2%);
@@ -98,7 +98,7 @@
   }
 
   .oval-btn-icon {
-    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2;
+    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-foreground;
   }
 
   .badge {
@@ -106,7 +106,7 @@
   }
 
   .table-toggle {
-    @apply data-[state=on]:bg-accent bg-background hover:bg-muted;
+    @apply data-[state=on]:bg-accent;
   }
 
   .sb-flex-horizontal {
@@ -122,7 +122,7 @@
   }
 
   .table-row-base {
-    @apply border-3 rounded-[20px] py-5 px-6 shadow-(--row-shadow) md:items-center;
+    @apply border-3 rounded-[20px] py-5 px-6 shadow-(--row-shadow) md:items-center bg-primary-foreground;
   }
 
   .results-grid {
@@ -150,7 +150,7 @@
   }
 
   .page-head-container {
-    @apply flex gap-3 items-start md:mb-8 mb-5 mt-30 md:mt-20;
+    @apply flex gap-3 items-start md:mb-8 mb-5 mt-40 md:mt-20;
   }
 
   .error-icon {
@@ -177,7 +177,7 @@
     height: 12px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: #000;
+    background: var(--accent);
     left: 0;
     top: 0;
     animation: l23-1 1.5s linear infinite,

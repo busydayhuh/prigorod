@@ -1,18 +1,22 @@
-import React from "react";
-import useGeocode from "@/hooks/useGeocode";
+import React, { useState } from "react";
+import useGeocode from "@/services/useGeocode";
 import { useNearest } from "@/services";
-import { LinkElem, Loader, PageHead } from "@/components/ui";
+import { LinkElem, Loader, PageHead, ErrorMessage } from "@/components/ui";
 import { formatDistance } from "@/lib/utils";
+import { useLocation } from "@/context/LocationContext";
 
 export default function Home() {
-  const { position, positionLoading, positionError, geoAllowed } = useGeocode();
+  const { geoAllowed } = useLocation();
+  const { position } = useGeocode();
   const { nearestStations, nearestError, nearestLoading } = useNearest();
 
   return (
     <div className="w-narrow md:mt-5">
-      {position && <PageHead title={position.city} geoAllowed={geoAllowed} />}
+      {!nearestLoading && position && (
+        <PageHead title={position.city} geoAllowed={geoAllowed} />
+      )}
       {nearestError ? (
-        <div>Error</div>
+        <ErrorMessage variant="general" />
       ) : (
         <div className="relative md:mt-10">
           {nearestLoading && <Loader />}
