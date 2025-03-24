@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import { Command as CommandPrimitive } from "cmdk";
-import { Loader2 } from "lucide-react";
+
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 import {
   Command,
@@ -19,6 +21,12 @@ import {
 } from "@/components/shadcn/popover";
 import { useApi } from "@/services";
 import { v4 as uuidv4 } from "uuid";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/shadcn/drawer";
 
 export function AutoComplete({
   emptyMessage = "Нет станций с таким именем.",
@@ -60,30 +68,77 @@ export function AutoComplete({
     setOpen(false);
   };
 
+  const isDesktop = useMediaQuery("(width >= 48rem)");
+
+  if (!isDesktop) {
+    return (
+      <Drawer open={open} onOpenChange={setOpen}>
+        <Command shouldFilter={false}>
+          <DrawerTrigger>
+            <InputTrigger
+              labels={labels}
+              setLabels={setLabels}
+              setQuery={setQuery}
+              field={field}
+              errors={errors}
+              setOpen={setOpen}
+              onInputBlur={onInputBlur}
+              placeholder={placeholder}
+            />
+          </DrawerTrigger>
+
+          {!open && <CommandList aria-hidden="true" className="hidden" />}
+          <DrawerContent className="data-[vaul-drawer-direction=bottom]:rounded-t-2xl ">
+            <VisuallyHidden>
+              <DrawerTitle>Поиск станции</DrawerTitle>
+            </VisuallyHidden>
+            <InputTrigger
+              labels={labels}
+              setLabels={setLabels}
+              setQuery={setQuery}
+              field={field}
+              errors={errors}
+              setOpen={setOpen}
+              onInputBlur={onInputBlur}
+              placeholder={placeholder}
+              className="pt-1"
+            />
+
+            <CommandList className="max-h-auto">
+              {!isLoading && stations ? (
+                stations.length > 0 ? (
+                  <StationsList
+                    stations={stations}
+                    onSelectItem={onSelectItem}
+                    selectedLabel={selectedLabel}
+                  />
+                ) : null
+              ) : null}
+              {isApiError && <ApiErrorMessage />}
+              {!isLoading ? (
+                <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
+              ) : null}
+            </CommandList>
+          </DrawerContent>
+        </Command>
+      </Drawer>
+    );
+  }
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <Command shouldFilter={false}>
-        <PopoverTrigger asChild>
-          <CommandPrimitive.Input
-            asChild
-            value={labels[field.name]}
-            onValueChange={(value) => {
-              setQuery(value.trim().toLowerCase());
-              setLabels((prev) => ({ ...prev, [field.name]: value }));
-            }}
-            onBlur={onInputBlur}
-            onKeyDown={(e) => setOpen(e.key !== "Escape")}
-          >
-            <Input
-              data-name={field.name}
-              placeholder={errors ? errors.message : placeholder}
-              className={cn(
-                "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground",
-                errors && "placeholder:text-accent",
-                field.name === "to" && "md:pl-8"
-              )}
-            />
-          </CommandPrimitive.Input>
+        <PopoverTrigger>
+          <InputTrigger
+            labels={labels}
+            setLabels={setLabels}
+            setQuery={setQuery}
+            field={field}
+            errors={errors}
+            setOpen={setOpen}
+            onInputBlur={onInputBlur}
+            placeholder={placeholder}
+          />
         </PopoverTrigger>
         {!open && <CommandList aria-hidden="true" className="hidden" />}
         <PopoverContent
@@ -97,47 +152,19 @@ export function AutoComplete({
               e.preventDefault();
             }
           }}
-          className="w-[var(--radix-popover-trigger-width)] p-0"
+          className="w-[var(--radix-popover-trigger-width)] p-0 popover-borders max-h-[300px]"
         >
-          <CommandList className="popover-borders">
-            {isLoading && (
-              <CommandPrimitive.Loading>
-                <div className="py-2.5 flex justify-center text-accent">
-                  <Loader2 className="animate-spin" />
-                </div>
-              </CommandPrimitive.Loading>
-            )}
-            {isApiError && (
-              <CommandPrimitive.Loading>
-                <div className="py-2.5 flex justify-center text-accent">
-                  Невозможно загрузить список. Обновите страницу или попробуйте
-                  позже.
-                </div>
-              </CommandPrimitive.Loading>
-            )}
-            {!isLoading && stations.length > 0 ? (
-              <CommandGroup className="p-0">
-                {stations.map((option) => (
-                  <CommandItem
-                    key={uuidv4()}
-                    value={option.title}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onSelect={() => {
-                      onSelectItem(option.code, option.title);
-                    }}
-                    className={cn(
-                      "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 transition cursor-pointer",
-                      selectedLabel === option.title ? "bg-accent" : null
-                    )}
-                  >
-                    <div className="text-base pb-0 m-0">
-                      {option.title}
-                      <OptionDescription {...option} />
-                    </div>
-                  </CommandItem>
-                ))}
-              </CommandGroup>
+          <CommandList className="max-h-[350px]">
+            {!isLoading && stations ? (
+              stations.length > 0 ? (
+                <StationsList
+                  stations={stations}
+                  onSelectItem={onSelectItem}
+                  selectedLabel={selectedLabel}
+                />
+              ) : null
             ) : null}
+            {isApiError && <ApiErrorMessage />}
             {!isLoading ? (
               <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
             ) : null}
@@ -148,6 +175,68 @@ export function AutoComplete({
   );
 }
 
+function InputTrigger({
+  labels,
+  setLabels,
+  setQuery,
+  field,
+  errors,
+  setOpen,
+  onInputBlur,
+  placeholder,
+  className,
+}) {
+  return (
+    <CommandPrimitive.Input
+      asChild
+      value={labels[field.name]}
+      onValueChange={(value) => {
+        setQuery(value.trim().toLowerCase());
+        setLabels((prev) => ({ ...prev, [field.name]: value }));
+      }}
+      onBlur={onInputBlur}
+      onKeyDown={(e) => setOpen(e.key !== "Escape")}
+    >
+      <Input
+        data-name={field.name}
+        placeholder={errors ? errors.message : placeholder}
+        className={cn(
+          "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 shadow-none",
+          className,
+          errors && "placeholder:text-accent",
+          field.name === "to" && "md:pl-8"
+        )}
+      />
+    </CommandPrimitive.Input>
+  );
+}
+
+function StationsList({ stations, onSelectItem, selectedLabel, className }) {
+  return (
+    <CommandGroup className="p-0">
+      {stations.map((option) => (
+        <CommandItem
+          key={uuidv4()}
+          value={option.title}
+          onMouseDown={(e) => e.preventDefault()}
+          onSelect={() => {
+            onSelectItem(option.code, option.title);
+          }}
+          className={cn(
+            "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 transition cursor-pointer hover:text-foreground",
+            selectedLabel === option.title ? "bg-accent" : null
+          )}
+        >
+          <div className="text-base pb-0 m-0 ">
+            {option.title}
+            <OptionDescription {...option} />
+          </div>
+        </CommandItem>
+      ))}
+    </CommandGroup>
+  );
+}
+
 function OptionDescription({ settlement, direction }) {
   return (
     <span className="text-muted-foreground text-xs block">
@@ -155,5 +244,15 @@ function OptionDescription({ settlement, direction }) {
       {settlement && direction ? ", " : null}
       {!!direction && `${direction} напр.`}
     </span>
+  );
+}
+
+function ApiErrorMessage() {
+  return (
+    <CommandPrimitive.Loading>
+      <div className="py-2.5 flex justify-center text-accent">
+        Невозможно загрузить список. Обновите страницу или попробуйте позже.
+      </div>
+    </CommandPrimitive.Loading>
   );
 }
