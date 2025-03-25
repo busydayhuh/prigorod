@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./main.css";
 import App from "./App.jsx";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { HashRouter, Routes, Route } from "react-router";
 import Home from "./pages/Home/Home.jsx";
 import Schedule from "./pages/Schedule/Schedule.jsx";
 import Results from "./pages/Search/Results.jsx";
@@ -12,7 +12,7 @@ import LocationProvider from "./context/LocationContext";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <LocationProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/thread" element={<Thread />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </LocationProvider>
   </StrictMode>
 );
