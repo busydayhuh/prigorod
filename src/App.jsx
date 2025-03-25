@@ -4,13 +4,13 @@ import Footer from "@/components/Footer";
 
 function App() {
   return (
-    <>
+    <div className="relative">
       <Header />
       <main className="flex flex-col justify-center gap-10">
         <Outlet />
       </main>
-      {/* <Footer /> */}
-    </>
+      <Footer />
+    </div>
   );
 }
 

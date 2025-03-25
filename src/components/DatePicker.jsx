@@ -11,11 +11,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { useSearchParams } from "react-router";
+import { useLocation, useSearchParams } from "react-router";
 import { formatDateForParams } from "@/lib/utils";
 
 export function DatePickerWithPresets({ field, setValue, errors }) {
   const [selectedDayName, setSelectedDayName] = useState(null);
+  const location = useLocation().pathname;
 
   const handleClick = (e, dayName) => {
     const diffInDays = +e.target.dataset.value;
@@ -30,7 +31,8 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
         <div
           className={cn(
             "hidden md:flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
-            errors && "text-accent"
+            errors && "text-accent",
+            location === "/" && "flex"
           )}
         >
           <CalendarIcon className="size-4" />

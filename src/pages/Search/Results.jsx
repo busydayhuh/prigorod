@@ -56,7 +56,7 @@ function ResultsTable() {
           <ErrorMessage variant="general" />
         )
       ) : (
-        <div className="relative">
+        <div className="relative min-h-[30rem]">
           {isLoading && <Loader />}
           {data && data.suggestions && <SearchSuggestions />}
           {data && !data.suggestions && (

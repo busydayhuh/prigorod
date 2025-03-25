@@ -40,7 +40,7 @@ function ThreadTable() {
           <ErrorMessage variant="general" />
         )
       ) : (
-        <div className="relative">
+        <div className="relative min-h-[30rem]">
           {isLoading && <Loader />}
           <div className="thread-grid table-headers">
             <div></div>

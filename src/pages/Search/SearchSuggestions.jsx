@@ -25,7 +25,7 @@ export default function SearchSuggestions() {
               ${searchParams.get("toLabel")}. Возможно, вы искали `}
           <Button
             variant="link"
-            className="p-0 inline has-[>svg]:px-0"
+            className="p-0 inline has-[>svg]:px-0 text-accent"
             onClick={() => {
               searchParams.set("to", data.suggestions[0].code);
               searchParams.set("toLabel", data.suggestions[0].title);

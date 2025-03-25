@@ -77,7 +77,7 @@ function ScheduleTable() {
           <ErrorMessage variant="general" />
         )
       ) : (
-        <div className="relative">
+        <div className="relative min-h-[30rem]">
           {isLoading && <Loader />}
 
           {data && (

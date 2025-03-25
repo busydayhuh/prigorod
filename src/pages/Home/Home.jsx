@@ -11,14 +11,14 @@ export default function Home() {
   const { nearestStations, nearestError, nearestLoading } = useNearest();
 
   return (
-    <div className="w-narrow md:mt-5">
+    <div className="w-narrow md:mt-5 mt-10">
       {!nearestLoading && position && (
         <PageHead title={position.city} geoAllowed={geoAllowed} />
       )}
       {nearestError ? (
         <ErrorMessage variant="general" />
       ) : (
-        <div className="relative md:mt-10">
+        <div className="relative md:mt-10 min-h-[30rem]">
           {nearestLoading && <Loader />}
           {nearestStations && (
             <div className="grid home-grid gap-3">
