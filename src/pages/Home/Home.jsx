@@ -41,13 +41,13 @@ export default function Home() {
               <div className="row-start-2 justify-center sm:flex hidden items-center p-5">
                 <img
                   src="/src/assets/Rainbow.png"
-                  className="mx-auto w-[max(300px,60%)]"
+                  className="mx-auto w-[max(300px,60%)] hover:translate-y-1 transition-all"
                 />
               </div>
               <div className="md:col-start-3 md:row-start-1 row-span-2 sm:flex hidden items-center">
                 <img
                   src="/src/assets/SummertimeSadness.png"
-                  className="mx-auto w-[max(250px,80%)]"
+                  className="mx-auto w-[max(250px,80%)] hover:rotate-30 transition-all"
                 />
               </div>
             </div>

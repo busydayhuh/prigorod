@@ -1,6 +1,7 @@
 import { Outlet } from "react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ScrollUpBtn } from "./components/ui";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Outlet />
       </main>
       <Footer />
+      <ScrollUpBtn />
     </div>
   );
 }

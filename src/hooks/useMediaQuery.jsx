@@ -6,7 +6,9 @@ export default function useMediaQuery(query) {
 
   useEffect(() => {
     const handler = () => setMatch(!!mediaQuery.matches);
+
     mediaQuery.addEventListener("change", handler);
+
     return () => mediaQuery.removeEventListener("change", handler);
   }, [mediaQuery]);
 

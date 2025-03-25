@@ -10,6 +10,7 @@ import {
   ClippedTextElem,
 } from "./TableElements";
 import { FiltersGroup, Toggles, SelectDirection } from "./TableFilters";
+import ScrollUpBtn from "./ScrollUpBtn";
 
 export {
   ErrorMessage,
@@ -24,4 +25,5 @@ export {
   FiltersGroup,
   Toggles,
   SelectDirection,
+  ScrollUpBtn,
 };
