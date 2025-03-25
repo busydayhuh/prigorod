@@ -66,11 +66,11 @@ function Searchbar() {
   }
 
   return (
-    <div className="absolute bottom-0 transform md:translate-y-[50%] translate-y-[70%] bordered shadow-(--sb-shadow) max-w-5xl w-[96%] mx-auto md:pl-5 md:pr-2.5">
+    <div className="absolute bottom-0 transform md:translate-y-[50%] translate-y-[70%] border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-primary-foreground shadow-(--sb-shadow) max-w-5xl w-[96%] mx-auto md:pl-5 md:pr-2.5">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="sb-flex-horizontal"
+          className="w-full flex flex-col md:flex-row md:items-center md:text-lg grow"
         >
           <FormField
             control={form.control}

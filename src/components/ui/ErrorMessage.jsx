@@ -46,7 +46,7 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
             <>
               Расписание действительно {props.days}
               {props.exception && (
-                <span className="text-accent">, кроме {props.exception}</span>
+                <span className="text-accent">, кроме {props.exception}.</span>
               )}
             </>
           )}
@@ -55,7 +55,7 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
     },
   };
   return (
-    <div className="flex flex-col gap-3 items-center justify-center mt-10 max-w-3xl mx-auto">
+    <div className="flex flex-col gap-3 items-center  mt-10 max-w-3xl mx-auto min-h-[25rem]">
       {variants[variant].icon}
       <h3 className="font-medium md:text-2xl text-lg">{variants[variant].h}</h3>
       <p className="md:text-base text-sm text-center">

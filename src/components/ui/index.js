@@ -11,6 +11,7 @@ import {
 } from "./TableElements";
 import { FiltersGroup, Toggles, SelectDirection } from "./TableFilters";
 import ScrollUpBtn from "./ScrollUpBtn";
+import ShadowBtn from "./ShadowBtn";
 
 export {
   ErrorMessage,
@@ -26,4 +27,5 @@ export {
   Toggles,
   SelectDirection,
   ScrollUpBtn,
+  ShadowBtn,
 };

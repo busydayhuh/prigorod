@@ -1,6 +1,6 @@
 import React from "react";
 import Searchbar from "./Searchbar";
-import { Button } from "./shadcn/button";
+import { ShadowBtn } from "./ui";
 import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 
@@ -18,11 +18,11 @@ function Header() {
       )}
     >
       <div className="flex justify-end w-main">
-        <Link to={"https://github.com/"}>
-          <Button className="oval-btn-icon bg-primary-foreground hover:bg-accent shadow-(--row-shadow)">
+        <Link to={"https://github.com/busydayhuh/prigorod"}>
+          <ShadowBtn>
             <GithubLogo />
             Github
-          </Button>
+          </ShadowBtn>
         </Link>
       </div>
       <Link to={"/"}>{isHome ? <LogoLg /> : <LogoSm />}</Link>

@@ -1,13 +1,24 @@
 /* eslint-disable react/prop-types */
 import { useApi } from "@/services";
 import { useSearchParams } from "react-router";
-import { filterExpress } from "@/lib/filterExpress";
 import { cn } from "@/lib/utils";
 import { ErrorMessage } from "@/components/ui";
 
 function ResultsBody({ route, isDepartedOpen, expressOnly, renderRow }) {
   const [searchParams] = useSearchParams();
   const { data, isLoading } = useApi(route, searchParams);
+
+  const filterExpress = (results, expressOnly) => {
+    if (expressOnly) {
+      const expressOnlyResults = results.filter((result) => {
+        return result.thread.express_type;
+      });
+
+      return expressOnlyResults;
+    }
+
+    return results;
+  };
 
   const filteredFutureResults = expressOnly
     ? filterExpress(data.future || data[route].future, expressOnly)

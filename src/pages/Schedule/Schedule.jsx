@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
-
-import { filterExpress } from "@/lib/filterExpress";
-import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 import ScheduleRow from "@/pages/Schedule/ScheduleRow";
@@ -26,27 +23,6 @@ function ScheduleTable() {
     isDepartedOpen: false,
     expressOnly: false,
   });
-
-  const futureResults = (trains, expressOnly) => {
-    if (trains.length === 0) return <ErrorMessage variant="noFutureResults" />;
-
-    const filteredResults = expressOnly
-      ? filterExpress(trains, expressOnly)
-      : trains;
-
-    if (filteredResults.length === 0)
-      return <ErrorMessage variant="noExpress" />;
-
-    return filteredResults.map((segment) => {
-      return (
-        <ScheduleRow
-          key={uuidv4()}
-          date={searchParams.get("date")}
-          {...segment}
-        />
-      );
-    });
-  };
 
   return (
     <div className="w-main">

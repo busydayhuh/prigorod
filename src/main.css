@@ -3,18 +3,9 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* text:
-- lg (1.125rem, 18px) — searchbar, lg table text
-- base (1rem, 16px)
-- sm (14px) - кнопки и триггеры
-- xs (12px) - small badges
-*/
-
 :root {
   --background: hsla(205, 95%, 92%, 0.497);
   --foreground: hsl(205, 84%, 22%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(240 10% 3.9%);
   --accent: hsl(349, 84%, 60%);
   --accent-foreground: hsl(205, 84%, 22%);
   --secondary: hsl(212, 69%, 65%);
@@ -22,12 +13,7 @@
   --muted: hsl(240 4.8% 95.9%);
   --muted-foreground: hsla(205, 84%, 22%, 0.523);
   --primary-foreground: hsl(60, 100%, 100%);
-  --primary: hsl(240 5.9% 10%);
-  --destructive: hsl(0 84.2% 60.2%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: var(--foreground);
-  --input: hsl(240 5.9% 90%);
-  --ring: hsl(240 5.9% 10%);
+  --primary: hsl(205, 84%, 22%);
   --radius: 0rem;
   --sb-shadow: 2px 4px 0px 1px var(--foreground);
   --row-shadow: 2px 2px 0px 1px var(--foreground);
@@ -36,10 +22,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--primary-foreground);
+  --color-popover-foreground: var(--primary);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -48,16 +32,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+  --color-border: var(--foreground);
+  --color-input: var(--primary-foreground);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -66,7 +42,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-foreground;
+    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-(--color-border);
   }
 
   button {
@@ -79,26 +55,16 @@
     @apply flex flex-col md:gap-20 gap-35 justify-center;
   }
 
-  .page-header {
-    @apply flex flex-wrap gap-2 items-baseline md:mb-10 mb-5 mt-30 md:mt-20;
-  }
-
   .w-main {
-    width: min(96%, 80rem);
-    margin-inline: auto;
+    @apply w-[min(96%,80rem)] mx-auto;
   }
 
   .w-narrow {
-    width: min(96%, 68rem);
-    margin-inline: auto;
-  }
-
-  .bordered {
-    @apply border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-primary-foreground;
+    @apply w-[min(96%,68rem)] mx-auto;
   }
 
   .oval-btn-icon {
-    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-foreground;
+    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border);
   }
 
   .badge {
@@ -109,12 +75,8 @@
     @apply data-[state=on]:bg-accent;
   }
 
-  .sb-flex-horizontal {
-    @apply w-full flex flex-col md:flex-row md:items-center md:text-lg grow;
-  }
-
   .popover-borders {
-    @apply border-3 rounded-2xl border-foreground;
+    @apply border-3 rounded-2xl border-(--color-border);
   }
 
   .h-transition {
@@ -123,6 +85,10 @@
 
   .table-row-base {
     @apply border-3 rounded-[20px] py-5 px-6 shadow-(--row-shadow) md:items-center bg-primary-foreground;
+  }
+
+  .home-grid {
+    @apply grid-cols-[repeat(auto-fit,minmax(290px,1fr))];
   }
 
   .results-grid {
@@ -156,63 +122,58 @@
   .error-icon {
     @apply md:size-20 size-10 text-foreground mb-1 stroke-1;
   }
+}
 
-  .home-grid {
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+.loader {
+  width: 50px;
+  height: 28px;
+  --_g: no-repeat radial-gradient(farthest-side, #000 94%, #0000);
+  background: var(--_g) 50% 0, var(--_g) 100% 0;
+  background-size: 12px 12px;
+  position: relative;
+  animation: l23-0 1.5s linear infinite;
+}
+.loader:before {
+  content: "";
+  position: absolute;
+  height: 12px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--accent);
+  left: 0;
+  top: 0;
+  animation: l23-1 1.5s linear infinite,
+    l23-2 0.5s cubic-bezier(0, 200, 0.8, 200) infinite;
+}
+@keyframes l23-0 {
+  0%,
+  31% {
+    background-position: 50% 0, 100% 0;
   }
-
-  /* HTML: <div class="loader"></div> */
-  .loader {
-    width: 50px;
-    height: 28px;
-    --_g: no-repeat radial-gradient(farthest-side, #000 94%, #0000);
-    background: var(--_g) 50% 0, var(--_g) 100% 0;
-    background-size: 12px 12px;
-    position: relative;
-    animation: l23-0 1.5s linear infinite;
+  33% {
+    background-position: 50% 100%, 100% 0;
   }
-  .loader:before {
-    content: "";
-    position: absolute;
-    height: 12px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--accent);
-    left: 0;
-    top: 0;
-    animation: l23-1 1.5s linear infinite,
-      l23-2 0.5s cubic-bezier(0, 200, 0.8, 200) infinite;
+  43%,
+  64% {
+    background-position: 50% 0, 100% 0;
   }
-  @keyframes l23-0 {
-    0%,
-    31% {
-      background-position: 50% 0, 100% 0;
-    }
-    33% {
-      background-position: 50% 100%, 100% 0;
-    }
-    43%,
-    64% {
-      background-position: 50% 0, 100% 0;
-    }
-    66% {
-      background-position: 50% 0, 100% 100%;
-    }
-    79% {
-      background-position: 50% 0, 100% 0;
-    }
-    100% {
-      transform: translateX(calc(-100% / 3));
-    }
+  66% {
+    background-position: 50% 0, 100% 100%;
   }
-  @keyframes l23-1 {
-    100% {
-      left: calc(100% + 7px);
-    }
+  79% {
+    background-position: 50% 0, 100% 0;
   }
-  @keyframes l23-2 {
-    100% {
-      top: -0.1px;
-    }
+  100% {
+    transform: translateX(calc(-100% / 3));
+  }
+}
+@keyframes l23-1 {
+  100% {
+    left: calc(100% + 7px);
+  }
+}
+@keyframes l23-2 {
+  100% {
+    top: -0.1px;
   }
 }
