@@ -5,7 +5,7 @@ import { useLocation } from "@/context/LocationContext";
 export default function useNearest() {
   const location = useLocation();
 
-  const url = `http://localhost:5050/api/nearest_stations?lat=${location.coords.latitude}&lng=${location.coords.longitude}`;
+  const url = `https://prigorod-proxy-server.glitch.me/api/nearest_stations?lat=${location.coords.latitude}&lng=${location.coords.longitude}`;
 
   const {
     data: nearestStations,
