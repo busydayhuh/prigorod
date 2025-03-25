@@ -4,6 +4,8 @@ import { useNearest } from "@/services";
 import { LinkElem, Loader, PageHead, ErrorMessage } from "@/components/ui";
 import { formatDistance } from "@/lib/utils";
 import { useLocation } from "@/context/LocationContext";
+import rainbow from "@/assets/Rainbow.png";
+import flower from "@/assets/SummertimeSadness.png";
 
 export default function Home() {
   const { geoAllowed } = useLocation();
@@ -40,13 +42,13 @@ export default function Home() {
               ))}
               <div className="row-start-2 justify-center sm:flex hidden items-center p-5">
                 <img
-                  src="/src/assets/Rainbow.png"
+                  src={rainbow}
                   className="mx-auto w-[max(300px,60%)] hover:translate-y-1 transition-all"
                 />
               </div>
               <div className="md:col-start-3 md:row-start-1 row-span-2 sm:flex hidden items-center">
                 <img
-                  src="/src/assets/SummertimeSadness.png"
+                  src={flower}
                   className="mx-auto w-[max(250px,80%)] hover:rotate-30 transition-all"
                 />
               </div>

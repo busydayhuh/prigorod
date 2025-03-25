@@ -3,6 +3,9 @@ import Searchbar from "./Searchbar";
 import { ShadowBtn } from "./ui";
 import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
+import githubLogo from "@/assets/github-alt-icon-original.svg";
+import heroImg from "@/assets/hero_homepage.png";
+import logo from "@/assets/logo.png";
 
 function Header() {
   const location = useLocation().pathname;
@@ -34,7 +37,7 @@ function Header() {
 function LogoLg() {
   return (
     <img
-      src="/src/assets/hero_homepage.png"
+      src={heroImg}
       className="w-[min(1120px,95%)] aspect-auto mx-auto"
       alt="Пригород — расписание электричек"
     />
@@ -44,7 +47,7 @@ function LogoLg() {
 function LogoSm() {
   return (
     <img
-      src="/src/assets/logo.png"
+      src={logo}
       className="md:w-sm md:block hidden"
       alt="Пригород — расписание электричек"
     />
@@ -52,7 +55,7 @@ function LogoSm() {
 }
 
 function GithubLogo() {
-  return <img src="/github-alt-icon-original.svg" className="w-4 h-4" alt="" />;
+  return <img src={githubLogo} className="w-4 h-4" alt="" />;
 }
 
 export default Header;
