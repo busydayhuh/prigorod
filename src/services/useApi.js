@@ -11,5 +11,3 @@ export default function useApi(reqRoute, params = null) {
   });
   return { data, error, isLoading };
 }
-
-//https://octagonal-brindle-archeology.glitch.me/api?${params} - ACTUAL URL
