@@ -10,7 +10,7 @@ A web application for viewing suburban train schedules, built with React and Tai
 
 ## Features
 
-- **Train Schedules**: View schedules for trains between selected stations.
+- **Train Schedules**: View schedules for trains between selected stations, the schedule of a selected station, or a train route.
 - **Location-Based Search**: Automatically detect the user's location to suggest nearby stations.
 - **Filters**: Filter results by express trains, departed trains, and more.
 - **Suggestions**: Get alternative routes or station suggestions when no direct routes are available.
