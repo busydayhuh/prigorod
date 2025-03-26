@@ -1,4 +1,5 @@
 # Prigorod
+[![Static Badge](https://img.shields.io/badge/lang-ENG-EF4565)](https://github.com/busydayhuh/prigorod/blob/main/README.md)  [![Static Badge](https://img.shields.io/badge/lang-RU-66A0E3)](https://github.com/busydayhuh/prigorod/blob/main/README.ru.md)
 
 A web application for viewing suburban train schedules, built with React and Tailwind CSS. The app provides features like location-based search, filtering options, and suggestions for nearby stations.
 
