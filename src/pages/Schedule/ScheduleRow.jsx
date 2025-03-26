@@ -33,6 +33,7 @@ function ScheduleRow(props) {
         variant="lg_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}
+        className="md:row-span-1 row-span-2"
       />
       <TimeElem
         timestamp={props.arrival}
