@@ -27,6 +27,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/shadcn/drawer";
+import { Skeleton } from "./shadcn/skeleton";
+import { Loader } from "lucide-react";
 
 export function AutoComplete({
   emptyMessage = "Нет станций с таким именем.",
@@ -105,6 +107,13 @@ export function AutoComplete({
             />
 
             <CommandList className="max-h-auto">
+              {isLoading && (
+                <CommandPrimitive.Loading>
+                  <div className="p-1 text-foreground flex items-center justify-center h-20">
+                    <Loader className="animate-spin" />
+                  </div>
+                </CommandPrimitive.Loading>
+              )}
               {!isLoading && stations ? (
                 stations.length > 0 ? (
                   <StationsList
@@ -155,6 +164,13 @@ export function AutoComplete({
           className="w-[var(--radix-popover-trigger-width)] p-0 popover-borders max-h-[300px]"
         >
           <CommandList className="max-h-[350px]">
+            {isLoading && (
+              <CommandPrimitive.Loading>
+                <div className="p-1">
+                  <Skeleton className="search-skeleton" />
+                </div>
+              </CommandPrimitive.Loading>
+            )}
             {!isLoading && stations ? (
               stations.length > 0 ? (
                 <StationsList

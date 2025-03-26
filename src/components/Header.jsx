@@ -21,12 +21,12 @@ function Header() {
       )}
     >
       <div className="flex justify-end w-main">
-        <Link to={"https://github.com/busydayhuh/prigorod"}>
+        <a href="https://github.com/busydayhuh/prigorod" target="_blank">
           <ShadowBtn>
             <GithubLogo />
             Github
           </ShadowBtn>
-        </Link>
+        </a>
       </div>
       <Link to={"/"}>{isHome ? <LogoLg /> : <LogoSm />}</Link>
       <Searchbar />
