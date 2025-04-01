@@ -166,8 +166,8 @@ export function AutoComplete({
           <CommandList className="max-h-[350px]">
             {isLoading && (
               <CommandPrimitive.Loading>
-                <div className="p-1">
-                  <Skeleton className="search-skeleton" />
+                <div className="p-1 text-foreground flex items-center justify-center h-20">
+                  <Loader className="animate-spin" /> Ищем станции...
                 </div>
               </CommandPrimitive.Loading>
             )}
