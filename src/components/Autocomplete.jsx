@@ -27,7 +27,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/shadcn/drawer";
-import { Skeleton } from "./shadcn/skeleton";
 import { Loader } from "lucide-react";
 
 export function AutoComplete({
