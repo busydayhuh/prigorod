@@ -20,7 +20,7 @@ A web application for viewing suburban train schedules, built with React and Tai
 
 ## Technologies Used
 
-- **Frontend**: React, Tailwind CSS, shadcn components
+- **Frontend**: React, Tailwind CSS, shadcn-ui
 - **State Management**: React Context API
 - **Routing**: React Router
 - **API Integration**: Custom hooks with `useSWR` for data fetching
