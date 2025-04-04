@@ -5,6 +5,8 @@ import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 import githubLogo from "@/assets/github-alt-icon-original.svg";
 import heroImg from "@/assets/hero_homepage.png";
+import heroSm from "@/assets/hero_sm.png";
+import heroLg from "@/assets/hero_lg.png";
 import logo from "@/assets/logo.png";
 
 function Header() {
@@ -36,11 +38,14 @@ function Header() {
 
 function LogoLg() {
   return (
-    <img
-      src={heroImg}
-      className="w-[min(1120px,95%)] aspect-auto mx-auto"
-      alt="Пригород — расписание электричек"
-    />
+    <picture>
+      <img
+        src={heroImg}
+        srcSet={`${heroImg} 1200w, ${heroLg} 900w, ${heroSm} 600w`}
+        className="w-[min(1120px,95%)] aspect-[619/200] mx-auto"
+        alt="Пригород — расписание электричек"
+      />
+    </picture>
   );
 }
 

@@ -1,19 +1,27 @@
 import useSWR from "swr";
 import fetcher from "./fetcher";
 import { useLocation } from "@/context/LocationContext";
+import { useState, useEffect } from "react";
 
 export default function useNearest() {
-  const location = useLocation();
+  const { coords } = useLocation();
+  const [isFetchingNearest, setIsFetchingNearest] = useState(true);
 
-  const url = `https://prigorod-proxy-server.glitch.me/api/nearest_stations?lat=${location.coords.latitude}&lng=${location.coords.longitude}`;
+  useEffect(() => {
+    if (coords) {
+      setIsFetchingNearest(false);
+    }
+  }, [coords]);
+
+  const url = `https://prigorod-proxy-server.glitch.me/api/nearest_stations?lat=${coords?.latitude}&lng=${coords?.longitude}`;
 
   const {
     data: nearestStations,
     nearestError,
     nearestLoading,
-  } = useSWR(() => url, fetcher, {
+  } = useSWR(() => (coords ? url : null), fetcher, {
     keepPreviousData: true,
   });
 
-  return { nearestStations, nearestError, nearestLoading };
+  return { nearestStations, nearestError, isFetchingNearest };
 }

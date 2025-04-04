@@ -8,17 +8,17 @@ export function useLocation() {
 }
 
 function LocationProvider({ children }) {
-  const defaultPosition = {
-    latitude: 55.7522,
-    longitude: 37.6156,
-  };
-
   let [userPosition, setUserPosition] = useState({
     geoAllowed: false,
-    coords: defaultPosition,
+    coords: null,
   });
 
   useEffect(() => {
+    const defaultPosition = {
+      latitude: 55.7522,
+      longitude: 37.6156,
+    };
+
     const success = (position) => {
       setUserPosition({
         geoAllowed: true,
@@ -29,7 +29,14 @@ function LocationProvider({ children }) {
       });
     };
 
-    const watcher = navigator.geolocation.watchPosition(success);
+    const error = () => {
+      setUserPosition({
+        geoAllowed: false,
+        coords: defaultPosition,
+      });
+    };
+
+    const watcher = navigator.geolocation.watchPosition(success, error);
 
     return () => {
       navigator.geolocation.clearWatch(watcher);

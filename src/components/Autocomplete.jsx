@@ -216,7 +216,7 @@ function InputTrigger({
         data-name={field.name}
         placeholder={errors ? errors.message : placeholder}
         className={cn(
-          "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 shadow-none",
+          "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:placeholder:text-muted-foreground shadow-none",
           className,
           errors && "placeholder:text-accent",
           field.name === "to" && "md:pl-8"
