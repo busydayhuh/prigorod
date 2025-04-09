@@ -42,7 +42,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-(--color-border);
+    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
   }
 
   button {
