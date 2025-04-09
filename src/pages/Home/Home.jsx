@@ -11,7 +11,8 @@ import { Skeleton } from "@/components/shadcn/skeleton";
 export default function Home() {
   const { geoAllowed } = useLocation();
   const { position, isFetchingLocation } = useGeocode();
-  const { nearestStations, nearestError, isFetchingNearest } = useNearest();
+  const { nearestStations, nearestError, isFetchingNearest, nearestLoading } =
+    useNearest();
 
   return (
     <div className="w-narrow md:mt-5 mt-10">
@@ -35,7 +36,7 @@ export default function Home() {
         <ErrorMessage variant="general" />
       ) : (
         <div className="relative md:mt-10 min-h-[30rem]">
-          {isFetchingNearest && <Loader />}
+          {(isFetchingNearest || nearestLoading) && <Loader />}
 
           {nearestStations && (
             <div className="grid home-grid gap-3">

@@ -23,5 +23,5 @@ export default function useNearest() {
     keepPreviousData: true,
   });
 
-  return { nearestStations, nearestError, isFetchingNearest };
+  return { nearestStations, nearestError, isFetchingNearest, nearestLoading };
 }
