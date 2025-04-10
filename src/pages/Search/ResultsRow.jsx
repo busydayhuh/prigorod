@@ -36,7 +36,7 @@ function ResultsRow(props) {
         variant="base_station"
         time={props.departure}
         date={date}
-        className="max-w-[3rem] break-words "
+        className="max-w-[3rem] break-words"
       />
       <TravelTimeElem travelTime={props.duration} isExpress={!!express_type} />
       <StationElem
@@ -60,7 +60,7 @@ function ResultsRow(props) {
       {!!price && (
         <div
           className={cn(
-            "md:text-2xl text-xl flex items-center md:justify-center justify-end font-medium pt-3 md:pt-0 col-span-3 md:col-span-1",
+            "md:text-2xl text-xl flex items-center md:justify-center justify-start font-medium pt-3 md:pt-0 col-span-3 md:col-span-1",
             !!express_type && "text-accent"
           )}
         >{`${price} ₽`}</div>

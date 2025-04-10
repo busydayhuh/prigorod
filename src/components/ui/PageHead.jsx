@@ -100,11 +100,9 @@ export default function PageHead({
         </>
       ),
       text: geoAllowed ? null : isFetching ? (
-        <span className="text-muted-foreground">
-          найдём ближайшие к вам станции
-        </span>
+        <span className="text-foreground">найдём ближайшие к вам станции</span>
       ) : (
-        <span className="text-muted-foreground">
+        <span className="text-foreground">
           доступ к местоположению запрещён, показана локация по умолчанию
         </span>
       ),

@@ -90,7 +90,7 @@ export function StationElem({
   };
 
   return (
-    <div className="flex flex-col items-start md:gap-2 gap-1 pt-3 md:pt-0">
+    <div className="flex flex-col items-start md:gap-2 gap-1 md:pt-0 break-all">
       {!!time && <TimeElem timestamp={time} date={date}></TimeElem>}
       <LinkElem
         url={scheduleUrl}
@@ -98,7 +98,11 @@ export function StationElem({
       >
         {stationName}
       </LinkElem>
-      {!!platform && <Badge className="badge text-xs">{platform}</Badge>}
+      {!!platform && (
+        <div className="bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs font-medium">
+          {platform}
+        </div>
+      )}
     </div>
   );
 }
@@ -107,11 +111,11 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
   return (
     <div
       className={cn(
-        "flex gap-2 text-sm md:text-base items-center",
+        "flex gap-2 text-sm md:text-base items-center justify-center lg:justify-start",
         isExpress && "text-accent"
       )}
     >
-      {isExpress && <Rabbit className="size-4" />}
+      {isExpress && <Rabbit className="size-4 md:block hidden" />}
       {getHoursAndMinutes(travelTime)}
     </div>
   );

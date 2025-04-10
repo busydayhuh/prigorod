@@ -7,7 +7,7 @@ export default function ThreadRow(props) {
     <div className="thread-grid table-row-base">
       <StationElem
         scheduleUrl={`/schedule?station=${props.station.code}&date=${props.date}&name=${props.station.title}`}
-        stationName={props.station.title}
+        stationName={props.station.short_title || props.station.title}
         platform={props.platform}
         variant="lg_station"
       />
@@ -15,7 +15,7 @@ export default function ThreadRow(props) {
         timestamp={props.arrival}
         date={props.date || ""}
         className={cn(
-          "text-foreground/40 md:text-center text-center",
+          "text-foreground/40 md:text-center text-center text-xl",
           props.arrival && "text-right"
         )}
       />
@@ -23,7 +23,7 @@ export default function ThreadRow(props) {
         timestamp={props.departure}
         date={props.date || ""}
         className={cn(
-          "md:text-center text-center",
+          "md:text-center text-center text-xl",
           props.departure && "text-right"
         )}
       />

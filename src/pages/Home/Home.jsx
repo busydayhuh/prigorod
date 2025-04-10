@@ -15,7 +15,7 @@ export default function Home() {
     useNearest();
 
   return (
-    <div className="w-narrow md:mt-5 mt-10">
+    <div className="w-narrow md:mt-5">
       {!isFetchingLocation && position && (
         <PageHead
           title={position.city}

@@ -102,7 +102,7 @@ export function AutoComplete({
               setOpen={setOpen}
               onInputBlur={onInputBlur}
               placeholder={placeholder}
-              className="pt-1"
+              className="pt-1 pl-3 border-l-0"
             />
 
             <CommandList className="max-h-auto">
@@ -217,9 +217,9 @@ function InputTrigger({
         placeholder={errors ? errors.message : placeholder}
         className={cn(
           "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:placeholder:text-muted-foreground shadow-none",
-          className,
           errors && "placeholder:text-accent",
-          field.name === "to" && "md:pl-8"
+          field.name === "to" && "pl-8 border-l-3 md:border-l-0",
+          className
         )}
       />
     </CommandPrimitive.Input>

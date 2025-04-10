@@ -33,20 +33,20 @@ function ScheduleRow(props) {
         variant="lg_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}
-        className="md:row-span-1 row-span-2"
+        className="self-center"
       />
       <TimeElem
         timestamp={props.arrival}
         date={props.date}
-        className="text-foreground/40 text-center md:self-center self-end"
+        className="text-foreground/40 text-center self-center text-[22px]"
       />
       <TimeElem
         timestamp={props.departure}
         date={props.date}
-        className="text-center md:self-center self-end"
+        className="text-center text-[22px] self-center"
       />
 
-      <div className="table-base-text md:col-span-1 col-span-2">
+      <div className="table-base-text md:col-span-1 col-span-3 max-w-32">
         {props.except_days
           ? `${props.days}, кроме ${props.except_days}`
           : props.days}
@@ -58,9 +58,13 @@ function ScheduleRow(props) {
           <ClippedTextElem text={props.stops} />
         )}
       </div>
-      <div className="table-base-text text-center ">
-        {props.platform && <>{props.platform}</>}
-      </div>
+      {props.platform ? (
+        <div className="md:table-base-text text-center md:justify-self-center bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs md:text-sm self-center font-medium">
+          {props.platform}
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

@@ -72,56 +72,58 @@ function Searchbar() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full flex flex-col md:flex-row md:items-center md:text-lg grow"
         >
-          <FormField
-            control={form.control}
-            name="from"
-            render={({ field }) => (
-              <FormItem>
-                <div>
-                  <FormControl>
-                    <AutoComplete
-                      labels={labels}
-                      setLabels={setLabels}
-                      field={field}
-                      setValue={form.setValue}
-                      placeholder="откуда"
-                      errors={form.formState.errors.from}
-                    />
-                  </FormControl>
-                </div>
-              </FormItem>
-            )}
-          />
-          <div className="relative">
-            <Button
-              type="button"
-              onClick={handleSwap}
-              size="lg"
-              className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground text-primary-foreground rotate-90 md:rotate-0"
-            >
-              <ArrowLeftRight />
-            </Button>
+          <div className="w-full flex items-center">
+            <FormField
+              control={form.control}
+              name="from"
+              render={({ field }) => (
+                <FormItem className="grow md:grow-0">
+                  <div>
+                    <FormControl>
+                      <AutoComplete
+                        labels={labels}
+                        setLabels={setLabels}
+                        field={field}
+                        setValue={form.setValue}
+                        placeholder="откуда"
+                        errors={form.formState.errors.from}
+                      />
+                    </FormControl>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="relative">
+              <Button
+                type="button"
+                onClick={handleSwap}
+                size="lg"
+                className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground text-primary-foreground"
+              >
+                <ArrowLeftRight />
+              </Button>
+            </div>
+            <FormField
+              control={form.control}
+              name="to"
+              render={({ field }) => (
+                <FormItem className="grow md:grow-0">
+                  <div>
+                    <FormControl>
+                      <AutoComplete
+                        labels={labels}
+                        setLabels={setLabels}
+                        field={field}
+                        setValue={form.setValue}
+                        placeholder="куда"
+                        errors={form.formState.errors.to}
+                      />
+                    </FormControl>
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
-          <FormField
-            control={form.control}
-            name="to"
-            render={({ field }) => (
-              <FormItem>
-                <div>
-                  <FormControl>
-                    <AutoComplete
-                      labels={labels}
-                      setLabels={setLabels}
-                      field={field}
-                      setValue={form.setValue}
-                      placeholder="куда"
-                      errors={form.formState.errors.to}
-                    />
-                  </FormControl>
-                </div>
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="date"

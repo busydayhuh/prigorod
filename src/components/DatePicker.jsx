@@ -30,7 +30,7 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
       <PopoverTrigger asChild>
         <div
           className={cn(
-            "hidden md:flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
+            "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
             errors && "text-accent",
             location === "/" && "flex"
           )}
