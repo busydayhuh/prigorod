@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
 import { format } from "date-fns";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -27,11 +27,12 @@ export function getHoursAndMinutes(seconds) {
   const minutesStr = `${minutes} мин.`;
   const hoursStr = `${hours} ч.`;
 
-  return hours ? `${hoursStr} ${minutesStr}` : minutesStr;
+  return hours ? `${hoursStr} ${minutesStr > 0 ? minutesStr : ""}` : minutesStr;
 }
 
 export function formatDateForParams(date) {
   if (!date) return "";
+  if (date instanceof Date) return format(date, "yyyy-MM-dd");
 
   return format(new Date(date), "yyyy-MM-dd");
 }

@@ -1,52 +1,70 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const LocationContext = createContext();
+const LocationRequestContext = createContext();
+const LocationRequestUpdater = createContext();
 
 export function useLocation() {
   return useContext(LocationContext);
 }
 
+export function useLocationRequest() {
+  return useContext(LocationRequestContext);
+}
+
+export function useLocationRequestUpdater() {
+  return useContext(LocationRequestUpdater);
+}
+
 function LocationProvider({ children }) {
   let [userPosition, setUserPosition] = useState({
-    geoAllowed: false,
+    locationAllowed: false,
     coords: null,
+    locationDeclined: false,
   });
 
+  let [isLocationRequested, setIsLocationRequested] = useState(false);
+
   useEffect(() => {
-    const defaultPosition = {
-      latitude: 55.7522,
-      longitude: 37.6156,
-    };
+    if (isLocationRequested) {
+      const success = (position) => {
+        setUserPosition({
+          locationAllowed: true,
+          coords: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+          locationDeclined: false,
+        });
+      };
 
-    const success = (position) => {
-      setUserPosition({
-        geoAllowed: true,
-        coords: {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        },
-      });
-    };
+      const error = () => {
+        setUserPosition({
+          locationAllowed: false,
+          coords: null,
+          locationDeclined: true,
+        });
+      };
 
-    const error = () => {
-      setUserPosition({
-        geoAllowed: false,
-        coords: defaultPosition,
-      });
-    };
+      const watcher = navigator.geolocation.watchPosition(success, error);
 
-    const watcher = navigator.geolocation.watchPosition(success, error);
+      return () => {
+        navigator.geolocation.clearWatch(watcher);
+      };
+    }
 
-    return () => {
-      navigator.geolocation.clearWatch(watcher);
-    };
-  }, []);
+    return;
+  }, [isLocationRequested]);
 
   return (
-    <LocationContext.Provider value={userPosition}>
-      {children}
-    </LocationContext.Provider>
+    <LocationRequestContext.Provider value={isLocationRequested}>
+      <LocationRequestUpdater.Provider value={setIsLocationRequested}>
+        <LocationContext.Provider value={userPosition}>
+          {children}
+        </LocationContext.Provider>
+      </LocationRequestUpdater.Provider>
+    </LocationRequestContext.Provider>
   );
 }
 

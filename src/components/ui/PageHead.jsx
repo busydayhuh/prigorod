@@ -1,19 +1,17 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import {
-  Route,
-  CalendarSearch,
-  School,
-  MapPinCheck,
-  MapPinOff,
-  LocateFixedIcon,
-  Map,
-} from "lucide-react";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
+import {
+  CalendarSearch,
+  LocateFixedIcon,
+  MapPinCheck,
+  MapPinOff,
+  Route,
+  School,
+} from "lucide-react";
 
-import { useLocation } from "react-router";
 import { cn } from "@/lib/utils";
+import { useLocation } from "react-router";
 
 export default function PageHead({
   number = "",
@@ -112,15 +110,13 @@ export default function PageHead({
   return (
     <div
       className={cn(
-        "flex gap-3 md:mb-8 items-start mb-5 mt-40 md:mt-20",
+        "flex gap-3 md:mb-8 items-start mb-5",
         location === "/" && "md:mb-10"
       )}
     >
       <Icon>{variants[location].icon}</Icon>
       <div className="pl-2 md:pl-0">
-        <h3 className="md:text-3xl text-2xl font-medium mb-1.5">
-          {variants[location].header}
-        </h3>
+        <h3 className="section-header">{variants[location].header}</h3>
         <div className="text-sm md:text-base">{variants[location].text}</div>
       </div>
     </div>

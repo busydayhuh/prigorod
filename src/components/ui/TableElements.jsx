@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import { Badge } from "@/components/shadcn/badge";
 import {
   cn,
   getFormattedTime,
   getHoursAndMinutes,
   validateTime,
 } from "@/lib/utils";
-import { Link } from "react-router";
-import { Badge } from "../shadcn/badge";
 import { ArrowUpRight, Rabbit } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router";
+import BadgeTooltip from "./Tooltip";
 
 export function TimeElem({ timestamp, date = null, className = "" }) {
   return (
@@ -22,9 +23,9 @@ export function TimeElem({ timestamp, date = null, className = "" }) {
   );
 }
 
-export function LinkElem({ url, children, className = "" }) {
+export function LinkElem({ url, children, className = "", onClick = null }) {
   return (
-    <Link to={url}>
+    <Link to={url} onClick={onClick}>
       <div className="justify-start inline p-0 gap-0.5 has-[>svg]:px-0">
         <span
           className={`break-word hover:underline hover:underline-offset-4 ${className}`}
@@ -53,14 +54,21 @@ export function ThreadElem({
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
-      <div className="flex gap-1.5">
+      <div className="flex gap-1.5 items-center">
         <Badge
-          className={cn("badge md:text-sm text-xs", expressName && "bg-accent")}
+          className={cn(
+            "badge md:text-sm text-xs font-normal",
+            expressName && "bg-accent"
+          )}
         >
           №{number}
         </Badge>
         {expressName && (
-          <span className="md:text-sm text-xs text-accent">{expressName}</span>
+          <BadgeTooltip text={expressName}>
+            <div className="md:text-sm text-xs text-accent max-w-55 truncate">
+              {expressName}
+            </div>
+          </BadgeTooltip>
         )}
       </div>
       <LinkElem url={threadUrl} className={threadVariants[variant]}>
@@ -90,7 +98,7 @@ export function StationElem({
   };
 
   return (
-    <div className="flex flex-col items-start md:gap-2 gap-1 md:pt-0 break-all">
+    <div className="flex flex-col items-start md:gap-2 gap-1 md:pt-0 break-words">
       {!!time && <TimeElem timestamp={time} date={date}></TimeElem>}
       <LinkElem
         url={scheduleUrl}
@@ -99,9 +107,11 @@ export function StationElem({
         {stationName}
       </LinkElem>
       {!!platform && (
-        <div className="bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs font-medium">
-          {platform}
-        </div>
+        <BadgeTooltip text={platform}>
+          <div className="bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs font-normal">
+            {platform}
+          </div>
+        </BadgeTooltip>
       )}
     </div>
   );
@@ -111,7 +121,7 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
   return (
     <div
       className={cn(
-        "flex gap-2 text-sm md:text-base items-center justify-center lg:justify-start",
+        "flex gap-2 text-sm md:text-base items-center justify-center ",
         isExpress && "text-accent"
       )}
     >
@@ -124,16 +134,23 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
 export function ClippedTextElem({ text }) {
   const [open, setOpen] = useState(false);
 
-  if (text.length < 30) return <div>{text}</div>;
+  if (text.length < 50) return <div>{text}</div>;
 
   return (
     <div>
-      <div className={open ? null : "line-clamp-1"}>{text}</div>
+      <div
+        className={cn(
+          "h-transition",
+          open ? "max-h-[20rem]" : "line-clamp-1 max-h-[1.5rem]"
+        )}
+      >
+        {text}
+      </div>
       <div
         onClick={() => setOpen((prev) => !prev)}
         className="text-sm text-accent cursor-pointer"
       >
-        {open ? "- скрыть" : "+ посмотреть"}
+        {open ? "— скрыть" : "+ посмотреть"}
       </div>
     </div>
   );

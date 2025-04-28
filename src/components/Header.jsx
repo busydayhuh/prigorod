@@ -1,66 +1,52 @@
-import React from "react";
-import Searchbar from "./Searchbar";
-import { ShadowBtn } from "./ui";
-import { Link, useLocation } from "react-router";
+import prigorodLogo from "@/assets/prigorod-logo.png";
 import { cn } from "@/lib/utils";
-import githubLogo from "@/assets/github-alt-icon-original.svg";
-import heroImg from "@/assets/hero_homepage.png";
-import heroSm from "@/assets/hero_sm.png";
-import heroLg from "@/assets/hero_lg.png";
-import logo from "@/assets/logo.png";
+import useGeocode from "@/services/useGeocode";
+import { MapPin } from "lucide-react";
+import { Link, useLocation } from "react-router";
+import Searchbar from "./Searchbar";
 
 function Header() {
   const location = useLocation().pathname;
   const isHome = location === "/";
+  const { geo } = useGeocode();
 
   return (
     <header
       className={cn(
-        "flex flex-col justify-center items-center pt-5 bg-secondary border-b-4 border-b-foreground w-screen relative h-transition",
-        isHome
-          ? "pb-25 gap-2 max-h-[32rem] min-h-[12rem] md:min-h-[32rem]"
-          : "pb-15 gap-0 max-h-[12rem] min-h-0"
+        "flex flex-col justify-center items-center gap-3 h-transition"
       )}
     >
-      <div className="flex justify-end w-main">
-        <a href="https://github.com/busydayhuh/prigorod" target="_blank">
-          <ShadowBtn>
-            <GithubLogo />
-            Github
-          </ShadowBtn>
-        </a>
+      <div className="pt-5 pb-5 bg-foreground w-screen">
+        <div className="flex items-center justify-between w-main">
+          <Link to={"/"}>
+            <img
+              src={prigorodLogo}
+              className="w-36"
+              alt="Пригород — расписание электричек"
+            />
+          </Link>
+          {geo && (
+            <div className="text-primary-foreground text-xs flex gap-1 items-baseline">
+              <MapPin className="size-3" />
+              <span>{geo.city}</span>
+            </div>
+          )}
+        </div>
       </div>
-      <Link to={"/"}>{isHome ? <LogoLg /> : <LogoSm />}</Link>
+      <div
+        className={cn(
+          "max-w-[96%] w-6xl mt-4 h-transition",
+          isHome ? "max-h-[32rem]" : "max-h-[0rem] invisible mt-0"
+        )}
+      >
+        <h1 className="md:text-6xl text-4xl font-extrabold md:mb-6 mb-3">
+          Куда поедем?
+        </h1>
+        <p className="md:text-base text-sm">Найти подходящую электричку:</p>
+      </div>
       <Searchbar />
     </header>
   );
-}
-
-function LogoLg() {
-  return (
-    <picture>
-      <img
-        src={heroImg}
-        srcSet={`${heroImg} 1200w, ${heroLg} 900w, ${heroSm} 600w`}
-        className="w-[min(1120px,95%)] aspect-[619/200] mx-auto"
-        alt="Пригород — расписание электричек"
-      />
-    </picture>
-  );
-}
-
-function LogoSm() {
-  return (
-    <img
-      src={logo}
-      className="md:w-sm md:block hidden"
-      alt="Пригород — расписание электричек"
-    />
-  );
-}
-
-function GithubLogo() {
-  return <img src={githubLogo} className="w-4 h-4" alt="" />;
 }
 
 export default Header;

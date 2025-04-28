@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
+import { ErrorMessage } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { useApi } from "@/services";
 import { useSearchParams } from "react-router";
-import { cn } from "@/lib/utils";
-import { ErrorMessage } from "@/components/ui";
 
 function ResultsBody({ route, isDepartedOpen, expressOnly, renderRow }) {
   const [searchParams] = useSearchParams();
@@ -20,33 +20,35 @@ function ResultsBody({ route, isDepartedOpen, expressOnly, renderRow }) {
     return results;
   };
 
-  const filteredFutureResults = expressOnly
-    ? filterExpress(data.future || data[route].future, expressOnly)
-    : data.future || data[route].future;
+  function getFilteredResults(timeframe) {
+    if (!data) return;
 
-  const filteredDepartedResults = expressOnly
-    ? filterExpress(data.departed || data[route].future, expressOnly)
-    : data.departed || data[route].future;
+    return expressOnly
+      ? filterExpress(data[timeframe] || data[route][timeframe], expressOnly)
+      : data[timeframe] || data[route][timeframe];
+  }
 
   return (
     <div
       className={cn("table-body transition-opacity", isLoading && "opacity-20")}
     >
-      {isDepartedOpen &&
-        filteredDepartedResults.map((segment) =>
+      {data &&
+        isDepartedOpen &&
+        getFilteredResults("departed").map((segment) =>
           renderRow(segment, { departed: true })
         )}
 
-      {expressOnly && filteredFutureResults.length === 0 ? (
+      {data && expressOnly && getFilteredResults("future").length === 0 ? (
         <ErrorMessage variant="noExpress" />
       ) : null}
 
-      {!expressOnly && filteredFutureResults.length === 0 ? (
+      {data && !expressOnly && getFilteredResults("future").length === 0 ? (
         <ErrorMessage variant="noFutureResults" />
       ) : null}
 
-      {filteredFutureResults.length > 0 &&
-        filteredFutureResults.map((segment) => renderRow(segment))}
+      {data &&
+        getFilteredResults("future").length > 0 &&
+        getFilteredResults("future").map((segment) => renderRow(segment))}
     </div>
   );
 }

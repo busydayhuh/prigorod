@@ -1,34 +1,30 @@
-import fetcher from "@/services/fetcher";
-import { useState, useEffect } from "react";
-import useSWR from "swr";
 import { useLocation } from "@/context/LocationContext";
+import fetcher from "@/services/fetcher";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 function useGeocode() {
   const { coords } = useLocation();
-  const [isFetchingLocation, setIsFetchingLocation] = useState(true);
+  const [isFetchingGeo, setIsFetchingGeo] = useState(true);
 
   useEffect(() => {
     if (coords) {
-      setIsFetchingLocation(false);
+      setIsFetchingGeo(false);
     }
   }, [coords]);
 
   const url = `https://us1.api-bdc.net/data/reverse-geocode-client?latitude=${coords?.latitude}&longitude=${coords?.longitude}&localityLanguage=ru`;
 
   const {
-    data: position,
-    error: positionError,
-    isLoading: positionLoading,
-  } = useSWR(() => (coords ? url : null), fetcher, {
-    keepPreviousData: true,
-    revalidateOnMount: true,
-  });
+    data: geo,
+    error: geoError,
+    isLoading: geoLoading,
+  } = useSWR(() => (coords ? url : null), fetcher);
 
   return {
-    position,
-    positionLoading,
-    isFetchingLocation,
-    positionError,
+    geo,
+    geoError,
+    isFetchingGeo,
   };
 }
 

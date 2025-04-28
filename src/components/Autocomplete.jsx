@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
+import { useState } from "react";
 
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
@@ -13,34 +13,38 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/shadcn/command";
-import { Input } from "@/components/shadcn/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/shadcn/popover";
-import { useApi } from "@/services";
-import { v4 as uuidv4 } from "uuid";
 import {
   Drawer,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/shadcn/drawer";
-import { Loader } from "lucide-react";
+import { Input } from "@/components/shadcn/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/shadcn/popover";
+import { useFormLabels, useFormLabelsUpdater } from "@/context/FormContext";
+import { useApi } from "@/services";
+import { Loader, X } from "lucide-react";
+import { useFormContext } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 export function AutoComplete({
   emptyMessage = "Нет станций с таким именем.",
   placeholder = "Поиск...",
   field,
-  setValue,
-  labels,
-  setLabels,
-  errors,
 }) {
   const [open, setOpen] = useState(false);
   const [selectedLabel, setSelectedLabel] = useState("");
   const [query, setQuery] = useState("");
+
+  const formLabels = useFormLabels();
+  const updateFormLabels = useFormLabelsUpdater();
+  const { setValue } = useFormContext();
+
+  console.log("open :>> ", open);
 
   const {
     data: stations,
@@ -49,13 +53,19 @@ export function AutoComplete({
   } = useApi("stations_search", new URLSearchParams({ q: query }));
 
   const reset = () => {
-    setLabels((prev) => ({ ...prev, [field.name]: "" }));
+    updateFormLabels((prev) => ({ ...prev, [`${field.name}Label`]: "" }));
   };
 
   const onInputBlur = (e) => {
+    if (e.target.classList.contains("autocomplete-input")) {
+      return;
+    }
+    console.log("e.target :>> ", e.target);
+    console.log("blur");
+
     if (
       !e.relatedTarget?.hasAttribute("cmdk-list") &&
-      labels[field.name] !== selectedLabel
+      formLabels[`${field.name}Label`] !== selectedLabel
     ) {
       reset();
       setValue(field.name, "");
@@ -63,9 +73,10 @@ export function AutoComplete({
   };
 
   const onSelectItem = (code, title) => {
-    setLabels((prev) => ({ ...prev, [field.name]: title }));
-    setSelectedLabel(title);
     setValue(field.name, code);
+    updateFormLabels((prev) => ({ ...prev, [`${field.name}Label`]: title }));
+    setSelectedLabel(title);
+
     setOpen(false);
   };
 
@@ -77,11 +88,8 @@ export function AutoComplete({
         <Command shouldFilter={false}>
           <DrawerTrigger>
             <InputTrigger
-              labels={labels}
-              setLabels={setLabels}
               setQuery={setQuery}
               field={field}
-              errors={errors}
               setOpen={setOpen}
               onInputBlur={onInputBlur}
               placeholder={placeholder}
@@ -94,11 +102,10 @@ export function AutoComplete({
               <DrawerTitle>Поиск станции</DrawerTitle>
             </VisuallyHidden>
             <InputTrigger
-              labels={labels}
-              setLabels={setLabels}
               setQuery={setQuery}
               field={field}
-              errors={errors}
+              open={open}
+              reset={reset}
               setOpen={setOpen}
               onInputBlur={onInputBlur}
               placeholder={placeholder}
@@ -138,16 +145,16 @@ export function AutoComplete({
       <Command shouldFilter={false}>
         <PopoverTrigger>
           <InputTrigger
-            labels={labels}
-            setLabels={setLabels}
             setQuery={setQuery}
             field={field}
-            errors={errors}
+            open={open}
+            reset={reset}
             setOpen={setOpen}
             onInputBlur={onInputBlur}
             placeholder={placeholder}
           />
         </PopoverTrigger>
+
         {!open && <CommandList aria-hidden="true" className="hidden" />}
         <PopoverContent
           asChild
@@ -191,44 +198,70 @@ export function AutoComplete({
 }
 
 function InputTrigger({
-  labels,
-  setLabels,
   setQuery,
   field,
-  errors,
+  open,
+  reset,
   setOpen,
   onInputBlur,
   placeholder,
   className,
 }) {
+  const formLabels = useFormLabels();
+  const updateFormLabels = useFormLabelsUpdater();
+  const { formState, setValue } = useFormContext();
+  const errors = formState.errors[field.name];
   return (
-    <CommandPrimitive.Input
-      asChild
-      value={labels[field.name]}
-      onValueChange={(value) => {
-        setQuery(value.trim().toLowerCase());
-        setLabels((prev) => ({ ...prev, [field.name]: value }));
-      }}
-      onBlur={onInputBlur}
-      onKeyDown={(e) => setOpen(e.key !== "Escape")}
-    >
-      <Input
-        data-name={field.name}
-        placeholder={errors ? errors.message : placeholder}
+    <div className="relative">
+      <CommandPrimitive.Input
+        asChild
+        value={formLabels[`${field.name}Label`]}
+        onValueChange={(value) => {
+          setQuery(value.trim().toLowerCase());
+          updateFormLabels((prev) => ({
+            ...prev,
+            [`${field.name}Label`]: value,
+          }));
+        }}
+        onBlur={onInputBlur}
+        onKeyDown={(e) => setOpen(e.key !== "Escape")}
+      >
+        <Input
+          data-name={field.name}
+          placeholder={errors ? errors.message : placeholder}
+          className={cn(
+            "lg:min-w-sm md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:outline-0 focus-visible:placeholder:text-muted-foreground shadow-none autocomplete-input",
+            errors && "placeholder:text-accent",
+            field.name === "to" && "pl-8 border-l-3 md:border-l-0",
+            className
+          )}
+        />
+      </CommandPrimitive.Input>
+      <div
+        role="button"
+        tabIndex="0"
         className={cn(
-          "md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:placeholder:text-muted-foreground shadow-none",
-          errors && "placeholder:text-accent",
-          field.name === "to" && "pl-8 border-l-3 md:border-l-0",
-          className
+          "reset-btn hidden absolute md:top-[30%] top-2 right-5 p-1 rounded-full hover:bg-muted transition-colors z-100",
+          open && "block"
         )}
-      />
-    </CommandPrimitive.Input>
+        onClick={(e) => {
+          e.stopPropagation();
+          reset();
+          setValue(field.name, "");
+        }}
+      >
+        <X className="size-4" />
+      </div>
+    </div>
   );
 }
 
 function StationsList({ stations, onSelectItem, selectedLabel, className }) {
   return (
-    <CommandGroup className="p-0">
+    <CommandGroup
+      heading="Случайные станции"
+      className="p-0 [&_[cmdk-group-heading]]:font-normal"
+    >
       {stations.map((option) => (
         <CommandItem
           key={uuidv4()}

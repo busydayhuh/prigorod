@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
-import React from "react";
-import { cn } from "@/lib/utils";
 import {
   StationElem,
   ThreadElem,
   TravelTimeElem,
 } from "@/components/ui/TableElements";
+import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router";
 
 function ResultsRow(props) {
@@ -46,7 +45,6 @@ function ResultsRow(props) {
         variant="base_station"
         time={props.arrival}
         date={date}
-        className="pr-2"
       />
       <ThreadElem
         number={number}
@@ -55,7 +53,7 @@ function ResultsRow(props) {
         variant="base_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}
-        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 font-medium md:font-normal pb-2 md:pb-0"
+        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 font-medium md:font-normal pb-2 md:pl-4 md:pb-0"
       />
       {!!price && (
         <div

@@ -1,20 +1,20 @@
 import { useState } from "react";
 
+import ResultsBody from "@/components/ResultsBody";
 import ResultsRow from "@/pages/Search/ResultsRow";
 import SearchSuggestions from "@/pages/Search/SearchSuggestions";
-import ResultsBody from "@/components/ResultsBody";
-import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
+import { useSearchParams } from "react-router";
 
-import { v4 as uuidv4 } from "uuid";
-import { DatePickerSchedule } from "@/components/DatePicker";
+import { DatePicker } from "@/components/DatePicker";
 import {
-  PageHead,
-  Loader,
   ErrorMessage,
-  Toggles,
   FiltersGroup,
+  Loader,
+  PageHead,
+  Toggles,
 } from "@/components/ui";
+import { v4 as uuidv4 } from "uuid";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
@@ -35,7 +35,7 @@ function ResultsTable() {
       />
 
       <FiltersGroup>
-        <DatePickerSchedule />
+        <DatePicker variant="asFilter" />
         <Toggles
           name="expressOnly"
           tableFilters={tableFilters}

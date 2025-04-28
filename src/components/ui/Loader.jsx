@@ -1,8 +1,8 @@
-import React from "react";
-
-function Loader() {
+function Loader({ className }) {
   return (
-    <div className="absolute top-10 md:top-20 w-full flex justify-center">
+    <div
+      className={`absolute top-10 md:top-20 w-full flex justify-center ${className}`}
+    >
       <div className="loader">
         <div></div>
         <div></div>

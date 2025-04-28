@@ -42,7 +42,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-[Golos_Text] shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
+    @apply bg-background text-foreground font-[Unbounded] font-normal shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
   }
 
   button {
@@ -64,7 +64,7 @@
   }
 
   .oval-btn-icon {
-    @apply border-2 rounded-3xl text-sm text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border);
+    @apply border-2 rounded-3xl text-xs font-normal text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border);
   }
 
   .badge {
@@ -80,11 +80,12 @@
   }
 
   .h-transition {
-    transition: max-height 0.4s linear, min-height 0.4s linear;
+    transition: max-height 0.4s linear, min-height 0.4s linear,
+      visibility 0.4s linear;
   }
 
   .table-row-base {
-    @apply border-3 rounded-[20px] md:py-5 py-3 md:px-6 px-4 shadow-(--row-shadow) md:items-center bg-primary-foreground;
+    @apply border-3 rounded-[20px] md:py-5 py-3 md:px-6 px-4 shadow-(--row-shadow) bg-primary-foreground;
   }
 
   .home-grid {
@@ -92,11 +93,11 @@
   }
 
   .results-grid {
-    @apply md:grid md:grid-cols-[minmax(0,_1.5fr)_200px_2fr_3fr_1fr] grid grid-cols-[2fr_1fr_2fr];
+    @apply md:grid md:grid-cols-[1.5fr_200px_2fr_3fr_1fr] grid grid-cols-[2fr_2fr_2fr];
   }
 
   .schedule-grid {
-    @apply grid md:grid-cols-[minmax(0,_2.5fr)_1fr_1fr__1fr_1.5fr_1fr] grid-cols-[2fr_1fr_1fr] gap-y-2 md:gap-y-0;
+    @apply grid md:grid-cols-[minmax(0,_2.5fr)_1fr_1fr_1.5fr_1fr] grid-cols-[2fr_1fr] gap-y-2 md:gap-y-0;
   }
 
   .thread-grid {
@@ -104,7 +105,7 @@
   }
 
   .table-body {
-    @apply flex flex-col gap-4 mt-2;
+    @apply flex flex-col gap-4 mt-2 pb-2;
   }
 
   .table-base-text {
@@ -112,7 +113,7 @@
   }
 
   .table-headers {
-    @apply md:text-base text-sm text-center;
+    @apply md:text-base text-xs text-center;
   }
 
   .page-head-container {
@@ -125,6 +126,14 @@
 
   .search-skeleton {
     @apply h-12 w-full rounded-2xl bg-secondary/60;
+  }
+
+  .suggestion-links {
+    @apply border-b-1 p-0 border-dashed hover:bg-transparent font-normal mr-2 hover:text-accent;
+  }
+
+  .section-header {
+    @apply md:text-3xl text-2xl font-medium mb-1.5;
   }
 }
 
@@ -193,4 +202,29 @@
   100% {
     transform: translate(24px, 0);
   }
+}
+
+#home-img #train,
+#home-img #tick {
+  transition: all ease-in-out 200ms;
+}
+
+#home-img:hover #train {
+  transform: translateX(2rem) translateY(0.25rem) scale(1.1);
+  transition: all linear 200ms;
+}
+
+#home-img:hover #tick {
+  transform: translateX(-1.25rem) translateY(-1rem) rotate(-5deg);
+  transition: all ease-in-out 200ms;
+}
+
+footer::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: -0.5rem;
+  width: 100%;
+  height: 1.5rem;
+  background: url("@/assets/Zigzag.svg") top left repeat-x;
 }

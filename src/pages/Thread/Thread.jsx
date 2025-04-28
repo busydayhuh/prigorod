@@ -1,14 +1,14 @@
-import { useSearchParams } from "react-router";
 import { useApi } from "@/services";
+import { useSearchParams } from "react-router";
 
-import { DatePickerSchedule } from "@/components/DatePicker";
+import { DatePicker } from "@/components/DatePicker";
 import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 import { FiltersGroup } from "@/components/ui/TableFilters";
 import ThreadRow from "./ThreadRow";
 
-import { PageHead, Loader, ErrorMessage } from "@/components/ui";
+import { ErrorMessage, Loader, PageHead } from "@/components/ui";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
@@ -26,7 +26,7 @@ function ThreadTable() {
       />
 
       <FiltersGroup>
-        <DatePickerSchedule />
+        <DatePicker variant="asFilter" />
       </FiltersGroup>
 
       {error ? (
@@ -45,8 +45,8 @@ function ThreadTable() {
           <div className="thread-grid table-headers">
             <div></div>
             <div>прибытие</div>
-            <div>отправление</div>
             <div className="md:block hidden">стоянка</div>
+            <div>отправление</div>
           </div>
           <div
             className={cn(

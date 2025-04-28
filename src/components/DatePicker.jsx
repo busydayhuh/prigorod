@@ -1,9 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { addDays, format } from "date-fns";
-import { ru } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/shadcn/button";
 import { Calendar } from "@/components/shadcn/calendar";
 import {
@@ -11,35 +6,72 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { useLocation, useSearchParams } from "react-router";
-import { formatDateForParams } from "@/lib/utils";
+import { cn, formatDateForParams } from "@/lib/utils";
+import { addDays, format, isToday } from "date-fns";
+import { ru } from "date-fns/locale";
+import { CalendarIcon } from "lucide-react";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useSearchParams } from "react-router";
 
-export function DatePickerWithPresets({ field, setValue, errors }) {
+export function DatePicker({ field, variant }) {
+  const { setValue, formState, getValues } = useFormContext();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedDayName, setSelectedDayName] = useState(null);
-  const location = useLocation().pathname;
+
+  const errors = formState.errors.date;
+
+  function setUrlDate(newDate) {
+    searchParams.set("date", formatDateForParams(newDate));
+    setSearchParams(searchParams);
+  }
+
+  const variants = {
+    inForm: {
+      className:
+        "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-2xs",
+      popoverSideOffset: 0.5,
+      onSelect: field?.onChange,
+    },
+    asFilter: {
+      className:
+        "oval-btn-icon hover:bg-muted h-9 px-3 py-2 whitespace-nowrap transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive cursor-pointer",
+      popoverSideOffset: 3,
+      onSelect: setUrlDate,
+    },
+  };
+
+  const presets = [
+    { label: "сегодня", value: 0 },
+    { label: "завтра", value: 1 },
+  ];
 
   const handleClick = (e, dayName) => {
-    const diffInDays = +e.target.dataset.value;
+    const newDate = addDays(new Date(), +e.target.dataset.value);
 
-    setValue("date", addDays(new Date(), diffInDays));
+    setValue("date", newDate);
     setSelectedDayName(dayName);
+
+    if (variant === "asFilter") {
+      setUrlDate(newDate);
+    }
   };
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <div
-          className={cn(
-            "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 pr-15 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-xs",
-            errors && "text-accent",
-            location === "/" && "flex"
-          )}
+          className={cn(variants[variant].className, errors && "text-accent")}
         >
           <CalendarIcon className="size-4" />
-          {field.value ? (
-            format(field.value, "PPP", {
-              locale: ru,
-            })
+          {getValues("date") ? (
+            isToday(getValues("date")) ? (
+              "сегодня"
+            ) : (
+              format(getValues("date"), "PPP", {
+                locale: ru,
+              })
+            )
           ) : (
             <span>{errors ? errors.message : "дата"}</span>
           )}
@@ -48,133 +80,31 @@ export function DatePickerWithPresets({ field, setValue, errors }) {
       <PopoverContent
         align="start"
         className="flex flex-col gap-4 p-6 pt-3 popover-borders w-auto"
-        sideOffset={0.5}
+        sideOffset={variants[variant].popoverSideOffset}
       >
         <div className="flex w-auto gap-1.5 mb-3">
-          <Button
-            className={cn(
-              "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "today" && "bg-accent"
-            )}
-            type="button"
-            size="sm"
-            onClick={(e) => handleClick(e, "today")}
-            data-value="0"
-          >
-            сегодня
-          </Button>
-          <Button
-            className={cn(
-              "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "tomorrow" && "bg-accent"
-            )}
-            type="button"
-            size="sm"
-            onClick={(e) => handleClick(e, "tomorrow")}
-            data-value="1"
-          >
-            завтра
-          </Button>
+          {presets.map(({ label, value }) => (
+            <Button
+              key={label}
+              className={cn(
+                "oval-btn-icon bg-background hover:bg-accent",
+                selectedDayName === label && "bg-accent"
+              )}
+              type="button"
+              size="sm"
+              onClick={(e) => handleClick(e, label)}
+              data-value={value}
+            >
+              {label}
+            </Button>
+          ))}
         </div>
 
         <Calendar
           locale={ru}
           mode="single"
-          selected={field.value}
-          onSelect={field.onChange}
-          disabled={(date) => date < addDays(new Date(), -1)}
-        />
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-export function DatePickerSchedule() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedDayName, setSelectedDayName] = useState(null);
-
-  const initialDate = searchParams.get("date");
-
-  const setNewDate = (newDate) => {
-    searchParams.set("date", formatDateForParams(newDate));
-    setSearchParams(searchParams);
-  };
-
-  const handleClick = (e, dayName) => {
-    setSelectedDayName(dayName);
-
-    if (!e.target.dataset.value) {
-      setNewDate("");
-      return;
-    }
-
-    const diffInDays = +e.target.dataset.value;
-    setNewDate(addDays(new Date(), diffInDays));
-  };
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline" className="oval-btn-icon hover:bg-muted">
-          <CalendarIcon className="size-4" />
-          {initialDate ? (
-            format(initialDate, "PPP", {
-              locale: ru,
-            })
-          ) : (
-            <span>все дни</span>
-          )}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="flex flex-col gap-6 p-3 pb-6 w-auto border-2 rounded-2xl"
-        sideOffset={3}
-      >
-        <div className="flex w-auto gap-1.5">
-          <Button
-            className={cn(
-              "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "today" && "bg-accent"
-            )}
-            type="button"
-            size="sm"
-            onClick={(e) => handleClick(e, "today")}
-            data-value="0"
-          >
-            сегодня
-          </Button>
-          <Button
-            className={cn(
-              "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "tomorrow" && "bg-accent"
-            )}
-            type="button"
-            size="sm"
-            onClick={(e) => handleClick(e, "tomorrow")}
-            data-value="1"
-          >
-            завтра
-          </Button>
-          <Button
-            className={cn(
-              "oval-btn-icon bg-background hover:bg-accent",
-              selectedDayName === "all" && "bg-accent"
-            )}
-            type="button"
-            size="sm"
-            onClick={(e) => handleClick(e, "all")}
-            data-value={null}
-          >
-            все дни
-          </Button>
-        </div>
-
-        <Calendar
-          locale={ru}
-          mode="single"
-          selected={new Date(initialDate)}
-          onSelect={setNewDate}
+          selected={getValues("date")}
+          onSelect={variants[variant].onSelect}
           disabled={(date) => date < addDays(new Date(), -1)}
         />
       </PopoverContent>

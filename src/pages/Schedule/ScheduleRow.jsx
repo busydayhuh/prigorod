@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import {
+  ClippedTextElem,
   ThreadElem,
   TimeElem,
-  ClippedTextElem,
 } from "@/components/ui/TableElements";
+import BadgeTooltip from "@/components/ui/Tooltip";
 import { cn } from "@/lib/utils";
 
 function ScheduleRow(props) {
@@ -20,7 +21,7 @@ function ScheduleRow(props) {
   return (
     <div
       className={cn(
-        "schedule-grid table-row-base",
+        "schedule-grid table-row-base items-center",
         props.departed && "opacity-60"
       )}
     >
@@ -35,21 +36,21 @@ function ScheduleRow(props) {
         expressName={express_type ? transport_subtype.title : null}
         className="self-center"
       />
-      <TimeElem
-        timestamp={props.arrival}
-        date={props.date}
-        className="text-foreground/40 text-center self-center text-[22px]"
-      />
+
       <TimeElem
         timestamp={props.departure}
         date={props.date}
-        className="text-center text-[22px] self-center"
+        className="text-center md:text-left text-[22px]"
       />
 
       <div className="table-base-text md:col-span-1 col-span-3 max-w-32">
-        {props.except_days
-          ? `${props.days}, кроме ${props.except_days}`
-          : props.days}
+        <ClippedTextElem
+          text={
+            props.except_days
+              ? `${props.days}, кроме ${props.except_days}`
+              : props.days
+          }
+        />
       </div>
       <div className="table-base-text hidden md:block pl-3">
         {props.stops === "везде" ? (
@@ -59,9 +60,11 @@ function ScheduleRow(props) {
         )}
       </div>
       {props.platform ? (
-        <div className="md:table-base-text text-center md:justify-self-center bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs md:text-sm self-center font-medium">
-          {props.platform}
-        </div>
+        <BadgeTooltip text={props.platform}>
+          <div className="md:table-base-text text-center md:justify-self-center bg-foreground rounded-3xl text-secondary-foreground max-w-24 truncate px-1.5 py-1 text-xs md:text-sm self-center font-normal">
+            {props.platform}
+          </div>
+        </BadgeTooltip>
       ) : (
         <div></div>
       )}
