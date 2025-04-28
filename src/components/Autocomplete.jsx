@@ -126,6 +126,7 @@ export function AutoComplete({
                     stations={stations}
                     onSelectItem={onSelectItem}
                     selectedLabel={selectedLabel}
+                    query={query}
                   />
                 ) : null
               ) : null}
@@ -183,6 +184,7 @@ export function AutoComplete({
                   stations={stations}
                   onSelectItem={onSelectItem}
                   selectedLabel={selectedLabel}
+                  query={query}
                 />
               ) : null
             ) : null}
@@ -256,10 +258,16 @@ function InputTrigger({
   );
 }
 
-function StationsList({ stations, onSelectItem, selectedLabel, className }) {
+function StationsList({
+  stations,
+  onSelectItem,
+  selectedLabel,
+  query,
+  className,
+}) {
   return (
     <CommandGroup
-      heading="Случайные станции"
+      heading={!query && "Случайные станции"}
       className="p-0 [&_[cmdk-group-heading]]:font-normal"
     >
       {stations.map((option) => (
