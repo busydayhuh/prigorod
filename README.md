@@ -3,7 +3,7 @@
 
 A web application for viewing suburban train schedules, built with React and Tailwind CSS. The app provides features like location-based search, filtering options, and suggestions for nearby stations.
 
-![Desktop - 3](https://github.com/user-attachments/assets/a5adf1b3-1590-48ac-ac47-368e56938e20)
+![Desktop](https://github.com/user-attachments/assets/817188dc-2607-497a-99e5-9bd7f18c6866)
 
 
 ## Live Version
