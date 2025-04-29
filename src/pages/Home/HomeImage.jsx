@@ -6,7 +6,7 @@ function HomeImage() {
   return (
     <figure
       id="home-img"
-      className="flex items-center justify-start min-w-[320px]"
+      className="flex items-center justify-start min-w-[320px] pointer-events-none md:pointer-events-auto"
     >
       <div className="relative max-w-[500px] sm:w-[100%] w-[90%] aspect-square rounded-[50%] bg-foreground">
         <img

@@ -129,7 +129,7 @@
   }
 
   .suggestion-links {
-    @apply border-b-1 p-0 border-dashed hover:bg-transparent font-normal mr-2 hover:text-accent;
+    @apply border-b-1 p-0 border-dashed hover:bg-transparent font-normal mr-2 hover:text-accent text-left;
   }
 
   .section-header {

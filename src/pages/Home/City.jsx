@@ -15,13 +15,15 @@ function City() {
   return (
     <>
       {!locationRequested && (
-        <div className="inline-flex gap-1.5 items-center hover:text-accent">
-          <Navigation className="size-4" />
+        <div className="inline-flex gap-1.5 md:items-center items-start hover:text-accent">
+          <Navigation className="size-5 md:size-4 mt-1 md:mt-0" />
           <button
-            className="suggestion-links text-base w-fit"
+            className="text-base w-fit text-left"
             onClick={() => setLocationRequest(true)}
           >
-            Найти ближайшие ко мне станции
+            <span className="suggestion-links box-decoration-slice">
+              Найти ближайшие ко мне станции
+            </span>
           </button>
         </div>
       )}

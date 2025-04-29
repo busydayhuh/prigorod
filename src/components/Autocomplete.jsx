@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import useMediaQuery from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { useState } from "react";
@@ -26,6 +25,7 @@ import {
   PopoverTrigger,
 } from "@/components/shadcn/popover";
 import { useFormLabels, useFormLabelsUpdater } from "@/context/FormContext";
+import { useIsDesktopContext } from "@/context/WindowSizeContext";
 import { useApi } from "@/services";
 import { Loader, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
@@ -44,8 +44,6 @@ export function AutoComplete({
   const updateFormLabels = useFormLabelsUpdater();
   const { setValue } = useFormContext();
 
-  console.log("open :>> ", open);
-
   const {
     data: stations,
     isLoading,
@@ -60,8 +58,6 @@ export function AutoComplete({
     if (e.target.classList.contains("autocomplete-input")) {
       return;
     }
-    console.log("e.target :>> ", e.target);
-    console.log("blur");
 
     if (
       !e.relatedTarget?.hasAttribute("cmdk-list") &&
@@ -80,7 +76,7 @@ export function AutoComplete({
     setOpen(false);
   };
 
-  const isDesktop = useMediaQuery("(width >= 48rem)");
+  const isDesktop = useIsDesktopContext();
 
   if (!isDesktop) {
     return (
