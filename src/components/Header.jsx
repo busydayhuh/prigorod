@@ -16,7 +16,7 @@ function Header() {
         "flex flex-col justify-center items-center gap-3 h-transition"
       )}
     >
-      <div className="pt-5 pb-5 bg-foreground w-screen">
+      <div className="pt-5 pb-5 bg-foreground w-[100%]">
         <div className="flex items-center justify-between w-main">
           <Link to={"/"}>
             <img
