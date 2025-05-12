@@ -22,7 +22,7 @@ function HomeImage() {
         />
         <img
           src={RoundCorner}
-          className="absolute left-[14%] md:left-[16%] top-[47%] sm:rotate-[10deg] rotate-[-50deg]"
+          className="absolute left-[14%] md:left-[16%] top-[40%] md:top-[47%] sm:rotate-[10deg] rotate-[-20deg]"
         />
       </div>
     </figure>
