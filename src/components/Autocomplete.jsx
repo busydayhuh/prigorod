@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
@@ -80,7 +80,7 @@ export function AutoComplete({
 
   if (!isDesktop) {
     return (
-      <Drawer open={open} onOpenChange={setOpen}>
+      <Drawer open={open} onOpenChange={setOpen} direction="top">
         <Command shouldFilter={false}>
           <DrawerTrigger>
             <InputTrigger
@@ -93,7 +93,7 @@ export function AutoComplete({
           </DrawerTrigger>
 
           {!open && <CommandList aria-hidden="true" className="hidden" />}
-          <DrawerContent className="data-[vaul-drawer-direction=bottom]:rounded-t-2xl ">
+          <DrawerContent>
             <VisuallyHidden>
               <DrawerTitle>Поиск станции</DrawerTitle>
             </VisuallyHidden>
@@ -105,7 +105,7 @@ export function AutoComplete({
               setOpen={setOpen}
               onInputBlur={onInputBlur}
               placeholder={placeholder}
-              className="pt-1 pl-3 border-l-0"
+              className="pt-4 pl-3 border-l-0"
             />
 
             <CommandList className="max-h-auto">
@@ -209,9 +209,12 @@ function InputTrigger({
   const updateFormLabels = useFormLabelsUpdater();
   const { formState, setValue } = useFormContext();
   const errors = formState.errors[field.name];
+
+  const input = useRef(null);
   return (
     <div className="relative">
       <CommandPrimitive.Input
+        ref={input}
         asChild
         value={formLabels[`${field.name}Label`]}
         onValueChange={(value) => {
@@ -239,12 +242,13 @@ function InputTrigger({
         role="button"
         tabIndex="0"
         className={cn(
-          "reset-btn hidden absolute md:top-[30%] top-2 right-5 p-1 rounded-full hover:bg-muted transition-colors z-100",
+          "reset-btn hidden absolute md:top-[30%] top-5 right-5 p-1 rounded-full hover:bg-muted transition-colors z-100",
           open && "block"
         )}
         onClick={(e) => {
           e.stopPropagation();
           reset();
+          input.current.focus();
           setValue(field.name, "");
         }}
       >
