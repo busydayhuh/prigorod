@@ -15,7 +15,7 @@ function BadgeTooltip({ children, text }) {
       <Popover>
         <PopoverTrigger>{children}</PopoverTrigger>
         <PopoverContent
-          className="rounded-2xl w-fit text-sm py-1 px-2"
+          className="rounded-2xl w-fit text-sm py-1 px-2 break-words max-w-2xs"
           sideOffset={1}
         >
           {text}
