@@ -3,8 +3,8 @@ import fetcher from "./fetcher";
 
 export default function useApi(reqRoute, params = null) {
   const url = params
-    ? `https://prigorod-proxy-server.glitch.me/api/${reqRoute}/?${params}`
-    : `https://prigorod-proxy-server.glitch.me/api/${reqRoute}`;
+    ? `prigorod-proxy-server.vercel.app/api/${reqRoute}/?${params}`
+    : `prigorod-proxy-server.vercel.app/api/${reqRoute}`;
 
   const { data, error, isLoading } = useSWR(url, fetcher, {
     keepPreviousData: true,
