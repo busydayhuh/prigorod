@@ -1,8 +1,8 @@
 import js from "@eslint/js";
-import globals from "globals";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
+import globals from "globals";
 
 export default [
   { ignores: ["dist", "node_modules"] },
@@ -30,6 +30,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
       "no-unused-vars": "off",
       "react/jsx-no-target-blank": "off",
+      "react/prop-types": "off",
       "react-refresh/only-export-components": [
         "warn",
         { allowConstantExport: true },
