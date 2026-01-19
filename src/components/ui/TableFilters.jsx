@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-import { Toggle } from "../shadcn/toggle";
-import { Rabbit, Eye, EyeClosed } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -9,12 +6,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
+import { Eye, EyeClosed, Rabbit } from "lucide-react";
 import { useSearchParams } from "react-router";
-import { useDirections } from "@/services";
+import { Toggle } from "../shadcn/toggle";
 
 export function FiltersGroup({ children }) {
   return (
-    <div className="flex w-full items-center gap-2 flex-wrap mb-4">
+    <div className="flex flex-wrap items-center gap-2 mb-4 w-full">
       {children}
     </div>
   );
@@ -31,29 +29,24 @@ export function Toggles({ name, tableFilters, setTableFilters, className }) {
         }))
       }
     >
-      {name === "expressOnly" ? (
+      {name === "express" ?
         <>
           <Rabbit />
           только экспресс
         </>
-      ) : (
-        <>
-          {tableFilters.isDepartedOpen ? <Eye /> : <EyeClosed />}
+      : <>
+          {tableFilters.isDepartedOpen ?
+            <Eye />
+          : <EyeClosed />}
           ушедшие
         </>
-      )}
+      }
     </Toggle>
   );
 }
 
-export function SelectDirection() {
+export function SelectDirection({ directions }) {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const {
-    data: directions,
-    isLoading,
-    error,
-  } = useDirections(searchParams.get("station"));
 
   const updateDirection = (value) => {
     searchParams.set("direction", value);
@@ -65,26 +58,22 @@ export function SelectDirection() {
       value={searchParams.get("direction") || "all"}
       onValueChange={updateDirection}
     >
-      <SelectTrigger className="w-[180px] focus-visible:ring-0 oval-btn-icon">
+      <SelectTrigger className="focus-visible:ring-0 w-[180px] oval-btn-icon">
         <SelectValue placeholder="выберите направление" />
       </SelectTrigger>
-      <SelectContent className="border-2 rounded-2xl py-0 px-0">
+      <SelectContent className="px-0 py-0 border-2 rounded-2xl">
         <SelectGroup>
-          {!isLoading && !error ? (
+          {directions ?
             directions.map((dir) => (
               <SelectItem
-                className="transition cursor-pointer first:rounded-t-2xl last:rounded-b-2xl"
+                className="first:rounded-t-2xl last:rounded-b-2xl transition cursor-pointer"
                 value={dir.code.toString()}
                 key={dir.code}
               >
                 {dir.title}
               </SelectItem>
             ))
-          ) : !error ? (
-            <SelectItem disabled>загрузка...</SelectItem>
-          ) : (
-            <SelectItem disabled>ошибка загрузки</SelectItem>
-          )}
+          : <SelectItem disabled>ошибка загрузки</SelectItem>}
         </SelectGroup>
       </SelectContent>
     </Select>

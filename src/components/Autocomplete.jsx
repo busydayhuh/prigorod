@@ -48,7 +48,7 @@ export function AutoComplete({
     data: stations,
     isLoading,
     isError: isApiError,
-  } = useApi("stations_search", new URLSearchParams({ q: query }));
+  } = useApi("stations_search", { q: query });
 
   const reset = () => {
     updateFormLabels((prev) => ({ ...prev, [`${field.name}Label`]: "" }));
@@ -111,7 +111,7 @@ export function AutoComplete({
             <CommandList className="max-h-auto">
               {isLoading && (
                 <CommandPrimitive.Loading>
-                  <div className="p-1 text-foreground flex items-center justify-center h-20">
+                  <div className="flex justify-center items-center p-1 h-20 text-foreground">
                     <Loader className="animate-spin" />
                   </div>
                 </CommandPrimitive.Loading>
@@ -164,12 +164,12 @@ export function AutoComplete({
               e.preventDefault();
             }
           }}
-          className="w-[var(--radix-popover-trigger-width)] p-0 popover-borders max-h-[300px]"
+          className="p-0 w-[var(--radix-popover-trigger-width)] max-h-[300px] popover-borders"
         >
           <CommandList className="max-h-[350px]">
             {isLoading && (
               <CommandPrimitive.Loading>
-                <div className="p-1 text-foreground flex items-center justify-center h-20 gap-1 text-sm">
+                <div className="flex justify-center items-center gap-1 p-1 h-20 text-foreground text-sm">
                   <Loader className="animate-spin" /> Ищем станции...
                 </div>
               </CommandPrimitive.Loading>
@@ -231,7 +231,7 @@ function InputTrigger({
           data-name={field.name}
           placeholder={errors ? errors.message : placeholder}
           className={cn(
-            "lg:min-w-sm md:border-r-3 md:border-b-0 border-foreground border-b-3 pl-5 py-4 text-foreground placeholder:text-foreground focus-visible:ring-0 focus-visible:outline-0 focus-visible:placeholder:text-muted-foreground shadow-none autocomplete-input",
+            "shadow-none py-4 pl-5 border-foreground md:border-r-3 border-b-3 md:border-b-0 focus-visible:outline-0 focus-visible:ring-0 lg:min-w-sm text-foreground focus-visible:placeholder:text-muted-foreground placeholder:text-foreground autocomplete-input",
             errors && "placeholder:text-accent",
             field.name === "to" && "pl-8 border-l-3 md:border-l-0",
             className
@@ -242,7 +242,7 @@ function InputTrigger({
         role="button"
         tabIndex="0"
         className={cn(
-          "reset-btn hidden absolute md:top-[30%] top-5 right-5 p-1 rounded-full hover:bg-muted transition-colors z-100",
+          "hidden top-5 md:top-[30%] right-5 z-100 absolute hover:bg-muted p-1 rounded-full transition-colors reset-btn",
           open && "block"
         )}
         onClick={(e) => {
@@ -279,11 +279,11 @@ function StationsList({
             onSelectItem(option.code, option.title);
           }}
           className={cn(
-            "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 transition cursor-pointer hover:text-foreground",
+            "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 hover:text-foreground transition cursor-pointer",
             selectedLabel === option.title ? "bg-accent" : null
           )}
         >
-          <div className="text-base pb-0 m-0 ">
+          <div className="m-0 pb-0 text-base">
             {option.title}
             <OptionDescription {...option} />
           </div>
@@ -295,7 +295,7 @@ function StationsList({
 
 function OptionDescription({ settlement, direction }) {
   return (
-    <span className="text-muted-foreground text-xs block">
+    <span className="block text-muted-foreground text-xs">
       {!!settlement && `${settlement}`}
       {settlement && direction ? ", " : null}
       {!!direction && `${direction} напр.`}
@@ -306,7 +306,7 @@ function OptionDescription({ settlement, direction }) {
 function ApiErrorMessage() {
   return (
     <CommandPrimitive.Loading>
-      <div className="py-2.5 flex justify-center text-accent">
+      <div className="flex justify-center py-2.5 text-accent">
         Невозможно загрузить список. Обновите страницу или попробуйте позже.
       </div>
     </CommandPrimitive.Loading>

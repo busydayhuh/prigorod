@@ -38,11 +38,13 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-base: "Montserrat", "sans-serif";
+  --font-headers: "Unbounded", "sans-serif";
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-[Unbounded] font-normal shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
+    @apply bg-background text-foreground font-base font-medium shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
   }
 
   button {
@@ -52,19 +54,19 @@
 
 @layer utilities {
   .page-flex {
-    @apply flex flex-col md:gap-20 gap-35 justify-center;
+    @apply flex flex-col justify-center gap-35 md:gap-20;
   }
 
   .w-main {
-    @apply w-[min(96%,80rem)] mx-auto;
+    @apply mx-auto w-[min(96%,90rem)];
   }
 
   .w-narrow {
-    @apply w-[min(96%,68rem)] mx-auto;
+    @apply mx-auto w-[min(96%,68rem)];
   }
 
   .oval-btn-icon {
-    @apply border-2 rounded-3xl text-xs font-normal text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border);
+    @apply border-2 rounded-3xl text-xs font-semibold text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border);
   }
 
   .badge {
@@ -80,7 +82,9 @@
   }
 
   .h-transition {
-    transition: max-height 0.4s linear, min-height 0.4s linear,
+    transition:
+      max-height 0.4s linear,
+      min-height 0.4s linear,
       visibility 0.4s linear;
   }
 
@@ -93,15 +97,15 @@
   }
 
   .results-grid {
-    @apply md:grid md:grid-cols-[1.5fr_200px_2fr_3fr_1fr] grid grid-cols-[2fr_2fr_2fr];
+    @apply grid md:grid grid-cols-[2fr_2fr_2fr] md:grid-cols-[1.5fr_200px_2fr_3fr_1fr];
   }
 
   .schedule-grid {
-    @apply grid md:grid-cols-[minmax(0,_2.5fr)_1fr_1fr_1.5fr_1fr] grid-cols-[2fr_1fr] gap-y-2 md:gap-y-0;
+    @apply gap-2 grid grid-cols-1 md:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1fr] lg:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1.5fr_1fr];
   }
 
   .thread-grid {
-    @apply grid md:grid-cols-[minmax(0,_3fr)_1fr_1fr_1fr] grid-cols-[2fr_1fr_1fr] items-center justify-center;
+    @apply justify-center items-center grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[minmax(0,_3fr)_1fr_1fr_1fr];
   }
 
   .table-body {
@@ -109,19 +113,19 @@
   }
 
   .table-base-text {
-    @apply md:text-base text-sm;
+    @apply text-sm md:text-base;
   }
 
   .table-headers {
-    @apply md:text-base text-xs text-center;
+    @apply text-xs md:text-base text-center;
   }
 
   .page-head-container {
-    @apply flex gap-3 items-start md:mb-8 mb-5 mt-40 md:mt-20;
+    @apply flex items-start gap-3 mt-40 md:mt-20 mb-5 md:mb-8;
   }
 
   .error-icon {
-    @apply md:size-20 size-10 text-foreground mb-1 stroke-1;
+    @apply stroke-1 mb-1 size-10 md:size-20 text-foreground;
   }
 
   .search-skeleton {
@@ -129,11 +133,11 @@
   }
 
   .suggestion-links {
-    @apply border-b-1 p-0 border-dashed hover:bg-transparent font-normal mr-2 hover:text-accent text-left;
+    @apply hover:bg-transparent mr-2 p-0 border-b border-dashed font-normal hover:text-accent text-left;
   }
 
   .section-header {
-    @apply md:text-3xl text-2xl font-medium mb-1.5;
+    @apply mb-1.5 font-medium text-2xl md:text-3xl;
   }
 }
 

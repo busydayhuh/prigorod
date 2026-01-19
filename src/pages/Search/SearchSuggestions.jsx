@@ -1,14 +1,15 @@
-import { useSearchParams } from "react-router";
+import { Button } from "@/components/shadcn/button";
 import { ErrorMessage } from "@/components/ui";
+import { getAPIParams } from "@/lib/getAPIParams";
 import { cn } from "@/lib/utils";
 import { useApi } from "@/services";
-
-import { Button } from "@/components/shadcn/button";
 import { ArrowUpRight } from "lucide-react";
+import { useSearchParams } from "react-router";
 
 export default function SearchSuggestions() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading } = useApi("search", searchParams);
+  const apiParams = getAPIParams(["from", "to", "date"], searchParams);
+  const { data, isLoading } = useApi("search", apiParams);
 
   if (data.suggestions.length > 0) {
     return (
@@ -25,7 +26,7 @@ export default function SearchSuggestions() {
               ${searchParams.get("toLabel")}. Возможно, вы искали `}
           <Button
             variant="link"
-            className="p-0 inline has-[>svg]:px-0 text-accent"
+            className="inline p-0 has-[>svg]:px-0 text-accent"
             onClick={() => {
               searchParams.set("to", data.suggestions[0].code);
               searchParams.set("toLabel", data.suggestions[0].title);
@@ -34,7 +35,7 @@ export default function SearchSuggestions() {
             }}
           >
             {`${searchParams.get("fromLabel")} — ${data.suggestions[0].title}`}
-            <ArrowUpRight className="md:size-4 size-3 inline" />
+            <ArrowUpRight className="inline size-3 md:size-4" />
           </Button>
         </ErrorMessage>
       </div>

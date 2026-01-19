@@ -25,8 +25,9 @@ export default function PageHead({
   subdivision = "",
 }) {
   const location = useLocation().pathname;
-  const formatDate = date
-    ? format(date, "do MMMM", {
+  const formatDate =
+    date ?
+      format(date, "do MMMM", {
         locale: ru,
       })
     : "все дни";
@@ -75,16 +76,13 @@ export default function PageHead({
     },
 
     "/": {
-      icon: geoAllowed ? (
-        <MapPinCheck />
-      ) : isFetching ? (
-        <LocateFixedIcon className="animate-pulse" />
-      ) : (
-        <MapPinOff />
-      ),
+      icon:
+        geoAllowed ? <MapPinCheck />
+        : isFetching ? <LocateFixedIcon className="animate-pulse" />
+        : <MapPinOff />,
       header: (
         <>
-          {title ? (
+          {title ?
             <>
               <span className="text-accent">
                 {title}
@@ -92,31 +90,33 @@ export default function PageHead({
               </span>{" "}
               — ближайшие станции:
             </>
-          ) : (
-            <span>определяем локацию...</span>
-          )}
+          : <span>определяем локацию...</span>}
         </>
       ),
-      text: geoAllowed ? null : isFetching ? (
-        <span className="text-foreground">найдём ближайшие к вам станции</span>
-      ) : (
-        <span className="text-foreground">
-          доступ к местоположению запрещён, показана локация по умолчанию
-        </span>
-      ),
+      text:
+        geoAllowed ? null
+        : isFetching ?
+          <span className="text-foreground">
+            найдём ближайшие к вам станции
+          </span>
+        : <span className="text-foreground">
+            доступ к местоположению запрещён, показана локация по умолчанию
+          </span>,
     },
   };
 
   return (
     <div
       className={cn(
-        "flex gap-3 md:mb-8 items-start mb-5",
-        location === "/" && "md:mb-10"
+        "flex items-start gap-3 mb-5 md:mb-8",
+        location === "/" && "md:mb-10",
       )}
     >
       <Icon>{variants[location].icon}</Icon>
       <div className="pl-2 md:pl-0">
-        <h3 className="section-header">{variants[location].header}</h3>
+        <h3 className="font-headers section-header">
+          {variants[location].header}
+        </h3>
         <div className="text-sm md:text-base">{variants[location].text}</div>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default function PageHead({
 
 function Icon({ children }) {
   return (
-    <div className="h-9 w-9 bg-foreground rounded-full hidden md:flex items-center shrink-0 justify-center text-primary-foreground px-2">
+    <div className="hidden md:flex justify-center items-center bg-foreground px-2 rounded-full w-9 h-9 text-primary-foreground shrink-0">
       {children}
     </div>
   );

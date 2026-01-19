@@ -1,9 +1,9 @@
-import { useState } from "react";
-
 import ResultsBody from "@/components/ResultsBody";
+import { getAPIParams } from "@/lib/getAPIParams";
 import ResultsRow from "@/pages/Search/ResultsRow";
 import SearchSuggestions from "@/pages/Search/SearchSuggestions";
 import { useApi } from "@/services";
+import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 import { DatePicker } from "@/components/DatePicker";
@@ -18,7 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
-  const { data, isLoading, error } = useApi("search", searchParams);
+  const apiParams = getAPIParams(["from", "to", "date"], searchParams);
+  const { data, isLoading, error } = useApi("search", apiParams);
 
   const [tableFilters, setTableFilters] = useState({
     isDepartedOpen: false,

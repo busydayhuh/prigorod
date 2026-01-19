@@ -27,7 +27,7 @@ export function getHoursAndMinutes(seconds) {
   const minutesStr = `${minutes} мин.`;
   const hoursStr = `${hours} ч.`;
 
-  return hours ? `${hoursStr} ${minutesStr > 0 ? minutesStr : ""}` : minutesStr;
+  return hours ? `${hoursStr} ${minutes > 0 ? minutesStr : ""}` : minutesStr;
 }
 
 export function formatDateForParams(date) {

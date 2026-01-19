@@ -1,18 +1,18 @@
+import { DatePicker } from "@/components/DatePicker";
+import { FiltersGroup } from "@/components/ui/TableFilters";
+import { getAPIParams } from "@/lib/getAPIParams";
+import { cn } from "@/lib/utils";
 import { useApi } from "@/services";
 import { useSearchParams } from "react-router";
-
-import { DatePicker } from "@/components/DatePicker";
-import { cn } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-
-import { FiltersGroup } from "@/components/ui/TableFilters";
 import ThreadRow from "./ThreadRow";
 
 import { ErrorMessage, Loader, PageHead } from "@/components/ui";
 
 function ThreadTable() {
   const [searchParams] = useSearchParams();
-  const { data, isLoading, error } = useApi("thread", searchParams);
+  const apiParams = getAPIParams(["uid", "date"], searchParams);
+  const { data, isLoading, error } = useApi("thread", apiParams);
 
   return (
     <div className="w-narrow">
@@ -42,15 +42,15 @@ function ThreadTable() {
       ) : (
         <div className="relative min-h-[30rem]">
           {isLoading && <Loader />}
-          <div className="thread-grid table-headers">
+          <div className="table-headers thread-grid">
             <div></div>
             <div>прибытие</div>
-            <div className="md:block hidden">стоянка</div>
+            <div className="hidden md:block">стоянка</div>
             <div>отправление</div>
           </div>
           <div
             className={cn(
-              "table-body transition-opacity w-narrow",
+              "table-body w-narrow transition-opacity",
               isLoading && "opacity-20"
             )}
           >

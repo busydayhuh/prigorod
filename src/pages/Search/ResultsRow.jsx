@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import {
   StationElem,
   ThreadElem,
@@ -35,9 +34,12 @@ function ResultsRow(props) {
         variant="base_station"
         time={props.departure}
         date={date}
-        className="max-w-[3rem] break-words"
+        className="max-w-12 wrap-break-word"
       />
-      <TravelTimeElem travelTime={props.duration} isExpress={!!express_type} />
+      <TravelTimeElem
+        travelTime={props.duration}
+        isExpress={Boolean(express_type)}
+      />
       <StationElem
         scheduleUrl={`/schedule?station=${props.to.code}&date=${date}&name=${props.to.title}`}
         stationName={props.to.short_title || props.to.title}
@@ -53,12 +55,12 @@ function ResultsRow(props) {
         variant="base_thread"
         carrier={carrier.title}
         expressName={express_type ? transport_subtype.title : null}
-        className="row-start-1 md:row-start-auto col-span-3 md:col-span-1 font-medium md:font-normal pb-2 md:pl-4 md:pb-0"
+        className="col-span-3 md:col-span-1 row-start-1 md:row-start-auto pb-2 md:pb-0 md:pl-4 md:font-normal font-medium"
       />
       {!!price && (
         <div
           className={cn(
-            "md:text-2xl text-xl flex items-center md:justify-center justify-start font-medium pt-3 md:pt-0 col-span-3 md:col-span-1",
+            "flex justify-start md:justify-center items-center col-span-3 md:col-span-1 pt-3 md:pt-0 font-medium text-xl md:text-2xl",
             !!express_type && "text-accent"
           )}
         >{`${price} ₽`}</div>
