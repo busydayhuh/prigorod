@@ -97,11 +97,11 @@
   }
 
   .results-grid {
-    @apply grid md:grid grid-cols-[2fr_2fr_2fr] md:grid-cols-[1.5fr_200px_2fr_3fr_1fr];
+    @apply gap-2 md:gap-0 grid grid-cols-[2fr_2fr_2fr] md:grid-cols-[2fr_2fr_2fr_3fr_1fr];
   }
 
   .schedule-grid {
-    @apply gap-2 grid grid-cols-1 md:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1fr] lg:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1.5fr_1fr];
+    @apply gap-2 lg:gap-4 grid grid-cols-1 md:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1fr] lg:grid-cols-[minmax(0,2.5fr)_1fr_1fr_1.5fr_1fr];
   }
 
   .thread-grid {

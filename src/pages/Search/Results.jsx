@@ -1,77 +1,61 @@
+import { DatePicker } from "@/components/DatePicker";
 import ResultsBody from "@/components/ResultsBody";
+import { FiltersGroup, PageHead, Toggles } from "@/components/ui";
+import { useTableFilters } from "@/hooks/useTableFilters";
 import { getAPIParams } from "@/lib/getAPIParams";
 import ResultsRow from "@/pages/Search/ResultsRow";
-import SearchSuggestions from "@/pages/Search/SearchSuggestions";
 import { useApi } from "@/services";
-import { useState } from "react";
 import { useSearchParams } from "react-router";
-
-import { DatePicker } from "@/components/DatePicker";
-import {
-  ErrorMessage,
-  FiltersGroup,
-  Loader,
-  PageHead,
-  Toggles,
-} from "@/components/ui";
 import { v4 as uuidv4 } from "uuid";
 
 function ResultsTable() {
   const [searchParams] = useSearchParams();
-  const apiParams = getAPIParams(["from", "to", "date"], searchParams);
-  const { data, isLoading, error } = useApi("search", apiParams);
 
-  const [tableFilters, setTableFilters] = useState({
-    isDepartedOpen: false,
-    expressOnly: false,
-  });
+  const apiParams = getAPIParams(["from", "to", "date"], searchParams);
+  const labels = {
+    from: searchParams.get("fromLabel"),
+    to: searchParams.get("toLabel"),
+  };
+  const date = searchParams.get("date");
+
+  const { data, isLoading, error } = useApi("search", apiParams);
+  const { tableFilters, setTableFilters } = useTableFilters();
 
   return (
     <div className="w-main">
-      <PageHead
-        title={`${searchParams.get("fromLabel")} — ${searchParams.get(
-          "toLabel"
-        )}`}
-        date={searchParams.get("date")}
-      />
+      <PageHead title={`${labels.from} — ${labels.to}`} date={date} />
 
       <FiltersGroup>
         <DatePicker variant="asFilter" />
         <Toggles
-          name="expressOnly"
+          name="express"
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
           className="md:ms-auto"
         />
         <Toggles
-          name="isDepartedOpen"
+          name="departed"
           tableFilters={tableFilters}
           setTableFilters={setTableFilters}
         />
       </FiltersGroup>
 
-      {error ? (
-        error.status_code === 404 ? (
-          <ErrorMessage variant="noStation" />
-        ) : (
-          <ErrorMessage variant="general" />
-        )
-      ) : (
-        <div className="relative min-h-[30rem]">
-          {isLoading && <Loader />}
-          {data && data.suggestions && <SearchSuggestions />}
-          {data && !data.suggestions && (
-            <ResultsBody
-              route="search"
-              isDepartedOpen={tableFilters.isDepartedOpen}
-              expressOnly={tableFilters.expressOnly}
-              renderRow={(segment, props) => {
-                return <ResultsRow key={uuidv4()} {...segment} {...props} />;
-              }}
-            />
-          )}
-        </div>
-      )}
+      <ResultsBody
+        route="search"
+        filters={tableFilters}
+        data={data}
+        error={error}
+        isLoading={isLoading}
+        noResultsText={
+          <>
+            Нет прямых рейсов по запросу <strong>{labels.from}</strong> —{" "}
+            <strong>{labels.to}</strong>
+          </>
+        }
+        renderRow={(segment, props) => {
+          return <ResultsRow key={uuidv4()} {...segment} {...props} />;
+        }}
+      />
     </div>
   );
 }

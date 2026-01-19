@@ -6,28 +6,30 @@ export function useTableFilters() {
     express: false,
   });
 
-  const filterTime = useCallback((results, route) => {
+  const normalizeSchedule = useCallback((schedule, route) => {
     return {
-      departed: results.departed || results[route].departed,
-      future: results.future || results[route].future,
+      departed: schedule.departed || schedule[route].departed,
+      future: schedule.future || schedule[route].future,
     };
   }, []);
 
-  const filterExpress = useCallback((results, express) => {
-    if (!express) return results;
+  const filterExpress = useCallback((schedule, express) => {
+    if (!express) return schedule;
 
     return {
-      departed: results.departed.filter((result) => result.thread.express_type),
-      future: results.future.filter((result) => result.thread.express_type),
+      departed: schedule.departed.filter(
+        (segment) => segment.thread.express_type,
+      ),
+      future: schedule.future.filter((segment) => segment.thread.express_type),
     };
   }, []);
 
   const getFilteredResults = useCallback(
-    (results, route, express) => {
-      const normalizedResults = filterTime(results, route);
+    (schedule, route, express) => {
+      const normalizedResults = normalizeSchedule(schedule, route);
       return filterExpress(normalizedResults, express);
     },
-    [filterExpress, filterTime],
+    [filterExpress, normalizeSchedule],
   );
 
   return { tableFilters, setTableFilters, getFilteredResults };

@@ -1,6 +1,7 @@
 import { ErrorMessage, Loader } from "@/components/ui";
 import { useTableFilters } from "@/hooks/useTableFilters";
 import { cn } from "@/lib/utils";
+import SearchSuggestions from "@/pages/Search/SearchSuggestions";
 import { useMemo } from "react";
 
 function ResultsBody({
@@ -13,24 +14,25 @@ function ResultsBody({
   filters,
 }) {
   const { getFilteredResults } = useTableFilters();
+
   const results = useMemo(
     () =>
       data ?
-        getFilteredResults(data.schedule, route, filters.express)
+        getFilteredResults(data.schedule || data, route, filters.express)
       : { future: [], departed: [] },
     [data, filters, getFilteredResults, route],
   );
 
   if (!data && isLoading)
     return (
-      <div className="relative">
+      <div className="relative min-h-120">
         <Loader />
       </div>
     );
   if (!data && error) return <ErrorMessage variant="general" />;
   if (data)
     return (
-      <div className="relative">
+      <div className="relative min-h-120">
         {isLoading && <Loader />}
         <div
           className={cn(
@@ -47,6 +49,7 @@ function ResultsBody({
           </DepartedResultsBoundary>
 
           <FutureResultsBoundary
+            suggestions={data.suggestions}
             results={results}
             filters={filters}
             noResultsText={noResultsText}
@@ -60,14 +63,25 @@ function ResultsBody({
     );
 }
 
-function FutureResultsBoundary({ results, filters, noResultsText, children }) {
+function FutureResultsBoundary({
+  results,
+  filters,
+  noResultsText,
+  suggestions,
+  children,
+}) {
   const noFutureTrains =
     results.future.length === 0 && results.departed.length !== 0;
   const noResults =
     results.future.length === 0 && results.departed.length === 0;
 
   if (noFutureTrains) return <ErrorMessage variant="noFutureResults" />;
+
   if (noResults && filters.express) return <ErrorMessage variant="noExpress" />;
+
+  if (noResults && suggestions?.length > 0)
+    return <SearchSuggestions suggestions={suggestions} />;
+
   if (noResults)
     return <ErrorMessage variant="noResults">{noResultsText}</ErrorMessage>;
 

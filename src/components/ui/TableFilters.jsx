@@ -58,7 +58,7 @@ export function SelectDirection({ directions }) {
       value={searchParams.get("direction") || "all"}
       onValueChange={updateDirection}
     >
-      <SelectTrigger className="focus-visible:ring-0 w-[180px] oval-btn-icon">
+      <SelectTrigger className="focus-visible:ring-0 w-45 oval-btn-icon">
         <SelectValue placeholder="выберите направление" />
       </SelectTrigger>
       <SelectContent className="px-0 py-0 border-2 rounded-2xl">

@@ -5,7 +5,7 @@ import {
   getHoursAndMinutes,
   validateTime,
 } from "@/lib/utils";
-import { ArrowUpRight, Rabbit } from "lucide-react";
+import { Rabbit } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import BadgeTooltip from "./Tooltip";
@@ -27,13 +27,12 @@ export function TimeElem({ timestamp, date = null, className = "" }) {
 export function LinkElem({ url, children, className = "", onClick = null }) {
   return (
     <Link to={url} onClick={onClick}>
-      <div className="flex justify-start items-baseline gap-0.5 p-0 has-[>svg]:px-0 w-fit">
+      <div className="gap-0.5 p-0 has-[>svg]:px-0">
         <p
           className={`hover:underline hover:underline-offset-4 break-word ${className}`}
         >
           {children}
         </p>
-        <ArrowUpRight className="size-3 md:size-4" />
       </div>
     </Link>
   );
@@ -54,7 +53,7 @@ export function ThreadElem({
   };
 
   return (
-    <div className={`flex flex-col gap-1.5  ${className}`}>
+    <div className={`flex flex-col gap-2.5  ${className}`}>
       <div className="flex items-center gap-1.5">
         <Badge
           className={cn(
@@ -116,7 +115,7 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
   return (
     <div
       className={cn(
-        "flex justify-center items-center gap-2 text-sm md:text-base",
+        "flex justify-center md:justify-start items-center gap-2 text-sm md:text-base",
         isExpress && "text-accent",
       )}
     >
