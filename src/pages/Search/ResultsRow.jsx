@@ -55,8 +55,9 @@ function ResultsRow(props) {
         threadUrl={`/thread?uid=${uid}&date=${date}&name=${title}&number=${number}`}
         variant="base_thread"
         carrier={carrier.title}
-        expressName={express_type ? transport_subtype.title : null}
-        className="col-span-3 md:col-span-1 row-start-1 md:row-start-auto pb-2 md:pb-0 md:pl-4 md:font-normal font-medium"
+        isExpress={Boolean(express_type)}
+        trainName={transport_subtype?.title || null}
+        className="col-span-3 md:col-span-1 row-start-1 md:row-start-auto mb-2 md:mb-0 md:pl-4 md:font-normal font-medium"
       />
       {!!price && (
         <div

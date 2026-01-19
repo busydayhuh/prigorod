@@ -37,7 +37,7 @@ function ScheduleRow(props) {
         expressName={express_type ? transport_subtype.title : null}
         className="self-center"
       />
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-row md:flex-col gap-3 md:gap-1">
         <TimeElem
           timestamp={props.departure || props.arrival}
           date={props.date}

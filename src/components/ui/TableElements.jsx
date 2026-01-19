@@ -13,7 +13,7 @@ import BadgeTooltip from "./Tooltip";
 export function TimeElem({ timestamp, date = null, className = "" }) {
   return (
     <div
-      className={`md:text-4xl text-3xl font-medium font-headers  ${className}`}
+      className={`lg:text-4xl md:text-3xl text-2xl font-medium font-headers  ${className}`}
     >
       {!timestamp ?
         "—"
@@ -42,7 +42,8 @@ export function ThreadElem({
   number,
   threadName,
   threadUrl,
-  expressName = null,
+  trainName = null,
+  isExpress = false,
   variant,
   carrier = null,
   className = "",
@@ -58,15 +59,20 @@ export function ThreadElem({
         <Badge
           className={cn(
             "font-semibold text-xs md:text-sm badge",
-            expressName && "bg-accent",
+            isExpress && "bg-accent",
           )}
         >
           # {number}
         </Badge>
-        {expressName && (
-          <BadgeTooltip text={expressName}>
-            <div className="max-w-55 text-accent text-xs md:text-sm truncate">
-              {expressName}
+        {trainName && (
+          <BadgeTooltip text={trainName}>
+            <div
+              className={cn(
+                "max-w-55 text-xs md:text-sm truncate",
+                isExpress && "text-accent",
+              )}
+            >
+              {trainName}
             </div>
           </BadgeTooltip>
         )}
@@ -94,7 +100,7 @@ export function StationElem({
 }) {
   const stationVariants = {
     lg_station: "text-base font-medium md:text-lg md:font-normal font-headers",
-    base_station: "text-sm md:text-base font-headers",
+    base_station: "text-xs md:text-base font-headers",
   };
 
   return (

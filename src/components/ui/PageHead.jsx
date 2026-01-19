@@ -12,6 +12,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router";
+import { Badge } from "../shadcn/badge";
 
 export default function PageHead({
   number = "",
@@ -22,6 +23,8 @@ export default function PageHead({
   geoAllowed = false,
   isFetching = false,
   locality = "",
+  isExpress = false,
+  subtypeName = "",
   subdivision = "",
 }) {
   const location = useLocation().pathname;
@@ -44,14 +47,25 @@ export default function PageHead({
           на <span className="text-accent">{formatDate}</span>
         </>
       ),
-      text: days && (
-        <>
-          действует {days}
-          {exception && `, кроме ${exception}`}
-        </>
+      text: (
+        <div className="flex flex-wrap items-baseline gap-2">
+          {subtypeName && (
+            <Badge
+              className="mt-2 rounded-2xl text-sm"
+              variant={isExpress ? "destructive" : "default"}
+            >
+              {subtypeName}
+            </Badge>
+          )}
+          {days && (
+            <p>
+              действует {days}
+              {exception && `, кроме ${exception}`}
+            </p>
+          )}
+        </div>
       ),
     },
-
     "/schedule": {
       icon: <School />,
       header: (
