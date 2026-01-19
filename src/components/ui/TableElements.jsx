@@ -27,13 +27,13 @@ export function TimeElem({ timestamp, date = null, className = "" }) {
 export function LinkElem({ url, children, className = "", onClick = null }) {
   return (
     <Link to={url} onClick={onClick}>
-      <div className="inline justify-start gap-0.5 p-0 has-[>svg]:px-0">
-        <span
-          className={`break-word hover:underline hover:underline-offset-4 ${className}`}
+      <div className="flex justify-start items-baseline gap-0.5 p-0 has-[>svg]:px-0 w-fit">
+        <p
+          className={`hover:underline hover:underline-offset-4 break-word ${className}`}
         >
           {children}
-        </span>
-        <ArrowUpRight className="inline size-3 md:size-4" />
+        </p>
+        <ArrowUpRight className="size-3 md:size-4" />
       </div>
     </Link>
   );
@@ -49,12 +49,12 @@ export function ThreadElem({
   className = "",
 }) {
   const threadVariants = {
-    lg_thread: "text-m/1 font-medium md:text-xl/1 font-headers",
-    base_thread: "text-base/1 md:text-lg/1 font-headers",
+    lg_thread: "text-m/tight font-medium md:text-xl/tight font-headers",
+    base_thread: "text-base/1 md:text-lg/tight font-headers",
   };
 
   return (
-    <div className={`flex flex-col gap-1.5 ${className}`}>
+    <div className={`flex flex-col gap-1.5  ${className}`}>
       <div className="flex items-center gap-1.5">
         <Badge
           className={cn(
@@ -62,7 +62,7 @@ export function ThreadElem({
             expressName && "bg-accent",
           )}
         >
-          №{number}
+          # {number}
         </Badge>
         {expressName && (
           <BadgeTooltip text={expressName}>
@@ -94,8 +94,8 @@ export function StationElem({
   className = "",
 }) {
   const stationVariants = {
-    lg_station: "text-base font-medium md:text-lg md:font-normal",
-    base_station: "text-sm md:text-base",
+    lg_station: "text-base font-medium md:text-lg md:font-normal font-headers",
+    base_station: "text-sm md:text-base font-headers",
   };
 
   return (
@@ -154,7 +154,7 @@ export function ClippedTextElem({ text }) {
 export function PlatformBadgeElem({ platform }) {
   return (
     <BadgeTooltip text={platform}>
-      <div className="md:justify-self-center self-center bg-foreground px-1.5 py-1 rounded-3xl w-fit max-w-full font-semibold text-secondary-foreground text-xs line-clamp-1">
+      <div className="md:justify-self-center self-center bg-foreground px-1.5 py-1 rounded-3xl w-fit max-w-full font-medium text-secondary-foreground text-xs lg:text-sm line-clamp-1">
         {platform}
       </div>
     </BadgeTooltip>

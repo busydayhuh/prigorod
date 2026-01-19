@@ -43,7 +43,7 @@ function ScheduleRow(props) {
           date={props.date}
           className="text-[22px]"
         />
-        <p className="text-muted-foreground text-xs">
+        <p className="text-muted-foreground">
           {props.departure ? "отправление" : "прибытие"}
         </p>
       </div>
