@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { StationElem, TimeElem } from "@/components/ui/TableElements";
 import { cn, getHoursAndMinutes } from "@/lib/utils";
 
@@ -14,10 +13,7 @@ export default function ThreadRow(props) {
       <TimeElem
         timestamp={props.arrival}
         date={props.date || ""}
-        className={cn(
-          "text-base md:text-xl text-center",
-          props.arrival && "text-right",
-        )}
+        className={cn("text-base md:text-xl text-center")}
       />
       <div className="hidden md:block text-center">
         {props.stop_time ? getHoursAndMinutes(props.stop_time) : ""}
@@ -25,10 +21,7 @@ export default function ThreadRow(props) {
       <TimeElem
         timestamp={props.departure}
         date={props.date || ""}
-        className={cn(
-          "text-base md:text-xl text-center",
-          props.departure && "text-right",
-        )}
+        className={cn("text-base md:text-xl text-center")}
       />
     </div>
   );

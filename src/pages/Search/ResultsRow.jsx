@@ -27,6 +27,16 @@ function ResultsRow(props) {
         props.departed && "opacity-50",
       )}
     >
+      <ThreadElem
+        number={number}
+        threadName={short_title}
+        threadUrl={`/thread?uid=${uid}&date=${date}&name=${title}&number=${number}`}
+        variant="base_thread"
+        carrier={carrier.title}
+        isExpress={Boolean(express_type)}
+        trainName={transport_subtype?.title || null}
+        className="col-span-3 lg:col-span-1 row-start-1 lg:row-start-auto mb-2 lg:mb-0 lg:pl-4 md:font-normal font-medium"
+      />
       <StationElem
         scheduleUrl={`/schedule?station=${props.from.code}&date=${date}&name=${props.from.title}`}
         stationName={props.from.short_title || props.from.title}
@@ -49,20 +59,11 @@ function ResultsRow(props) {
         time={props.arrival}
         date={date}
       />
-      <ThreadElem
-        number={number}
-        threadName={short_title}
-        threadUrl={`/thread?uid=${uid}&date=${date}&name=${title}&number=${number}`}
-        variant="base_thread"
-        carrier={carrier.title}
-        isExpress={Boolean(express_type)}
-        trainName={transport_subtype?.title || null}
-        className="col-span-3 md:col-span-1 row-start-1 md:row-start-auto mb-2 md:mb-0 md:pl-4 md:font-normal font-medium"
-      />
+
       {!!price && (
         <div
           className={cn(
-            "flex justify-start md:justify-center items-center col-span-3 md:col-span-1 pt-3 md:pt-0 font-medium text-xl md:text-2xl",
+            "flex justify-start lg:justify-center items-center col-span-3 lg:col-span-1 pt-3 lg:pt-0 font-medium text-xl md:text-2xl",
             !!express_type && "text-accent",
           )}
         >{`${price} ₽`}</div>

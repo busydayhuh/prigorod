@@ -34,7 +34,8 @@ function ScheduleRow(props) {
         }&name=${title}&number=${number}`}
         variant="lg_thread"
         carrier={carrier.code === 153 ? "ЦППК" : carrier.title}
-        expressName={express_type ? transport_subtype.title : null}
+        isExpress={Boolean(express_type)}
+        trainName={transport_subtype?.title || null}
         className="self-center"
       />
       <div className="flex flex-row md:flex-col gap-3 md:gap-1">

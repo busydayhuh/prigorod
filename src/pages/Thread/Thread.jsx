@@ -9,7 +9,7 @@ import ThreadRow from "./ThreadRow";
 
 import { ErrorMessage, Loader, PageHead } from "@/components/ui";
 
-function ThreadTable() {
+function Thread() {
   const [searchParams] = useSearchParams();
   const apiParams = getAPIParams(["uid", "date"], searchParams);
   const { data, isLoading, error } = useApi("thread", apiParams);
@@ -33,43 +33,46 @@ function ThreadTable() {
         <DatePicker variant="asFilter" />
       </FiltersGroup>
 
-      {error ?
-        error.status_code === 404 ?
-          <ErrorMessage
-            variant="exceptionDay"
-            days={data?.days}
-            exception={data?.except_days}
-          />
-        : <ErrorMessage variant="general" />
-      : <div className="relative min-h-120">
-          {isLoading && <Loader />}
-          <div className="table-headers thread-grid">
-            <div></div>
-            <div>прибытие</div>
-            <div className="hidden md:block">стоянка</div>
-            <div>отправление</div>
-          </div>
-          <div
-            className={cn(
-              "table-body w-narrow transition-opacity",
-              isLoading && "opacity-20",
-            )}
-          >
-            {data &&
-              data.stops.map((segment) => {
-                return (
-                  <ThreadRow
-                    key={uuidv4()}
-                    date={data.start_date}
-                    {...segment}
-                  />
-                );
-              })}
-          </div>
+      <div className="relative min-h-120">
+        {isLoading && <Loader />}
+        <div className="table-headers thread-grid mx-8 md:mx-12">
+          <div></div>
+          <div>прибытие</div>
+          <div className="hidden md:block">стоянка</div>
+          <div>отправление</div>
         </div>
-      }
+        <div
+          className={cn(
+            "table-body w-narrow transition-opacity",
+            isLoading && "opacity-20",
+          )}
+        >
+          <ThreadResults data={data} error={error} />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default ThreadTable;
+function ThreadResults({ data, error }) {
+  const errorMessage = (error) => {
+    if (error.status_code === 404)
+      return (
+        <ErrorMessage
+          variant="exceptionDay"
+          days={data?.days}
+          exception={data?.except_days}
+        />
+      );
+
+    return <ErrorMessage variant="general" />;
+  };
+
+  if (error) return errorMessage(error);
+  if (data)
+    return data.stops.map((segment) => {
+      return <ThreadRow key={uuidv4()} date={data.start_date} {...segment} />;
+    });
+}
+
+export default Thread;

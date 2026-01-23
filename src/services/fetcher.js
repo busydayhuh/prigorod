@@ -6,7 +6,7 @@ const fetcher = async (url) => {
   if (!res.ok) {
     const error = new YandexError(
       `HTTP error! Status: ${res.status}`,
-      res.status
+      res.status,
     );
 
     throw error;
