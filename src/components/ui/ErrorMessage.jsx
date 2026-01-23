@@ -1,12 +1,10 @@
-/* eslint-disable react/prop-types */
-import React from "react";
 import {
-  CalendarX,
-  Snail,
   AlertCircle,
-  Ghost,
   CalendarOff,
+  CalendarX,
   ClockAlert,
+  Ghost,
+  Snail,
 } from "lucide-react";
 
 export default function ErrorMessage({ variant, children = null, ...props }) {
@@ -55,10 +53,10 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
     },
   };
   return (
-    <div className="flex flex-col gap-3 items-center  mt-10 max-w-3xl mx-auto min-h-[25rem]">
+    <div className="flex flex-col items-center gap-3 mx-auto mt-10 max-w-3xl min-h-100">
       {variants[variant].icon}
-      <h3 className="font-medium md:text-2xl text-lg">{variants[variant].h}</h3>
-      <p className="md:text-base text-sm text-center">
+      <h3 className="font-medium text-lg md:text-2xl">{variants[variant].h}</h3>
+      <p className="text-sm md:text-base text-center">
         {variants[variant].text}
       </p>
     </div>

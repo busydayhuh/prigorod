@@ -99,7 +99,7 @@
   }
 
   .results-grid {
-    @apply gap-2 md:gap-0 grid grid-cols-[2fr_2fr_2fr] md:grid-cols-[2fr_2fr_2fr_3fr_1fr];
+    @apply gap-2 lg:gap-0 grid grid-cols-[2fr_2fr_2fr] lg:grid-cols-[4fr_2fr_1fr_2fr_1fr];
   }
 
   .schedule-grid {
@@ -107,7 +107,7 @@
   }
 
   .thread-grid {
-    @apply justify-center items-center grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[minmax(0,_3fr)_1fr_1fr_1fr];
+    @apply justify-center items-center grid grid-cols-[2fr_1fr_1fr] md:grid-cols-[minmax(0,3fr)_1fr_1fr_1fr];
   }
 
   .table-body {

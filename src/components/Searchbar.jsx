@@ -16,6 +16,7 @@ import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { AutoComplete } from "./Autocomplete";
 import { DatePicker } from "./DatePicker";
+import { DesktopInput } from "./DesktopInput";
 import PrevSearches from "./ui/PrevSearches";
 
 function Searchbar() {
@@ -68,9 +69,9 @@ function Searchbar() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full flex flex-col md:flex-row md:items-center md:text-lg grow"
+            className="flex md:flex-row flex-col md:items-center w-full md:text-lg grow"
           >
-            <div className="w-full lg:w-auto flex items-center">
+            <div className="flex items-center w-full lg:w-auto">
               <FormField
                 control={form.control}
                 name="from"
@@ -78,11 +79,11 @@ function Searchbar() {
                   <FormItem className="grow md:grow-0">
                     <div>
                       <FormControl>
-                        <AutoComplete
+                        <DesktopInput
                           field={field}
-                          setValue={form.setValue}
+                          setFormValue={form.setValue}
                           placeholder="откуда"
-                          errors={form.formState.errors.from}
+                          formError={form.formState.errors.from}
                         />
                       </FormControl>
                     </div>
@@ -94,7 +95,7 @@ function Searchbar() {
                   type="button"
                   onClick={handleSwap}
                   size="lg"
-                  className="absolute rounded-full transform left-1/2 md:translate-x-[-50%] translate-x-[-50%] translate-y-[-50%] hover:bg-foreground bg-foreground text-primary-foreground z-10"
+                  className="left-1/2 z-10 absolute bg-foreground hover:bg-foreground rounded-full text-primary-foreground translate-x-[-50%] translate-y-[-50%] md:translate-x-[-50%] transform"
                 >
                   <ArrowLeftRight />
                 </Button>
@@ -132,7 +133,7 @@ function Searchbar() {
               )}
             />
             <Button
-              className="md:ms-auto md:rounded-[50%] h-14 md:h-12 md:w-12 bg-accent text-foreground hover:bg-accent/80"
+              className="bg-accent hover:bg-accent/80 md:ms-auto md:rounded-[50%] md:w-12 h-14 md:h-12 text-foreground"
               type="submit"
             >
               <Search className="size-5" />

@@ -54,7 +54,7 @@ export function ThreadElem({
   };
 
   return (
-    <div className={`flex flex-col gap-2.5  ${className}`}>
+    <div className={`flex flex-col lg:gap-2 gap-2.5 ${className}`}>
       <div className="flex items-center gap-1.5">
         <Badge
           className={cn(
@@ -64,7 +64,7 @@ export function ThreadElem({
         >
           # {number}
         </Badge>
-        {trainName && (
+        {trainName !== "Пригородный поезд" && (
           <BadgeTooltip text={trainName}>
             <div
               className={cn(
@@ -81,7 +81,7 @@ export function ThreadElem({
         {threadName}
       </LinkElem>
       {!!carrier && (
-        <div className="hidden md:block md:text-foreground/50 md:text-sm">
+        <div className="hidden lg:block text-foreground/50 text-sm">
           {carrier}
         </div>
       )}

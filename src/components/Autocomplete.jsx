@@ -1,10 +1,3 @@
-/* eslint-disable react/prop-types */
-import { cn } from "@/lib/utils";
-import { Command as CommandPrimitive } from "cmdk";
-import { useRef, useState } from "react";
-
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-
 import {
   Command,
   CommandEmpty,
@@ -26,8 +19,12 @@ import {
 } from "@/components/shadcn/popover";
 import { useFormLabels, useFormLabelsUpdater } from "@/context/FormContext";
 import { useIsDesktopContext } from "@/context/WindowSizeContext";
+import { cn } from "@/lib/utils";
 import { useApi } from "@/services";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Command as CommandPrimitive } from "cmdk";
 import { Loader, X } from "lucide-react";
+import { useRef, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
@@ -80,7 +77,7 @@ export function AutoComplete({
 
   if (!isDesktop) {
     return (
-      <Drawer open={open} onOpenChange={setOpen} direction="top">
+      <Drawer open={open} onOpenChange={setOpen} direction="bottom">
         <Command shouldFilter={false}>
           <DrawerTrigger>
             <InputTrigger
@@ -116,20 +113,20 @@ export function AutoComplete({
                   </div>
                 </CommandPrimitive.Loading>
               )}
-              {!isLoading && stations ? (
-                stations.length > 0 ? (
+              {!isLoading && stations ?
+                stations.length > 0 ?
                   <StationsList
                     stations={stations}
                     onSelectItem={onSelectItem}
                     selectedLabel={selectedLabel}
                     query={query}
                   />
-                ) : null
-              ) : null}
+                : null
+              : null}
               {isApiError && <ApiErrorMessage />}
-              {!isLoading ? (
+              {!isLoading ?
                 <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
-              ) : null}
+              : null}
             </CommandList>
           </DrawerContent>
         </Command>
@@ -164,9 +161,9 @@ export function AutoComplete({
               e.preventDefault();
             }
           }}
-          className="p-0 w-[var(--radix-popover-trigger-width)] max-h-[300px] popover-borders"
+          className="p-0 w-(--radix-popover-trigger-width) max-h-75 popover-borders"
         >
-          <CommandList className="max-h-[350px]">
+          <CommandList className="max-h-87.5">
             {isLoading && (
               <CommandPrimitive.Loading>
                 <div className="flex justify-center items-center gap-1 p-1 h-20 text-foreground text-sm">
@@ -174,20 +171,20 @@ export function AutoComplete({
                 </div>
               </CommandPrimitive.Loading>
             )}
-            {!isLoading && stations ? (
-              stations.length > 0 ? (
+            {!isLoading && stations ?
+              stations.length > 0 ?
                 <StationsList
                   stations={stations}
                   onSelectItem={onSelectItem}
                   selectedLabel={selectedLabel}
                   query={query}
                 />
-              ) : null
-            ) : null}
+              : null
+            : null}
             {isApiError && <ApiErrorMessage />}
-            {!isLoading ? (
+            {!isLoading ?
               <CommandEmpty>{emptyMessage ?? "No items."}</CommandEmpty>
-            ) : null}
+            : null}
           </CommandList>
         </PopoverContent>
       </Command>
@@ -234,7 +231,7 @@ function InputTrigger({
             "shadow-none py-4 pl-5 border-foreground md:border-r-3 border-b-3 md:border-b-0 focus-visible:outline-0 focus-visible:ring-0 lg:min-w-sm text-foreground focus-visible:placeholder:text-muted-foreground placeholder:text-foreground autocomplete-input",
             errors && "placeholder:text-accent",
             field.name === "to" && "pl-8 border-l-3 md:border-l-0",
-            className
+            className,
           )}
         />
       </CommandPrimitive.Input>
@@ -243,7 +240,7 @@ function InputTrigger({
         tabIndex="0"
         className={cn(
           "hidden top-5 md:top-[30%] right-5 z-100 absolute hover:bg-muted p-1 rounded-full transition-colors reset-btn",
-          open && "block"
+          open && "block",
         )}
         onClick={(e) => {
           e.stopPropagation();
@@ -258,17 +255,11 @@ function InputTrigger({
   );
 }
 
-function StationsList({
-  stations,
-  onSelectItem,
-  selectedLabel,
-  query,
-  className,
-}) {
+function StationsList({ stations, onSelectItem, selectedLabel, query }) {
   return (
     <CommandGroup
       heading={!query && "Случайные станции"}
-      className="p-0 [&_[cmdk-group-heading]]:font-normal"
+      className="p-0 **:[[cmdk-group-heading]]:font-normal"
     >
       {stations.map((option) => (
         <CommandItem
@@ -280,7 +271,7 @@ function StationsList({
           }}
           className={cn(
             "px-2 py-1.5 pb-2 border-b-3 last:border-b-0 hover:text-foreground transition cursor-pointer",
-            selectedLabel === option.title ? "bg-accent" : null
+            selectedLabel === option.title ? "bg-accent" : null,
           )}
         >
           <div className="m-0 pb-0 text-base">
