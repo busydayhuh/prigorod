@@ -2,9 +2,9 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Outlet } from "react-router";
 import { ScrollUpBtn } from "./components/ui";
-import FormContextProvider from "./context/FormContext";
-import PrevSearchesProvider from "./context/PrevSearchesContext";
-import { IsDesktopProvider } from "./context/WindowSizeContext";
+import FormContextProvider from "./store/form/FormContextProvider";
+import PrevSearchesProvider from "./store/form/PrevSearchesProvider";
+import { IsDesktopProvider } from "./store/WindowSizeContext";
 
 function App() {
   return (

@@ -1,29 +1,24 @@
-/* eslint-disable react/prop-types */
-import { useFormLabelsUpdater } from "@/context/FormContext";
+import { usePrevSearches } from "@/store/form/usePrevSearches";
 import { Clock2 } from "lucide-react";
 import { useFormContext } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 
-export default function PrevSearches({ prevSearches }) {
-  const { setValue } = useFormContext();
-  const setLabels = useFormLabelsUpdater();
+export default function PrevSearches() {
+  const { prevSearches } = usePrevSearches();
+  const { reset } = useFormContext();
 
   return (
-    <div className="flex gap-1 flex-wrap items-center max-w-6xl w-[96%] mx-auto px-3 mt-1 text-foreground/80">
-      {prevSearches.length > 0 ? (
+    <div className="flex flex-wrap items-center gap-1 mx-auto mt-1 px-3 w-[96%] max-w-6xl text-foreground/80">
+      {prevSearches.length > 0 ?
         <>
           <Clock2 className="size-4" />
           {prevSearches.slice(0, 3).map((search) => {
             return (
               <button
-                className="suggestion-links text-xs max-w-[50ch] truncate"
-                key={uuidv4()}
+                className="max-w-[50ch] text-xs truncate suggestion-links"
+                key={search.from + search.to}
                 onClick={() => {
-                  setValue("to", search.to);
-                  setValue("from", search.from);
-                  setLabels({
-                    toLabel: search.toLabel,
-                    fromLabel: search.fromLabel,
+                  reset((prev) => ({ ...prev, ...search }), {
+                    keepDefaultValues: true,
                   });
                 }}
               >
@@ -32,21 +27,26 @@ export default function PrevSearches({ prevSearches }) {
             );
           })}
         </>
-      ) : (
-        <button
-          className="suggestion-links text-xs"
+      : <button
+          className="text-xs suggestion-links"
           onClick={() => {
-            setValue("to", "s9600681");
-            setValue("from", "s2000002");
-            setLabels({
-              toLabel: "Мытищи",
-              fromLabel: "Москва (Ярославский вокзал)",
-            });
+            reset(
+              (prev) => ({
+                ...prev,
+                from: "s2000002",
+                to: "s9600681",
+                fromLabel: "Москва (Ярославский вокзал)",
+                toLabel: "Мытищи",
+              }),
+              {
+                keepDefaultValues: true,
+              },
+            );
           }}
         >
           например, Москва — Мытищи
         </button>
-      )}
+      }
     </div>
   );
 }

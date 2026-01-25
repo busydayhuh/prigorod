@@ -17,10 +17,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn/popover";
-import { useFormLabels, useFormLabelsUpdater } from "@/context/FormContext";
-import { useIsDesktopContext } from "@/context/WindowSizeContext";
+import { useApi } from "@/hooks/useApi";
 import { cn } from "@/lib/utils";
-import { useApi } from "@/services";
+import {
+  useFormLabels,
+  useFormLabelsUpdater,
+} from "@/store/form/FormContextProvider";
+import { useIsDesktopContext } from "@/store/WindowSizeContext";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Command as CommandPrimitive } from "cmdk";
 import { Loader, X } from "lucide-react";

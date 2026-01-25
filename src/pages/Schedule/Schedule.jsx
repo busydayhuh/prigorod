@@ -6,10 +6,10 @@ import {
   SelectDirection,
   Toggles,
 } from "@/components/ui";
+import { useApi } from "@/hooks/useApi";
 import { useTableFilters } from "@/hooks/useTableFilters";
 import { getAPIParams } from "@/lib/getAPIParams";
 import ScheduleRow from "@/pages/Schedule/ScheduleRow";
-import { useApi } from "@/services";
 import { useSearchParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 

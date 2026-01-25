@@ -1,6 +1,6 @@
 import prigorodLogo from "@/assets/prigorod-logo.png";
+import { useGeocode } from "@/hooks/useGeocode";
 import { cn } from "@/lib/utils";
-import useGeocode from "@/services/useGeocode";
 import { MapPin } from "lucide-react";
 import { Link, useLocation } from "react-router";
 import Searchbar from "./Searchbar";
@@ -13,11 +13,11 @@ function Header() {
   return (
     <header
       className={cn(
-        "flex flex-col justify-center items-center gap-3 h-transition"
+        "flex flex-col justify-center items-center gap-3 h-transition",
       )}
     >
-      <div className="pt-5 pb-5 bg-foreground w-[100%]">
-        <div className="flex items-center justify-between w-main">
+      <div className="bg-foreground pt-5 pb-5 w-full">
+        <div className="flex justify-between items-center w-main">
           <Link to={"/"}>
             <img
               src={prigorodLogo}
@@ -26,7 +26,7 @@ function Header() {
             />
           </Link>
           {geo && (
-            <div className="text-primary-foreground text-xs flex gap-1 items-baseline">
+            <div className="flex items-baseline gap-1 text-primary-foreground text-xs">
               <MapPin className="size-3" />
               <span>{geo.city}</span>
             </div>
@@ -35,14 +35,14 @@ function Header() {
       </div>
       <div
         className={cn(
-          "max-w-[96%] w-6xl mt-4 h-transition",
-          isHome ? "max-h-[32rem]" : "max-h-[0rem] invisible mt-0"
+          "mt-4 w-6xl max-w-[96%] h-transition",
+          isHome ? "max-h-128" : "max-h-0 invisible mt-0",
         )}
       >
-        <h1 className="md:text-6xl text-4xl font-extrabold md:mb-6 mb-3">
+        <h1 className="mb-3 md:mb-6 font-extrabold text-4xl md:text-6xl">
           Куда поедем?
         </h1>
-        <p className="md:text-base text-sm">Найти подходящую электричку:</p>
+        <p className="text-sm md:text-base">Найти подходящую электричку:</p>
       </div>
       <Searchbar />
     </header>

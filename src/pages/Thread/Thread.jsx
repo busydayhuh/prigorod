@@ -1,8 +1,8 @@
 import { DatePicker } from "@/components/DatePicker";
 import { FiltersGroup } from "@/components/ui/TableFilters";
+import { useApi } from "@/hooks/useApi";
 import { getAPIParams } from "@/lib/getAPIParams";
 import { cn } from "@/lib/utils";
-import { useApi } from "@/services";
 import { useSearchParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
 import ThreadRow from "./ThreadRow";

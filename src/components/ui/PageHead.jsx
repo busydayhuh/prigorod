@@ -1,14 +1,6 @@
-/* eslint-disable react/prop-types */
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import {
-  CalendarSearch,
-  LocateFixedIcon,
-  MapPinCheck,
-  MapPinOff,
-  Route,
-  School,
-} from "lucide-react";
+import { CalendarSearch, Route, School } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router";
@@ -20,12 +12,8 @@ export default function PageHead({
   days = "",
   exception = "",
   date = "",
-  geoAllowed = false,
-  isFetching = false,
-  locality = "",
   isExpress = false,
   subtypeName = "",
-  subdivision = "",
 }) {
   const location = useLocation().pathname;
   const formatDate =
@@ -87,35 +75,6 @@ export default function PageHead({
         </>
       ),
       text: <>отправление и прибытие по московскому времени</>,
-    },
-
-    "/": {
-      icon:
-        geoAllowed ? <MapPinCheck />
-        : isFetching ? <LocateFixedIcon className="animate-pulse" />
-        : <MapPinOff />,
-      header: (
-        <>
-          {title ?
-            <>
-              <span className="text-accent">
-                {title}
-                {(subdivision || locality) && `, ${subdivision || locality}`}
-              </span>{" "}
-              — ближайшие станции:
-            </>
-          : <span>определяем локацию...</span>}
-        </>
-      ),
-      text:
-        geoAllowed ? null
-        : isFetching ?
-          <span className="text-foreground">
-            найдём ближайшие к вам станции
-          </span>
-        : <span className="text-foreground">
-            доступ к местоположению запрещён, показана локация по умолчанию
-          </span>,
     },
   };
 

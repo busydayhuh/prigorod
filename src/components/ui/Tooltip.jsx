@@ -4,7 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { useIsDesktopContext } from "@/context/WindowSizeContext";
+import { useIsDesktopContext } from "@/store/WindowSizeContext";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
 
 function BadgeTooltip({ children, text }) {

@@ -13,6 +13,8 @@ const searchSchema = z.object({
     required_error: "выберите дату",
     message: "выберите дату",
   }),
+  fromLabel: z.string(),
+  toLabel: z.string(),
 });
 
 export default searchSchema;

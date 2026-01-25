@@ -1,6 +1,6 @@
 import YandexError from "./YandexErrorClass";
 
-const fetcher = async (url) => {
+export const fetcher = async (url) => {
   const res = await fetch(url);
 
   if (!res.ok) {

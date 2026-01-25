@@ -5,62 +5,41 @@ import {
   FormField,
   FormItem,
 } from "@/components/shadcn/form";
-import { useFormLabels, useFormLabelsUpdater } from "@/context/FormContext";
-import {
-  usePrevSearches,
-  usePrevSearchesUpdater,
-} from "@/context/PrevSearchesContext";
 import { formatDateForParams } from "@/lib/utils";
+import { usePrevSearches } from "@/store/form/usePrevSearches";
 import { ArrowLeftRight, Search } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { AutoComplete } from "./Autocomplete";
+import { AutocompleteDesktop } from "./AutocompleteDesktop";
 import { DatePicker } from "./DatePicker";
-import { DesktopInput } from "./DesktopInput";
 import PrevSearches from "./ui/PrevSearches";
 
 function Searchbar() {
-  const prevSearches = usePrevSearches();
-  const setPrevSearches = usePrevSearchesUpdater();
   const navigate = useNavigate();
-
-  const formLabels = useFormLabels();
-  const updateFormLabels = useFormLabelsUpdater();
-
   const form = useFormContext();
+  const { addPrevSearch } = usePrevSearches();
 
   function onSubmit(values) {
     const params = new URLSearchParams({
       ...values,
       date: formatDateForParams(values.date),
-      fromLabel: formLabels.fromLabel,
-      toLabel: formLabels.toLabel,
     });
 
-    setPrevSearches((prevSearches) => {
-      return [
-        {
-          from: values.from,
-          to: values.to,
-          fromLabel: formLabels.fromLabel,
-          toLabel: formLabels.toLabel,
-        },
-        ...prevSearches,
-      ];
-    });
-
+    addPrevSearch({ ...values, date: undefined });
     navigate(`/results?${params}`);
   }
 
   function handleSwap() {
-    updateFormLabels((prev) => ({
-      fromLabel: prev.toLabel,
-      toLabel: prev.fromLabel,
-    }));
-
-    const currents = form.getValues();
-    form.setValue("from", currents.to);
-    form.setValue("to", currents.from);
+    form.reset(
+      (prev) => ({
+        ...prev,
+        from: prev.to,
+        to: prev.from,
+        fromLabel: prev.toLabel,
+        toLabel: prev.fromLabel,
+      }),
+      { keepDefaultValues: true },
+    );
   }
 
   return (
@@ -79,7 +58,7 @@ function Searchbar() {
                   <FormItem className="grow md:grow-0">
                     <div>
                       <FormControl>
-                        <DesktopInput
+                        <AutocompleteDesktop
                           field={field}
                           setFormValue={form.setValue}
                           placeholder="откуда"
@@ -107,11 +86,11 @@ function Searchbar() {
                   <FormItem className="grow md:grow-0">
                     <div>
                       <FormControl>
-                        <AutoComplete
+                        <AutocompleteDesktop
                           field={field}
-                          setValue={form.setValue}
+                          setFormValue={form.setValue}
                           placeholder="куда"
-                          errors={form.formState.errors.to}
+                          formError={form.formState.errors.to}
                         />
                       </FormControl>
                     </div>
@@ -141,7 +120,7 @@ function Searchbar() {
           </form>
         </Form>
       </div>
-      <PrevSearches prevSearches={prevSearches} />
+      <PrevSearches />
     </>
   );
 }
