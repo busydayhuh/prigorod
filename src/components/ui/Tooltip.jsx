@@ -4,13 +4,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/shadcn/tooltip";
-import { useIsDesktopContext } from "@/store/WindowSizeContext";
+import { useIsMobile } from "@/store/window-size/useIsMobile";
 import { Popover, PopoverContent, PopoverTrigger } from "../shadcn/popover";
 
 function BadgeTooltip({ children, text }) {
-  const isDesktop = useIsDesktopContext();
+  const isMobile = useIsMobile();
 
-  if (!isDesktop) {
+  if (isMobile) {
     return (
       <Popover>
         <PopoverTrigger>{children}</PopoverTrigger>
