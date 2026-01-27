@@ -4,17 +4,17 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: hsla(205, 95%, 92%, 0.497);
-  --foreground: hsl(205, 84%, 22%);
-  --accent: hsl(349, 84%, 60%);
-  --destructive: hsl(349, 84%, 60%);
-  --accent-foreground: hsl(205, 84%, 22%);
-  --secondary: hsl(212, 69%, 65%);
-  --secondary-foreground: hsl(60, 100%, 100%);
-  --muted: hsl(240 4.8% 95.9%);
-  --muted-foreground: hsla(205, 84%, 22%, 0.523);
-  --primary-foreground: hsl(60, 100%, 100%);
-  --primary: hsl(205, 84%, 22%);
+  --background: hsl(0, 0%, 96%);
+  --foreground: hsl(0 0% 3.9%);
+  --accent: hsl(24 5.7% 82.9%);
+  --destructive: hsl(20, 92%, 50%);
+  --accent-foreground: hsl(0 0% 3.9%);
+  --secondary: hsl(61, 89%, 78%);
+  --secondary-foreground: hsl(0 0% 3.9%);
+  --muted: hsl(24 5.7% 82.9%);
+  --muted-foreground: hsla(12 6.5% 15.1%);
+  --primary-foreground: hsl(0 0% 3.9%);
+  --primary: hsl(39, 21%, 87%);
   --radius: 0rem;
   --sb-shadow: 2px 4px 0px 1px var(--foreground);
   --row-shadow: 2px 2px 0px 1px var(--foreground);
@@ -42,11 +42,12 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-base: "Jost", "sans-serif";
   --font-headers: "Unbounded", "sans-serif";
+  --text-slogan: clamp(1.5rem, 6vw, 3.75rem);
 }
 
 @layer base {
   body {
-    @apply bg-background text-foreground font-base font-normal shadow-none box-border text-base border-(--color-border) bg-[url(@/assets/Dot.svg)] bg-center bg-repeat;
+    @apply bg-background text-foreground font-base font-normal shadow-none box-border text-base border-(--color-border);
   }
 
   button {
@@ -72,7 +73,7 @@
   }
 
   .badge {
-    @apply rounded-3xl;
+    @apply inline-flex items-center bg-secondary px-2.5 py-2 border rounded-3xl text-secondary-foreground;
   }
 
   .table-toggle {
@@ -92,6 +93,10 @@
 
   .table-row-base {
     @apply border-3 rounded-[20px] md:py-5 py-3 md:px-6 px-4 shadow-(--row-shadow) bg-primary-foreground;
+  }
+
+  .autocomplete-input {
+    @apply shadow-none px-3 py-2 border-0 outline-0;
   }
 
   .home-grid {
@@ -140,6 +145,10 @@
 
   .section-header {
     @apply mb-1.5 font-medium text-xl md:text-2xl lg:text-3xl;
+  }
+
+  .slogan-text {
+    @apply text-[clamp(1.5rem,6vw,3.75rem)];
   }
 }
 
