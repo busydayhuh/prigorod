@@ -8,8 +8,8 @@ function Header() {
   const now = Date.now();
   const isMobile = useIsMobile();
   return (
-    <header className="pt-2 md:pt-5 md:pb-5 w-full">
-      <div className="flex justify-between items-center w-main">
+    <header className="pt-2 md:pt-5 w-full">
+      <div className="flex justify-between items-center">
         <Link to={"/"} className="inline-flex items-center gap-3">
           <img
             src={prigorodLogo}

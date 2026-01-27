@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 
 export function useStationSearch(fieldName) {
   const [search, setSearch] = useState("");
+  const [selectedCode, setSelectedCode] = useState("");
   const trimmedSearch = search.trim().toLowerCase();
 
   const { subscribe } = useFormContext();
@@ -12,12 +13,13 @@ export function useStationSearch(fieldName) {
     const label = `${fieldName}Label`;
 
     const updateLabel = subscribe({
-      name: [label],
+      name: [label, fieldName],
       formState: {
         values: true,
       },
       callback: ({ values }) => {
         setSearch(values[label]);
+        setSelectedCode(values[fieldName]);
       },
     });
 
@@ -30,5 +32,5 @@ export function useStationSearch(fieldName) {
     error,
   } = useApi("stations_search", { q: trimmedSearch });
 
-  return { search, setSearch, stations, isLoading, error };
+  return { search, setSearch, stations, isLoading, error, selectedCode };
 }

@@ -6,9 +6,9 @@ export function Slogan() {
 
   if (isMobile)
     return (
-      <div className="grid w-main">
+      <div className="grid">
         <div className="items-center gap-4 grid grid-cols-[3fr_1fr]">
-          <span className="font-headers slogan-text">
+          <span className="font-headers text-slogan">
             Всегда&nbsp;под&nbsp;рукой
           </span>
           <Line />
@@ -26,8 +26,8 @@ export function Slogan() {
     );
 
   return (
-    <div className="relative w-main">
-      <div className="gap-4 grid grid-cols-[1.5fr_2.5fr_1fr] font-headers leading-[100%] slogan-text">
+    <div className="relative">
+      <div className="gap-4 grid grid-cols-[1.5fr_2.5fr_1fr] font-headers text-slogan leading-[100%]">
         <div>Всегда под&nbsp;рукой</div>
         <div className="flex flex-col items-end gap-2 w-full">
           <Line />

@@ -6,8 +6,9 @@
 :root {
   --background: hsl(0, 0%, 96%);
   --foreground: hsl(0 0% 3.9%);
-  --accent: hsl(24 5.7% 82.9%);
+  --accent: hsl(39, 21%, 87%);
   --destructive: hsl(20, 92%, 50%);
+  --destructive-foreground: hsl(0 0% 3.9%);
   --accent-foreground: hsl(0 0% 3.9%);
   --secondary: hsl(61, 89%, 78%);
   --secondary-foreground: hsl(0 0% 3.9%);
@@ -16,15 +17,15 @@
   --primary-foreground: hsl(0 0% 3.9%);
   --primary: hsl(39, 21%, 87%);
   --radius: 0rem;
-  --sb-shadow: 2px 4px 0px 1px var(--foreground);
+  --sb-shadow: 0px 2px 0px 1px var(--foreground);
   --row-shadow: 2px 2px 0px 1px var(--foreground);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-popover: var(--primary-foreground);
-  --color-popover-foreground: var(--primary);
+  --color-popover: var(--background);
+  --color-popover-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -96,7 +97,7 @@
   }
 
   .autocomplete-input {
-    @apply shadow-none px-3 py-2 border-0 outline-0;
+    @apply bg-primary px-2.5 pl-3.5 border-3 shadow-(--sb-shadow) rounded-3xl outline-0 h-12 md:h-14 text-secondary-foreground lg:text-sm text-xs placeholder:text-foreground focus-visible:outline-2 focus-visible:outline-muted/80 font-headers md:pl-6 focus-visible:placeholder:text-muted-foreground/40;
   }
 
   .home-grid {
@@ -140,15 +141,11 @@
   }
 
   .suggestion-links {
-    @apply hover:bg-transparent mr-2 p-0 border-b border-dashed font-normal hover:text-accent text-left;
+    @apply hover:bg-transparent mr-2 p-0 border-b border-dashed font-normal hover:text-destructive text-left;
   }
 
   .section-header {
     @apply mb-1.5 font-medium text-xl md:text-2xl lg:text-3xl;
-  }
-
-  .slogan-text {
-    @apply text-[clamp(1.5rem,6vw,3.75rem)];
   }
 }
 

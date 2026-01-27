@@ -9,21 +9,20 @@ import {
   PopoverAnchor,
   PopoverContent,
 } from "@/components/shadcn/popover";
-import { useStationSearch } from "@/hooks/useStationSearch";
 import { cn } from "@/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { useRef, useState } from "react";
 
 export function AutocompleteDesktop({
   onStationSelect,
+  searchState,
   clear,
   placeholder,
   field,
   formError,
 }) {
-  const { search, setSearch, stations, isLoading, error } = useStationSearch(
-    field.name,
-  );
+  const { search, setSearch, stations, isLoading, error, selectedCode } =
+    searchState;
   const [open, setOpen] = useState(false);
   const inputRef = useRef(null);
 
@@ -54,7 +53,10 @@ export function AutocompleteDesktop({
             onKeyDown={(e) => setOpen(e.key !== "Escape")}
             value={search}
             onValueChange={setSearch}
-            className={cn(formError && "placeholder:text-accent")}
+            className={cn(
+              "autocomplete-input",
+              formError && "placeholder:text-accent",
+            )}
           />
         </PopoverAnchor>
 
@@ -69,13 +71,14 @@ export function AutocompleteDesktop({
           <CommandList className="max-h-87.5">
             <CommandGroup
               heading={search ? "Результаты поиска" : "Случайные станции"}
-              className="p-0"
+              className="p-0 **:[[cmdk-group-heading]]:font-normal text-muted-foreground"
             >
               <StationItems
                 stations={stations}
                 isLoading={isLoading}
                 error={error}
                 onSelect={onSelect}
+                selectedCode={selectedCode}
               />
             </CommandGroup>
           </CommandList>
@@ -85,7 +88,13 @@ export function AutocompleteDesktop({
   );
 }
 
-export function StationItems({ stations, onSelect, isLoading, error }) {
+export function StationItems({
+  stations,
+  onSelect,
+  isLoading,
+  error,
+  selectedCode,
+}) {
   const infoClasses = "flex justify-center data-[disabled=true]:opacity-100";
 
   if (isLoading)
@@ -121,7 +130,11 @@ export function StationItems({ stations, onSelect, isLoading, error }) {
           onSelect={() => {
             onSelect(station.code, station.title);
           }}
-          className="flex-col items-start gap-0 px-2 py-1.5 pb-2 border-b-2 last:border-b-0 hover:text-foreground transition cursor-pointer"
+          className={cn(
+            "flex-col items-start gap-0 px-2 py-1.5 pb-2 border-b-2 last:border-b-0 hover:text-foreground transition cursor-pointer",
+            station.code === selectedCode &&
+              "data-[selected=true]:bg-destructive bg-destructive",
+          )}
         >
           <p className="text-base">{station.title}</p>
           <p className="text-muted-foreground text-xs">

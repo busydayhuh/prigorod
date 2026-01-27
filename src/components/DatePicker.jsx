@@ -29,7 +29,7 @@ export function DatePicker({ field, variant }) {
   const variants = {
     inForm: {
       className:
-        "flex gap-1.5 items-center border-b-3 min-w-3xs pl-5 py-4 hover:bg-transparent md:border-0 md:self-stretch lg:min-w-2xs",
+        "flex gap-1.5 items-center min-w-3xs pl-3 hover:bg-primary/90 md:self-stretch lg:min-w-2xs autocomplete-input",
       popoverSideOffset: 0.5,
       onSelect: field?.onChange,
     },
@@ -61,34 +61,34 @@ export function DatePicker({ field, variant }) {
     <Popover>
       <PopoverTrigger asChild>
         <div
-          className={cn(variants[variant].className, errors && "text-accent")}
+          className={cn(
+            variants[variant].className,
+            errors && "text-destructive",
+          )}
         >
           <CalendarIcon className="size-4" />
-          {getValues("date") ? (
-            isToday(getValues("date")) ? (
+          {getValues("date") ?
+            isToday(getValues("date")) ?
               "сегодня"
-            ) : (
-              format(getValues("date"), "PPP", {
+            : format(getValues("date"), "PPP", {
                 locale: ru,
               })
-            )
-          ) : (
-            <span>{errors ? errors.message : "дата"}</span>
-          )}
+
+          : <span>{errors ? errors.message : "дата"}</span>}
         </div>
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex flex-col gap-4 p-6 pt-3 popover-borders w-auto"
+        className="flex flex-col gap-4 p-6 pt-3 w-auto popover-borders"
         sideOffset={variants[variant].popoverSideOffset}
       >
-        <div className="flex w-auto gap-1.5 mb-3">
+        <div className="flex gap-1.5 mb-3 w-auto">
           {presets.map(({ label, value }) => (
             <Button
               key={label}
               className={cn(
-                "oval-btn-icon bg-background hover:bg-accent",
-                selectedDayName === label && "bg-accent"
+                "bg-background hover:bg-accent oval-btn-icon",
+                selectedDayName === label && "bg-accent",
               )}
               type="button"
               size="sm"

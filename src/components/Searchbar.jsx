@@ -5,9 +5,10 @@ import {
   FormField,
   FormItem,
 } from "@/components/shadcn/form";
+import { scrollToElement } from "@/lib/scrollToElement";
 import { formatDateForParams } from "@/lib/utils";
 import { usePrevSearches } from "@/store/form/usePrevSearches";
-import { ArrowLeftRight, Search } from "lucide-react";
+import { ArrowLeftRight } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { DatePicker } from "./DatePicker";
@@ -27,6 +28,7 @@ function Searchbar() {
 
     addPrevSearch({ ...values, date: undefined });
     navigate(`/results?${params}`);
+    scrollToElement(document.getElementById("heading"));
   }
 
   function handleSwap() {
@@ -44,13 +46,13 @@ function Searchbar() {
 
   return (
     <>
-      <div className="border-3 md:rounded-[5.6rem] rounded-4xl overflow-hidden bg-primary-foreground shadow-(--sb-shadow) max-w-6xl w-[96%] mx-auto md:pl-5 md:pr-2.5">
+      <div className="space-y-4 w-full">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex md:flex-row flex-col md:items-center w-full md:text-lg grow"
+            className="gap-2 grid lg:grid-cols-[6fr_3fr] w-full"
           >
-            <div className="flex items-center w-full lg:w-auto">
+            <div className="items-center gap-0.5 lg:gap-2 grid lg:grid-cols-[1fr_0fr_1fr] w-full">
               <FormField
                 control={form.control}
                 name="from"
@@ -74,7 +76,7 @@ function Searchbar() {
                   type="button"
                   onClick={handleSwap}
                   size="lg"
-                  className="left-1/2 z-10 absolute bg-foreground hover:bg-foreground rounded-full text-primary-foreground translate-x-[-50%] translate-y-[-50%] md:translate-x-[-50%] transform"
+                  className="top-1/2 lg:top-0 left-1/2 lg:left-0 absolute lg:relative bg-foreground hover:bg-foreground rounded-full text-background rotate-90 lg:rotate-0 -translate-x-1/2 -translate-y-1/2 lg:translate-x-0 lg:translate-y-0"
                 >
                   <ArrowLeftRight />
                 </Button>
@@ -98,29 +100,32 @@ function Searchbar() {
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem>
-                  <div>
-                    <FormControl>
-                      <DatePicker field={field} variant="inForm" />
-                    </FormControl>
-                  </div>
-                </FormItem>
-              )}
-            />
-            <Button
-              className="bg-accent hover:bg-accent/80 md:ms-auto md:rounded-[50%] md:w-12 h-14 md:h-12 text-foreground"
-              type="submit"
-            >
-              <Search className="size-5" />
-            </Button>
+            <div className="flex items-center gap-2">
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <div>
+                      <FormControl>
+                        <DatePicker field={field} variant="inForm" />
+                      </FormControl>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <Button
+                variant="destructive"
+                className="shadow-(--sb-shadow) border-2 h-12 rounded-3xl md:h-14 font-headers text-sm"
+                type="submit"
+              >
+                найти
+              </Button>
+            </div>
           </form>
         </Form>
+        <PrevSearches />
       </div>
-      <PrevSearches />
     </>
   );
 }

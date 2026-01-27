@@ -1,8 +1,9 @@
+import { scrollToElement } from "@/lib/scrollToElement";
+import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { CalendarSearch, Route, School } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { Badge } from "../shadcn/badge";
 
@@ -78,8 +79,13 @@ export default function PageHead({
     },
   };
 
+  useEffect(() => {
+    scrollToElement(document.getElementById("heading"));
+  }, []);
+
   return (
     <div
+      id="heading"
       className={cn(
         "flex items-start gap-3 mb-5 md:mb-8",
         location === "/" && "md:mb-10",
