@@ -15,10 +15,11 @@ import { Command as CommandPrimitive } from "cmdk";
 import { useRef, useState } from "react";
 
 export function AutocompleteDesktop({
+  onStationSelect,
+  clear,
   placeholder,
   field,
   formError,
-  setFormValue,
 }) {
   const { search, setSearch, stations, isLoading, error } = useStationSearch(
     field.name,
@@ -26,18 +27,11 @@ export function AutocompleteDesktop({
   const [open, setOpen] = useState(false);
   const inputRef = useRef(null);
 
-  const onStationSelect = (code, title) => {
-    setFormValue(field.name, code);
-    setFormValue(`${field.name}Label`, title);
+  const onSelect = (code, title) => {
+    onStationSelect(code, title);
 
     setOpen(false);
     inputRef.current?.blur();
-  };
-
-  const clear = () => {
-    setFormValue(field.name, "");
-    setFormValue(`${field.name}Label`, "");
-    setSearch("");
   };
 
   const closePopover = (e) => {
@@ -81,7 +75,7 @@ export function AutocompleteDesktop({
                 stations={stations}
                 isLoading={isLoading}
                 error={error}
-                onSelect={onStationSelect}
+                onSelect={onSelect}
               />
             </CommandGroup>
           </CommandList>
@@ -91,16 +85,18 @@ export function AutocompleteDesktop({
   );
 }
 
-function StationItems({ stations, onSelect, isLoading, error }) {
+export function StationItems({ stations, onSelect, isLoading, error }) {
+  const infoClasses = "flex justify-center data-[disabled=true]:opacity-100";
+
   if (isLoading)
     return (
-      <CommandItem disabled>
-        <span className="animate-pulse">Поиск...</span>
+      <CommandItem disabled className={cn(infoClasses, "animate-pulse")}>
+        <span>Поиск...</span>
       </CommandItem>
     );
   if (error)
     return (
-      <CommandItem disabled>
+      <CommandItem disabled className={infoClasses}>
         <span>
           Невозможно загрузить список. Обновите страницу или попробуйте позже
         </span>
@@ -108,7 +104,7 @@ function StationItems({ stations, onSelect, isLoading, error }) {
     );
   if (!stations?.length)
     return (
-      <CommandItem disabled>
+      <CommandItem disabled className={infoClasses}>
         <span>Станция не найдена</span>
       </CommandItem>
     );

@@ -10,8 +10,8 @@ import { usePrevSearches } from "@/store/form/usePrevSearches";
 import { ArrowLeftRight, Search } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { AutocompleteDesktop } from "./AutocompleteDesktop";
 import { DatePicker } from "./DatePicker";
+import { Autocomplete } from "./ui/Autocomplete";
 import PrevSearches from "./ui/PrevSearches";
 
 function Searchbar() {
@@ -58,7 +58,7 @@ function Searchbar() {
                   <FormItem className="grow md:grow-0">
                     <div>
                       <FormControl>
-                        <AutocompleteDesktop
+                        <Autocomplete
                           field={field}
                           setFormValue={form.setValue}
                           placeholder="откуда"
@@ -86,7 +86,7 @@ function Searchbar() {
                   <FormItem className="grow md:grow-0">
                     <div>
                       <FormControl>
-                        <AutocompleteDesktop
+                        <Autocomplete
                           field={field}
                           setFormValue={form.setValue}
                           placeholder="куда"

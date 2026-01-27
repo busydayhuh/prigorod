@@ -29,5 +29,6 @@ export function useStationSearch(fieldName) {
     isLoading,
     error,
   } = useApi("stations_search", { q: trimmedSearch });
+
   return { search, setSearch, stations, isLoading, error };
 }

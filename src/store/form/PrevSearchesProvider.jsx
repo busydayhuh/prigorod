@@ -8,6 +8,8 @@ function PrevSearchesProvider({ children }) {
   const checkForDouble = useCallback(
     (search) => {
       const lastSearch = prevSearches[0];
+      if (!lastSearch) return false;
+
       const isDouble = Object.keys(lastSearch).every(
         (key) => lastSearch[key] === search[key],
       );
