@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
@@ -28,6 +29,16 @@ export function getHoursAndMinutes(seconds) {
   const hoursStr = `${hours} ч.`;
 
   return hours ? `${hoursStr} ${minutes > 0 ? minutesStr : ""}` : minutesStr;
+}
+
+export function formatDate(date) {
+  if (!date) return "";
+
+  const normalizedDate = new Date(date);
+  const weekDay = format(normalizedDate, "cccc", { locale: ru });
+  const calendarDay = format(normalizedDate, "do MMMM", { locale: ru });
+
+  return `${weekDay}, ${calendarDay}`;
 }
 
 export function formatDateForParams(date) {
