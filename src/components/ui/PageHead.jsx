@@ -30,17 +30,22 @@ export default function PageHead({
       header: (
         <>
           маршрут поезда{" "}
-          <span className="text-accent">
+          <span className="text-destructive">
             №{number} {title}
           </span>{" "}
-          на <span className="text-accent">{formatDate}</span>
+          на <span className="text-destructive">{formatDate}</span>
         </>
       ),
       text: (
         <div className="flex flex-wrap items-baseline gap-2">
           {subtypeName && (
             <Badge
-              className="mt-2 rounded-2xl text-sm"
+              className={cn(
+                "mt-2 rounded-2xl text-sm",
+                isExpress ?
+                  "bg-destructive text-foreground"
+                : "bg-foreground text-background",
+              )}
               variant={isExpress ? "destructive" : "default"}
             >
               {subtypeName}
@@ -59,8 +64,8 @@ export default function PageHead({
       icon: <School />,
       header: (
         <>
-          расписание станции <span className="text-accent">{title}</span> на{" "}
-          <span className="text-accent">{formatDate}</span>
+          расписание станции <span className="text-destructive">{title}</span>{" "}
+          на <span className="text-destructive">{formatDate}</span>
         </>
       ),
       text: <>отправление и прибытие по московскому времени</>,
@@ -71,8 +76,8 @@ export default function PageHead({
       header: (
         <>
           расписание электричек по маршруту{" "}
-          <span className="text-accent">{title}</span> на{" "}
-          <span className="text-accent">{formatDate}</span>
+          <span className="text-destructive">{title}</span> на{" "}
+          <span className="text-destructive">{formatDate}</span>
         </>
       ),
       text: <>отправление и прибытие по московскому времени</>,
@@ -91,7 +96,6 @@ export default function PageHead({
         location === "/" && "md:mb-10",
       )}
     >
-      <Icon>{variants[location].icon}</Icon>
       <div className="pl-2 md:pl-0">
         <h3 className="font-headers section-header">
           {variants[location].header}
@@ -104,7 +108,7 @@ export default function PageHead({
 
 function Icon({ children }) {
   return (
-    <div className="hidden md:flex justify-center items-center bg-foreground px-2 rounded-full w-9 h-9 text-primary-foreground shrink-0">
+    <div className="hidden md:flex justify-center items-center bg-foreground px-2 rounded-full w-9 h-9 text-primary shrink-0">
       {children}
     </div>
   );

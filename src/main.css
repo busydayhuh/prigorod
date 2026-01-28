@@ -13,7 +13,7 @@
   --secondary: hsl(61, 89%, 78%);
   --secondary-foreground: hsl(0 0% 3.9%);
   --muted: hsl(24 5.7% 82.9%);
-  --muted-foreground: hsla(12 6.5% 15.1%);
+  --muted-foreground: rgb(59, 56, 55);
   --primary-foreground: hsl(0 0% 3.9%);
   --primary: hsl(39, 21%, 87%);
   --radius: 0rem;
@@ -70,15 +70,15 @@
   }
 
   .oval-btn-icon {
-    @apply border-2 rounded-3xl text-sm font-medium text-foreground hover:text-foreground inline-flex gap-2 bg-primary-foreground border-(--color-border) items-center;
+    @apply border-2 rounded-3xl text-sm font-medium text-foreground hover:text-foreground inline-flex gap-2  border-(--color-border) items-center bg-primary;
   }
 
   .badge {
-    @apply inline-flex items-center bg-secondary px-2.5 py-2 border rounded-3xl text-secondary-foreground;
+    @apply inline-flex items-center px-2.5 border rounded-3xl;
   }
 
   .table-toggle {
-    @apply data-[state=on]:bg-accent;
+    @apply bg-primary data-[state=on]:bg-destructive;
   }
 
   .popover-borders {
@@ -93,11 +93,11 @@
   }
 
   .table-row-base {
-    @apply border-3 rounded-[20px] md:py-5 py-3 md:px-6 px-4 shadow-(--row-shadow) bg-primary-foreground;
+    @apply border-3 rounded-[20px] md:py-5 py-3 md:px-6 px-4 shadow-(--row-shadow) bg-primary;
   }
 
   .autocomplete-input {
-    @apply bg-primary px-2.5 pl-3.5 border-3 shadow-(--sb-shadow) rounded-3xl outline-0 h-12 md:h-14 text-secondary-foreground lg:text-sm text-xs placeholder:text-foreground focus-visible:outline-2 focus-visible:outline-muted/80 font-headers md:pl-6 focus-visible:placeholder:text-muted-foreground/40;
+    @apply bg-primary px-2.5 pl-3.5 border-3 shadow-(--sb-shadow) rounded-3xl outline-0 md:h-14 h-12 text-secondary-foreground lg:text-sm text-xs placeholder:text-foreground focus-visible:outline-2 focus-visible:outline-muted/80 font-headers md:pl-6 focus-visible:placeholder:text-muted-foreground/40;
   }
 
   .home-grid {
@@ -237,6 +237,6 @@ footer::before {
   position: absolute;
   top: -0.5rem;
   width: 100%;
-  height: 1.5rem;
+  height: 1.7rem;
   background: url("@/assets/Zigzag.svg") top left repeat-x;
 }

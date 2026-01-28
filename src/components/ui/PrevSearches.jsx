@@ -7,10 +7,10 @@ export default function PrevSearches() {
   const { reset } = useFormContext();
 
   return (
-    <div className="flex flex-wrap items-center gap-1 px-3 text-foreground/80">
+    <div className="flex flex-nowrap items-center gap-1 px-3 overflow-x-scroll text-foreground/80">
       {prevSearches.length > 0 ?
         <>
-          <Clock2 className="size-4" />
+          <Clock2 className="size-4 shrink-0" />
           {prevSearches.slice(0, 3).map((search) => {
             return (
               <button

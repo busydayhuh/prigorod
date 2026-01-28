@@ -64,7 +64,7 @@ function ResultsRow(props) {
         <div
           className={cn(
             "flex justify-start lg:justify-center items-center col-span-3 lg:col-span-1 pt-3 lg:pt-0 font-medium text-xl md:text-2xl",
-            !!express_type && "text-accent",
+            !!express_type && "text-destructive",
           )}
         >{`${price} ₽`}</div>
       )}

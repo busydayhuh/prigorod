@@ -18,7 +18,7 @@ function Thread() {
   const subtypeName = data?.transport_subtype?.title;
 
   return (
-    <div className="w-narrow">
+    <div className="w-main">
       <PageHead
         number={searchParams.get("number")}
         title={searchParams.get("name")}
@@ -29,7 +29,7 @@ function Thread() {
         subtypeName={subtypeName}
       />
 
-      <FiltersGroup>
+      <FiltersGroup className="mb-0">
         <DatePicker variant="asFilter" />
       </FiltersGroup>
 
@@ -43,7 +43,7 @@ function Thread() {
         </div>
         <div
           className={cn(
-            "table-body w-narrow transition-opacity",
+            "table-body transition-opacity",
             isLoading && "opacity-20",
           )}
         >

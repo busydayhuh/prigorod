@@ -1,7 +1,6 @@
-import { cn } from "@/lib/utils";
-import React from "react";
-import { ChevronUp } from "lucide-react";
 import useScrollHeight from "@/hooks/useScrollHeight";
+import { cn } from "@/lib/utils";
+import { ChevronUp } from "lucide-react";
 
 function ScrollUpBtn() {
   const isShown = useScrollHeight();
@@ -16,13 +15,13 @@ function ScrollUpBtn() {
   return (
     <button
       className={cn(
-        "h-12 w-12 rounded-full bg-foreground text-primary-foreground bottom-8 right-8 flex justify-center items-center hover:bg-foreground/80",
+        "right-8 bottom-8 flex justify-center items-center bg-secondary hover:bg-secondary/80 border rounded-full w-12 h-12 text-secondary-foreground",
         isShown && "fixed",
-        !isShown && "hidden"
+        !isShown && "hidden",
       )}
       onClick={scrollToTop}
     >
-      <ChevronUp />
+      <ChevronUp className="stroke-1" />
     </button>
   );
 }

@@ -54,12 +54,13 @@ export function ThreadElem({
   };
 
   return (
-    <div className={`flex flex-col lg:gap-2 gap-2.5 ${className}`}>
+    <div className={`flex flex-col lg:gap-2 gap-3 ${className}`}>
       <div className="flex items-center gap-1.5">
         <Badge
           className={cn(
-            "font-semibold text-xs md:text-sm badge",
-            isExpress && "bg-accent",
+            "bg-foreground font-semibold text-background text-xs md:text-sm badge",
+            isExpress &&
+              "bg-destructive text-foreground border border-foreground",
           )}
         >
           # {number}
@@ -69,7 +70,7 @@ export function ThreadElem({
             <div
               className={cn(
                 "max-w-55 text-xs md:text-sm truncate",
-                isExpress && "text-accent",
+                isExpress && "",
               )}
             >
               {trainName}
@@ -122,7 +123,6 @@ export function TravelTimeElem({ travelTime, isExpress = false }) {
     <div
       className={cn(
         "flex justify-center md:justify-start items-center gap-2 text-sm md:text-base",
-        isExpress && "text-accent",
       )}
     >
       {isExpress && <Rabbit className="hidden md:block size-4" />}
@@ -148,7 +148,7 @@ export function ClippedTextElem({ text }) {
       </div>
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className="text-accent text-sm cursor-pointer"
+        className="text-destructive text-sm cursor-pointer"
       >
         {open ? "— скрыть" : "+ посмотреть"}
       </div>
@@ -159,7 +159,7 @@ export function ClippedTextElem({ text }) {
 export function PlatformBadgeElem({ platform }) {
   return (
     <BadgeTooltip text={platform}>
-      <div className="md:justify-self-center self-center bg-foreground px-1.5 py-1 rounded-3xl w-fit max-w-full font-medium text-secondary-foreground text-xs lg:text-sm line-clamp-1">
+      <div className="md:justify-self-center self-center bg-foreground px-2.5 py-1 rounded-3xl w-fit max-w-full font-medium text-background text-xs lg:text-sm line-clamp-1">
         {platform}
       </div>
     </BadgeTooltip>

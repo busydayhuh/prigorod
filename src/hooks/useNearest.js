@@ -21,7 +21,11 @@ export function useNearest() {
     data: nearestStations,
     error: nearestError,
     isLoading,
-  } = useApi("nearest_stations", params);
+  } = useApi("nearest_stations", params, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 
   return {
     nearestStations,

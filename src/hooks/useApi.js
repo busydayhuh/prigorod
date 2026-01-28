@@ -1,7 +1,7 @@
 import { fetcher } from "@/services/fetcher";
 import useSWR from "swr";
 
-export function useApi(reqRoute, params = null) {
+export function useApi(reqRoute, params = null, options = {}) {
   const search = params ? new URLSearchParams(params).toString() : null;
 
   const url =
@@ -11,6 +11,7 @@ export function useApi(reqRoute, params = null) {
 
   const { data, error, isLoading } = useSWR(url, fetcher, {
     keepPreviousData: true,
+    ...options,
   });
 
   return { data, error, isLoading };

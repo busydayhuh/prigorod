@@ -38,14 +38,14 @@ function ScheduleRow(props) {
         trainName={transport_subtype?.title || null}
         className="self-center"
       />
-      <div className="flex flex-row md:flex-col gap-3 md:gap-1">
+      <div className="flex flex-row md:flex-col items-center gap-3 md:gap-1 md:items">
         <TimeElem
           timestamp={props.departure || props.arrival}
           date={props.date}
           className="text-[22px]"
         />
         <p className="text-muted-foreground">
-          {props.departure ? "отправление" : "прибытие"}
+          {props.departure ? "(отправление)" : "(прибытие)"}
         </p>
       </div>
 

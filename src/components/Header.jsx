@@ -8,7 +8,7 @@ function Header() {
   const now = Date.now();
   const isMobile = useIsMobile();
   return (
-    <header className="pt-2 md:pt-5 w-full">
+    <header className="pt-2 md:pt-4 w-full">
       <div className="flex justify-between items-center">
         <Link to={"/"} className="inline-flex items-center gap-3">
           <img
@@ -21,7 +21,9 @@ function Header() {
 
         <div className="flex items-baseline gap-3 font-headers text-primary-foreground text-xs">
           <span>сегодня</span>
-          <span className="badge">{formatDate(now)}</span>
+          <span className="bg-secondary px-2.5 py-2 border-2 rounded-3xl text-secondary-foreground">
+            {formatDate(now)}
+          </span>
         </div>
       </div>
     </header>

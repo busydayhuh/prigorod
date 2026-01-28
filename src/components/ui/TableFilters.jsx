@@ -6,13 +6,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
+import { cn } from "@/lib/utils";
 import { Eye, EyeClosed, Rabbit } from "lucide-react";
 import { useSearchParams } from "react-router";
 import { Toggle } from "../shadcn/toggle";
 
-export function FiltersGroup({ children }) {
+export function FiltersGroup({ children, className }) {
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-4 w-full">
+    <div
+      className={cn("flex flex-wrap items-center gap-2 mb-4 w-full", className)}
+    >
       {children}
     </div>
   );

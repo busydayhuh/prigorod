@@ -1,3 +1,4 @@
+import diamond from "@/assets/diamond.svg";
 import {
   Tabs,
   TabsContent,
@@ -5,17 +6,19 @@ import {
   TabsTrigger,
 } from "@/components/shadcn/tabs";
 import { LinkElem } from "@/components/ui";
+import { ArrowButton } from "@/components/ui/ArrowButton";
 import { allRoutes, moscowRoutes } from "@/lib/popularRoutes";
 import { formatDateForParams } from "@/lib/utils";
 import { usePrevSearches } from "@/store/form/usePrevSearches";
-import { EqualApproximately } from "lucide-react";
+import { Clock2, EqualApproximately } from "lucide-react";
 import { useFormContext } from "react-hook-form";
-import HomeImage from "./HomeImage";
 
 function PopularRoutes() {
   const today = formatDateForParams(new Date());
   const { addPrevSearch } = usePrevSearches();
   const { reset } = useFormContext();
+  const triggerClasses =
+    "data-[state=active]:bg-foreground h-8 rounded-2xl font-normal data-[state=active]:text-background text-[0.6rem] md:text-sm font-headers";
 
   function updateForm(from, to, fromLabel, toLabel) {
     addPrevSearch({
@@ -31,81 +34,75 @@ function PopularRoutes() {
   }
 
   return (
-    <section className="flex flex-col gap-5">
-      <h3 className="mb-3 font-bold text-2xl md:text-4xl">
-        Популярные маршруты
+    <section className="flex flex-col gap-2 lg:gap-5 bg-primary md:px-8 lg:px-10 pt-6 lg:pt-8 pb-12 pl-6 border-2 rounded-[40px] shadow-(--row-shadow)">
+      <h3 className="mb-3 font-headers text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+        Самые популярные маршруты
       </h3>
-      <div className="gap-15 lg:gap-10 grid grid-cols-1 lg:grid-cols-[1fr_1fr]">
-        <Tabs defaultValue="moscow" className="w-full">
-          <TabsList className="bg-primary-foreground px-1 py-5 border-2 border-foreground rounded-2xl max-w-full">
-            <TabsTrigger
-              className="data-[state=active]:bg-foreground p-4 rounded-[0.8rem] font-normal data-[state=active]:text-primary-foreground text-xs md:text-sm"
-              value="moscow"
-            >
-              в Московской обл.
-            </TabsTrigger>
-            <TabsTrigger
-              value="all"
-              className="data-[state=active]:bg-foreground p-4 rounded-[0.8rem] font-normal data-[state=active]:text-primary-foreground text-xs md:text-sm"
-            >
-              по всей стране
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="moscow">
-            <div className="flex flex-col gap-3">
-              {moscowRoutes.map(
-                ({ title, desc, from, to, fromLabel, toLabel }) => {
-                  return (
-                    <div
-                      className="table-row-base flex flex-col justify-start items-start gap-1"
-                      key={title}
-                    >
+
+      <Tabs defaultValue="moscow" className="w-full">
+        <TabsList className="bg-background px-1 py-5 border-2 border-foreground rounded-3xl max-w-full">
+          <TabsTrigger className={triggerClasses} value="moscow">
+            в Московской обл.
+          </TabsTrigger>
+          <TabsTrigger value="all" className={triggerClasses}>
+            по всей стране
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="moscow">
+          <div className="flex flex-col gap-5 lg:gap-8 mt-3 md:mt-6 lg:mt-8">
+            {moscowRoutes.map(
+              ({ title, desc, from, to, fromLabel, toLabel }) => {
+                return (
+                  <div key={title} className="flex items-baseline gap-3">
+                    <img src={diamond} alt="diamond" className="w-4 lg:w-6" />
+                    <div className="flex flex-col gap-1">
                       <LinkElem
-                        className="font-medium md:text-xl text:lg"
+                        className="flex items-baseline gap-4 lg:gap-2 font-headers md:text-xl text:lg shrink-0"
                         url={`/results?from=${from}&to=${to}&date=${today}&fromLabel=${fromLabel}&toLabel=${toLabel}`}
                         onClick={() => updateForm(from, to, fromLabel, toLabel)}
                       >
                         {title}
+                        <ArrowButton className="hidden md:flex" />
                       </LinkElem>
-                      <div className="flex items-baseline gap-1 text-accent text-xs md:text-sm">
-                        <EqualApproximately className="size-3" />
+
+                      <div className="flex items-center gap-1 font-headers text-muted-foreground text-xs">
+                        <Clock2 className="size-3" />
                         {desc}
                       </div>
                     </div>
-                  );
-                },
-              )}
-            </div>
-          </TabsContent>
-          <TabsContent value="all">
-            <div className="flex flex-col gap-3">
-              {allRoutes.map(
-                ({ title, desc, from, to, fromLabel, toLabel }) => {
-                  return (
-                    <div
-                      className="table-row-base flex flex-col justify-start items-start gap-1"
-                      key={title}
+                  </div>
+                );
+              },
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value="all">
+          <div className="flex flex-col gap-5 lg:gap-8 mt-3 md:mt-6 lg:mt-8">
+            {allRoutes.map(({ title, desc, from, to, fromLabel, toLabel }) => {
+              return (
+                <div key={title} className="flex items-baseline gap-3">
+                  <img src={diamond} alt="diamond" className="w-4 lg:w-6" />
+                  <div className="flex flex-col gap-1">
+                    <LinkElem
+                      className="flex items-baseline gap-4 lg:gap-2 font-headers md:text-xl text:lg shrink-0"
+                      url={`/results?from=${from}&to=${to}&date=${today}&fromLabel=${fromLabel}&toLabel=${toLabel}`}
+                      onClick={() => updateForm(from, to, fromLabel, toLabel)}
                     >
-                      <LinkElem
-                        className="font-medium md:text-xl text:lg"
-                        url={`/results?from=${from}&to=${to}&date=${today}&fromLabel=${fromLabel}&toLabel=${toLabel}`}
-                        onClick={() => updateForm(from, to, fromLabel, toLabel)}
-                      >
-                        {title}
-                      </LinkElem>
-                      <div className="flex items-baseline gap-1 text-accent text-xs md:text-sm">
-                        <EqualApproximately className="size-3" />
-                        {desc}
-                      </div>
+                      {title}
+                      <ArrowButton className="hidden md:flex" />
+                    </LinkElem>
+
+                    <div className="flex items-baseline gap-1 font-headers text-xs">
+                      <EqualApproximately className="size-3" />
+                      {desc}
                     </div>
-                  );
-                },
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
-        <HomeImage />
-      </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </TabsContent>
+      </Tabs>
     </section>
   );
 }
