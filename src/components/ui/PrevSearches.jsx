@@ -11,11 +11,11 @@ export default function PrevSearches() {
       {prevSearches.length > 0 ?
         <>
           <Clock2 className="size-4 shrink-0" />
-          {prevSearches.slice(0, 3).map((search) => {
+          {prevSearches.slice(0, 3).map((search, index) => {
             return (
               <button
                 className="max-w-[50ch] text-sm truncate suggestion-links"
-                key={search.from + search.to}
+                key={search.from + search.to + index}
                 onClick={() => {
                   reset((prev) => ({ ...prev, ...search }), {
                     keepDefaultValues: true,

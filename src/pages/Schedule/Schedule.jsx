@@ -11,7 +11,6 @@ import { useTableFilters } from "@/hooks/useTableFilters";
 import { getAPIParams } from "@/lib/getAPIParams";
 import ScheduleRow from "@/pages/Schedule/ScheduleRow";
 import { useSearchParams } from "react-router";
-import { v4 as uuidv4 } from "uuid";
 
 function Schedule() {
   const [searchParams] = useSearchParams();
@@ -51,13 +50,16 @@ function Schedule() {
         route="schedule"
         filters={tableFilters}
         noResultsText="На этой станции нет активных рейсов"
-        renderRow={(segment, props) => {
+        renderRow={(segment, props, index) => {
           return (
             <ScheduleRow
-              key={uuidv4()}
+              key={
+                segment.thread.uid + segment.thread.title + segment.departure
+              }
               date={searchParams.get("date")}
               {...segment}
               {...props}
+              index={index}
             />
           );
         }}

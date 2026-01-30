@@ -105,11 +105,3 @@ export default function PageHead({
     </div>
   );
 }
-
-function Icon({ children }) {
-  return (
-    <div className="hidden md:flex justify-center items-center bg-foreground px-2 rounded-full w-9 h-9 text-primary shrink-0">
-      {children}
-    </div>
-  );
-}

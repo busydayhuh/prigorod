@@ -9,7 +9,7 @@ export function cn(...inputs) {
 
 export function getFormattedTime(timestamp) {
   const fullDate = new Date(timestamp);
-  return fullDate.toLocaleTimeString([], {
+  return fullDate.toLocaleTimeString("ru-RU", {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -25,8 +25,8 @@ export function getHoursAndMinutes(seconds) {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
 
-  const minutesStr = `${minutes} мин.`;
-  const hoursStr = `${hours} ч.`;
+  const minutesStr = `${minutes} мин`;
+  const hoursStr = `${hours} ч`;
 
   return hours ? `${hoursStr} ${minutes > 0 ? minutesStr : ""}` : minutesStr;
 }
@@ -51,4 +51,14 @@ export function formatDateForParams(date) {
 export function formatDistance(distance) {
   if (Number(distance) > 1) return `${Number(distance).toFixed(1)} км`;
   return `${(Number(distance) * 1000).toFixed(0)} м`;
+}
+
+export function timeLeft(departure) {
+  const now = new Date(Date.now());
+  const normalizedDeparture = new Date(departure);
+
+  const diff = (normalizedDeparture - now) / 1000;
+
+  if (diff <= 0) return "сейчас";
+  return `через ${getHoursAndMinutes(diff)}`;
 }

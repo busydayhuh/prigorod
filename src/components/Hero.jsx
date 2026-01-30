@@ -1,11 +1,17 @@
 import { cn } from "@/lib/utils";
+import { Fragment } from "react";
 import { useMatch } from "react-router";
 import Header from "./Header";
 import Searchbar from "./Searchbar";
 import { Slogan } from "./Slogan";
+import { FadeIn } from "./ui/FadeIn";
 
 function Hero() {
   const isHome = useMatch("/");
+  const Wrapper =
+    isHome ?
+      ({ children }) => <FadeIn delay={250}>{children}</FadeIn>
+    : Fragment;
 
   return (
     <div
@@ -16,7 +22,9 @@ function Hero() {
     >
       <Header />
       {isHome && <Slogan />}
-      <Searchbar />
+      <Wrapper>
+        <Searchbar />
+      </Wrapper>
     </div>
   );
 }

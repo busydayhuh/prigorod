@@ -6,9 +6,8 @@ import { useTableFilters } from "@/hooks/useTableFilters";
 import { getAPIParams } from "@/lib/getAPIParams";
 import ResultsRow from "@/pages/Search/ResultsRow";
 import { useSearchParams } from "react-router";
-import { v4 as uuidv4 } from "uuid";
 
-function ResultsTable() {
+function Results() {
   const [searchParams] = useSearchParams();
 
   const apiParams = getAPIParams(["from", "to", "date"], searchParams);
@@ -52,12 +51,21 @@ function ResultsTable() {
             <strong>{labels.to}</strong>
           </>
         }
-        renderRow={(segment, props) => {
-          return <ResultsRow key={uuidv4()} {...segment} {...props} />;
+        renderRow={(segment, props, index) => {
+          return (
+            <ResultsRow
+              key={
+                segment.thread.uid + segment.thread.title + segment.departure
+              }
+              {...segment}
+              {...props}
+              index={index}
+            />
+          );
         }}
       />
     </div>
   );
 }
 
-export default ResultsTable;
+export default Results;

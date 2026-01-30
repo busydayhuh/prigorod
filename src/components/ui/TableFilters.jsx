@@ -62,7 +62,10 @@ export function SelectDirection({ directions }) {
       onValueChange={updateDirection}
     >
       <SelectTrigger className="focus-visible:ring-0 w-45 oval-btn-icon">
-        <SelectValue placeholder="выберите направление" />
+        <SelectValue
+          placeholder="выберите направление"
+          className="line-clamp-1"
+        />
       </SelectTrigger>
       <SelectContent className="px-0 py-0 border-2 rounded-2xl">
         <SelectGroup>

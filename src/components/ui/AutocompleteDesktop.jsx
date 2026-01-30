@@ -54,8 +54,8 @@ export function AutocompleteDesktop({
             value={search}
             onValueChange={setSearch}
             className={cn(
-              "autocomplete-input",
-              formError && "placeholder:text-accent",
+              "focus-visible:bg-primary/60 transition-colors duration-250 autocomplete-input",
+              formError && "placeholder:text-destructive",
             )}
           />
         </PopoverAnchor>
@@ -120,9 +120,9 @@ export function StationItems({
 
   return (
     <>
-      {stations.map((station, i) => (
+      {stations.map((station) => (
         <CommandItem
-          key={station.code}
+          key={station.code + station.title}
           value={station.code}
           onPointerDown={(e) => {
             e.preventDefault();

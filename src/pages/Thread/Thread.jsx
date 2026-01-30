@@ -4,7 +4,6 @@ import { useApi } from "@/hooks/useApi";
 import { getAPIParams } from "@/lib/getAPIParams";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "react-router";
-import { v4 as uuidv4 } from "uuid";
 import ThreadRow from "./ThreadRow";
 
 import { ErrorMessage, Loader, PageHead } from "@/components/ui";
@@ -71,7 +70,13 @@ function ThreadResults({ data, error }) {
   if (error) return errorMessage(error);
   if (data)
     return data.stops.map((segment) => {
-      return <ThreadRow key={uuidv4()} date={data.start_date} {...segment} />;
+      return (
+        <ThreadRow
+          key={segment.station.code}
+          date={data.start_date}
+          {...segment}
+        />
+      );
     });
 }
 

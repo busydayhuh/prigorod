@@ -3,7 +3,7 @@ import {
   ThreadElem,
   TravelTimeElem,
 } from "@/components/ui/TableElements";
-import { cn } from "@/lib/utils";
+import { cn, timeLeft } from "@/lib/utils";
 import { useSearchParams } from "react-router";
 
 function ResultsRow(props) {
@@ -23,10 +23,16 @@ function ResultsRow(props) {
   return (
     <div
       className={cn(
-        "table-row-base results-grid",
-        props.departed && "opacity-50",
+        "table-row-base relative results-grid",
+        props.departed ? "opacity-50" : "row-fade-in",
       )}
+      style={{ animationDelay: `${props.index * 80}ms` }}
     >
+      {props.index < 5 && (
+        <div className="inline-flex -top-3 right-2 lg:right-auto lg:left-2 absolute items-center bg-secondary px-1.5 border rounded-3xl h-6 font-medium text-xs">
+          {timeLeft(props.departure)}
+        </div>
+      )}
       <ThreadElem
         number={number}
         threadName={short_title}

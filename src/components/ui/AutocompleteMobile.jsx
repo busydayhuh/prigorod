@@ -49,7 +49,7 @@ export function AutocompleteMobile({
         placeholder={formError ? formError.message : placeholder}
         className={cn(
           "autocomplete-input",
-          formError && "placeholder:text-accent",
+          formError && "placeholder:text-destructive",
         )}
       />
       <CommandDialog open={open} onOpenChange={openChange}>

@@ -116,7 +116,7 @@ function Searchbar() {
               />
               <Button
                 variant="destructive"
-                className="shadow-(--sb-shadow) border-2 h-12 rounded-3xl md:h-14 font-headers text-sm"
+                className="shadow-(--sb-shadow) border-2 h-12 rounded-3xl md:h-14 font-headers font-normal text-sm active:translate-y-1"
                 type="submit"
               >
                 найти

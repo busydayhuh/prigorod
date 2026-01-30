@@ -24,7 +24,7 @@ export default function SearchSuggestions({ suggestions }) {
               ${labels.to}. Возможно, вы искали `}
         <Button
           variant="link"
-          className="inline p-0 has-[>svg]:px-0 text-accent"
+          className="inline p-0 has-[>svg]:px-0 text-destructive"
           onClick={searchSuggestedRoute}
         >
           {`${labels.from} — ${suggestions[0].title}`}

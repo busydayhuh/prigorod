@@ -17,14 +17,13 @@ function ScheduleRow(props) {
     transport_subtype,
   } = props.thread;
 
-  console.log("carrier :>> ", carrier);
-
   return (
     <div
       className={cn(
         "table-row-base items-center schedule-grid",
-        props.departed && "opacity-60",
+        props.departed ? "opacity-50" : "row-fade-in",
       )}
+      style={{ animationDelay: `${props.index * 80}ms` }}
     >
       <ThreadElem
         number={number}

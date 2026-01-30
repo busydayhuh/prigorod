@@ -29,7 +29,12 @@ function ResultsBody({
         <Loader />
       </div>
     );
-  if (!data && error) return <ErrorMessage variant="general" />;
+  if (!data && error)
+    return (
+      <ErrorMessage
+        variant={error.status_code === 404 ? "noStation" : "general"}
+      />
+    );
   if (data)
     return (
       <div className="relative min-h-120">
@@ -55,7 +60,9 @@ function ResultsBody({
             noResultsText={noResultsText}
           >
             {(futureResults) =>
-              futureResults.map((segment) => renderRow(segment))
+              futureResults.map((segment, index) =>
+                renderRow(segment, { departed: false }, index),
+              )
             }
           </FutureResultsBoundary>
         </div>

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Button } from "@/components/shadcn/button";
 import { Calendar } from "@/components/shadcn/calendar";
 import {
@@ -20,6 +19,15 @@ export function DatePicker({ field, variant }) {
   const [selectedDayName, setSelectedDayName] = useState(null);
 
   const errors = formState.errors.date;
+  const dateValue = getValues("date");
+
+  function presetActive(label) {
+    const today = isToday(dateValue);
+    if (selectedDayName === label) return true;
+    if (today && label === "сегодня") return true;
+
+    return false;
+  }
 
   function setUrlDate(newDate) {
     searchParams.set("date", formatDateForParams(newDate));
@@ -29,7 +37,7 @@ export function DatePicker({ field, variant }) {
   const variants = {
     inForm: {
       className:
-        "flex gap-1.5 items-center min-w-3xs pl-3 hover:bg-primary/90 md:self-stretch lg:min-w-2xs autocomplete-input",
+        "flex gap-1.5 items-center min-w-3xs pl-3 hover:bg-primary/90 md:self-stretch lg:min-w-2xs autocomplete-input data-[state=open]:bg-primary/60 transition-colors duration-250",
       popoverSideOffset: 0.5,
       onSelect: field?.onChange,
     },
@@ -68,9 +76,9 @@ export function DatePicker({ field, variant }) {
         >
           <CalendarIcon className="size-4" />
           {getValues("date") ?
-            isToday(getValues("date")) ?
+            isToday(dateValue) ?
               "сегодня"
-            : format(getValues("date"), "PPP", {
+            : format(dateValue, "PPP", {
                 locale: ru,
               })
 
@@ -79,16 +87,16 @@ export function DatePicker({ field, variant }) {
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="flex flex-col gap-4 p-6 pt-3 w-auto popover-borders"
+        className="flex flex-col gap-1.5 p-3 w-auto popover-borders"
         sideOffset={variants[variant].popoverSideOffset}
       >
-        <div className="flex gap-1.5 mb-3 w-auto">
+        <div className="flex gap-1.5">
           {presets.map(({ label, value }) => (
             <Button
               key={label}
               className={cn(
-                "bg-background hover:bg-accent oval-btn-icon",
-                selectedDayName === label && "bg-accent",
+                "border-2 rounded-3xl text-sm font-medium text-foreground hover:text-foreground inline-flex gap-2 border-(--color-border) items-center bg-primary focus-visible:border-2 focus-visible:ring-ring/50 focus-visible:ring-[1px]",
+                presetActive(label) && "bg-destructive hover:bg-destructive",
               )}
               type="button"
               size="sm"
@@ -99,11 +107,10 @@ export function DatePicker({ field, variant }) {
             </Button>
           ))}
         </div>
-
         <Calendar
           locale={ru}
           mode="single"
-          selected={getValues("date")}
+          selected={dateValue}
           onSelect={variants[variant].onSelect}
           disabled={(date) => date < addDays(new Date(), -1)}
         />

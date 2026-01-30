@@ -27,7 +27,9 @@ function BadgeTooltip({ children, text }) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger className="cursor-help">{children}</TooltipTrigger>
-        <TooltipContent className="rounded-2xl">{text}</TooltipContent>
+        <TooltipContent className="bg-background rounded-2xl">
+          {text}
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

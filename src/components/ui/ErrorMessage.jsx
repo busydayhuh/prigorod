@@ -17,7 +17,7 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
     noStation: {
       h: "Станция не найдена",
       icon: <Ghost className="error-icon" />,
-      text: "Не найдена одна из станций в запросе. Выберите другую станцию и повторите запрос.",
+      text: "Не найдена одна из станций в запросе или её код неверен. Выберите другую станцию и повторите запрос.",
     },
     noResults: {
       h: "Нет результатов",
@@ -44,7 +44,9 @@ export default function ErrorMessage({ variant, children = null, ...props }) {
             <>
               Расписание действительно {props.days}
               {props.exception && (
-                <span className="text-accent">, кроме {props.exception}.</span>
+                <span className="text-destructive">
+                  , кроме {props.exception}.
+                </span>
               )}
             </>
           )}

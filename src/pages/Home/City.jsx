@@ -13,7 +13,7 @@ function City() {
       {!isLocationRequested && (
         <Button
           variant="destructive"
-          className="shadow-(--sb-shadow) border-2 h-12 rounded-3xl md:h-14 font-headers text-sm w-fit font-normal"
+          className="shadow-(--sb-shadow) border-2 h-12 rounded-3xl md:h-14 font-headers text-sm w-fit font-normal active:translate-y-1"
           type="submit"
           onClick={() => setIsLocationRequested(true)}
         >
