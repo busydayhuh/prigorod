@@ -9,7 +9,7 @@ export function Slogan() {
   if (isMobile)
     return (
       <h1 className="grid">
-        <FadeIn delay={120} direction="left">
+        <FadeIn delay={120} direction="left" className="h-fit">
           <div className="items-center gap-4 grid grid-cols-[3fr_1fr]">
             <span className="font-headers text-slogan">
               Всегда&nbsp;под&nbsp;рукой
@@ -17,7 +17,7 @@ export function Slogan() {
             <Line />
           </div>
         </FadeIn>
-        <FadeIn delay={120} direction="right">
+        <FadeIn delay={120} direction="right" className="h-fit">
           <div className="gap-4 grid grid-cols-[1fr_3fr]">
             <Line />
             <span className="font-headers text-slogan">
@@ -25,7 +25,7 @@ export function Slogan() {
             </span>
           </div>
         </FadeIn>
-        <FadeIn delay={300} className="justify-self-center">
+        <FadeIn delay={300} className="justify-self-center h-fit">
           <img src={circles} className="mt-4 w-12 sm:w-14" alt="circles" />
         </FadeIn>
       </h1>

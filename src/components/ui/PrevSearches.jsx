@@ -7,7 +7,7 @@ export default function PrevSearches() {
   const { reset } = useFormContext();
 
   return (
-    <div className="flex flex-nowrap items-center gap-1 px-3 overflow-x-scroll text-foreground/80">
+    <div className="flex flex-nowrap items-center gap-1 px-3 overflow-x-scroll text-foreground/80 hide-sb">
       {prevSearches.length > 0 ?
         <>
           <Clock2 className="size-4 shrink-0" />

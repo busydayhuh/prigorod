@@ -50,7 +50,7 @@ export function ThreadElem({
 }) {
   const threadVariants = {
     lg_thread: "text-m/tight font-medium md:text-xl/tight font-headers",
-    base_thread: "text-base/1 md:text-lg/tight font-headers",
+    base_thread: "text-base/tight md:text-lg/tight font-headers",
   };
 
   return (

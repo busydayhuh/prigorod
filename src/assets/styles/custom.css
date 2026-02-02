@@ -134,3 +134,14 @@ footer::before {
   height: 1.7rem;
   background: url("@/assets/Zigzag.svg") top left repeat-x;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-sb::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-sb {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
